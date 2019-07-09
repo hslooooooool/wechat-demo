@@ -46,7 +46,7 @@ data class WeChatSenderBean(
         /**用户名称*/
         var username: String? = "",
         /**别名*/
-        var nick: String? = "",
+        var nick: String? = "匿名",
         /**头像链接*/
         var avatar: String? = ""
 )

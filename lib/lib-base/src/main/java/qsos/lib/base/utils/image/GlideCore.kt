@@ -8,9 +8,11 @@ import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.load.engine.cache.ExternalPreferredCacheDiskCacheFactory
+import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory
 import com.bumptech.glide.load.engine.cache.LruResourceCache
 import com.bumptech.glide.module.AppGlideModule
 import qsos.lib.base.data.Constants
+import qsos.lib.base.utils.file.FileUtils
 
 @GlideModule
 class GlideCore : AppGlideModule() {
@@ -20,11 +22,13 @@ class GlideCore : AppGlideModule() {
     }
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
-        builder.setDiskCache(ExternalPreferredCacheDiskCacheFactory(context,
-                diskCacheFolderName(context),
-                diskCacheSizeBytes().toLong()))
-                .setMemoryCache(LruResourceCache(memoryCacheSizeBytes().toLong()))
-                .setLogLevel(Log.ERROR)
+        builder.setMemoryCache(LruResourceCache(memoryCacheSizeBytes().toLong())).setLogLevel(Log.ERROR)
+        // 根据SD卡是否可用,选择是在内部缓存还是SD卡缓存
+        if (FileUtils.checkSDStatus()) {
+            builder.setDiskCache(ExternalPreferredCacheDiskCacheFactory(context, diskCacheFolderName(context), memoryCacheSizeBytes().toLong()))
+        } else {
+            builder.setDiskCache(InternalCacheDiskCacheFactory(context, diskCacheFolderName(context), memoryCacheSizeBytes().toLong()))
+        }
     }
 
     override fun isManifestParsingEnabled(): Boolean {
@@ -32,8 +36,8 @@ class GlideCore : AppGlideModule() {
     }
 
     private fun memoryCacheSizeBytes(): Int {
-        // 20 MB
-        return 1024 * 1024 * 20
+        // 50 MB
+        return 1024 * 1024 * 50
     }
 
     private fun diskCacheSizeBytes(): Int {

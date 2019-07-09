@@ -19,7 +19,6 @@ open class BaseApplication : MultiDexApplication() {
         lateinit var appContext: BaseApplication
         /**Application 初始化是否完成*/
         var buildFinish: Boolean = false
-        var itemImageWidth: Int = 100
     }
 
     override fun onCreate() {

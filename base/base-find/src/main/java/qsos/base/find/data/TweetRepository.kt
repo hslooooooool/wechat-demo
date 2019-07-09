@@ -42,6 +42,11 @@ object TweetRepository : ITweetRepo, BaseRepository() {
                     val data = arrayListOf<WeChatTweetBeen>()
                     it.forEach { tweet ->
                         if (!tweet.images.isNullOrEmpty() && !TextUtils.isEmpty(tweet.content)) {
+                            tweet.comments?.forEach { comment ->
+                                if (TextUtils.isEmpty(comment.content)) {
+                                    tweet.comments!!.remove(comment)
+                                }
+                            }
                             data.add(tweet)
                         }
                     }

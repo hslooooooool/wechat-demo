@@ -23,10 +23,14 @@ class TweetHeadViewHolder(
     override fun setData(data: WeChatBeen, position: Int) {
         if (data.data is WeChatUserBeen) {
             val userBeen = data.data as WeChatUserBeen
-            GlideApp.with(itemView.context).load(userBeen.profileImage).into(itemView.item_tweet_head_profile_iv)
+            GlideApp.with(itemView.context).load(userBeen.profileImage)
+                    // 磁盘缓存
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
+                    .into(itemView.item_tweet_head_profile_iv)
             GlideApp.with(itemView.context).load(userBeen.avatar)
+                    // 圆角设置
                     .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
                     .into(itemView.item_tweet_head_avatar_iv)
 
             itemView.item_tweet_head_name_tv.text = userBeen.nick

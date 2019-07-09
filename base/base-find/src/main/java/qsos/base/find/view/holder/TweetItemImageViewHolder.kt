@@ -1,9 +1,8 @@
 package qsos.base.find.view.holder
 
 import android.view.View
-import android.view.ViewGroup
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.find_item_tweet_image.view.*
-import qsos.lib.base.base.BaseApplication
 import qsos.lib.base.base.BaseHolder
 import qsos.lib.base.data.WeChatImageBean
 import qsos.lib.base.utils.image.GlideApp
@@ -17,7 +16,8 @@ class TweetItemImageViewHolder(
 ) : BaseHolder<WeChatImageBean>(itemView) {
 
     override fun setData(data: WeChatImageBean, position: Int) {
-        itemView.item_tweet_image_iv.layoutParams = ViewGroup.LayoutParams(BaseApplication.itemImageWidth, BaseApplication.itemImageWidth)
-        GlideApp.with(itemView.context).load(data.url).into(itemView.item_tweet_image_iv)
+        GlideApp.with(itemView.context).load(data.url)
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .into(itemView.item_tweet_image_iv)
     }
 }

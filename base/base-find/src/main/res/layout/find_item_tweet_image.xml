@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_tweet_image_iv"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/grey_white"
-    android:minWidth="50dp"
-    android:minHeight="50dp"
-    android:scaleType="fitCenter" />
+    android:background="@color/grey_white">
+
+    <ImageView
+        android:id="@+id/item_tweet_image_iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@color/grey_white" />
+</RelativeLayout>

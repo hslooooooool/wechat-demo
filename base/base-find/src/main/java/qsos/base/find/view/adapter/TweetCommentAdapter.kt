@@ -15,7 +15,7 @@ class TweetCommentAdapter(
         list: ArrayList<WeChatCommentBean>
 ) : BaseAdapter<WeChatCommentBean>(list) {
     override fun getItemViewType(position: Int): Int {
-        return R.layout.find_item_tweet_image
+        return R.layout.find_item_tweet_comment
     }
 
     override fun getHolder(view: View, viewType: Int): BaseHolder<WeChatCommentBean>? {

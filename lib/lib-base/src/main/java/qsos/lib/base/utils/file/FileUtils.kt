@@ -182,7 +182,7 @@ object FileUtils {
     }
 
     /**检查sd卡状态*/
-    private fun checkSDStatus(): Boolean {
+    fun checkSDStatus(): Boolean {
         //判断sd是否可用
         val sdStatus = Environment.getExternalStorageState()
         return sdStatus == Environment.MEDIA_MOUNTED
