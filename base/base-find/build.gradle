@@ -1,0 +1,33 @@
+if (findIsModule.toBoolean()) {
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
+
+apply from: '../../base.gradle'
+
+android {
+    defaultConfig {
+        resourcePrefix "find_"
+        if (!findIsModule.toBoolean()) {
+            applicationId "qsos.base.find"
+        }
+    }
+    sourceSets {
+        main {
+            if (!findIsModule.toBoolean()) {
+                manifest.srcFile 'src/main/module/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                // 集成开发模式下排除 debug 文件夹中的所有 Java 文件
+                java {
+                    exclude 'module/**'
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    api project(':base:base-core')
+}

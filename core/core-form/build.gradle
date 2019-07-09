@@ -1,0 +1,35 @@
+if (formIsModule.toBoolean()) {
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
+
+apply from: '../../base.gradle'
+
+android {
+    defaultConfig {
+        resourcePrefix "form_"
+        if (!formIsModule.toBoolean()) {
+            applicationId "vip.qsos.form"
+        }
+    }
+    sourceSets {
+        main {
+            if (!formIsModule.toBoolean()) {
+                manifest.srcFile 'src/main/module/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                // 集成开发模式下排除 module 文件夹中的所有 Java 文件
+                java {
+                    exclude 'module/**'
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    api deps.room.runtime
+    kapt deps.room.compiler
+    api project(':core:core-file')
+}

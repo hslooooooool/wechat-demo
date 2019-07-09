@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--刷新加载-->
+    <declare-styleable name="RefreshLayout">
+        <attr name="direction">
+            <enum name="top" value="0" />
+            <enum name="bottom" value="1" />
+            <enum name="both" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <!--进度条-->
+    <declare-styleable name="ProgressBar">
+        <attr name="stroke_width" format="dimension" />
+        <attr name="progress_bar_color" format="color" />
+    </declare-styleable>
+
+    <!--普通导航栏-->
+    <declare-styleable name="ActionBarView">
+        <attr name="back_icon" format="integer" />
+        <attr name="title" format="string" />
+        <attr name="title2" format="string" />
+        <attr name="action_icon0" format="string" />
+        <attr name="action_icon1" format="integer" />
+        <attr name="action_icon2" format="integer" />
+        <attr name="action_icon3" format="string" />
+    </declare-styleable>
+</resources>

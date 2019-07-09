@@ -1,0 +1,28 @@
+if (playIsModule.toBoolean()) {
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
+
+apply from: '../../base.gradle'
+
+android {
+    defaultConfig {
+        resourcePrefix "play_"
+    }
+}
+
+dependencies {
+    api project(':core:core-lib')
+    /**视屏播放依赖*/
+    // 必选，可兼容市面上绝大部分设备
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-java:2.5.7'
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-armv7a:2.5.7'
+    // 可选，用于兼容一些其他的CPU架构
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-armv5:2.5.7'
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-arm64:2.5.7'
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-x86:2.5.7'
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-x86_64:2.5.7'
+    // 可选，里面包含StandardVideoController的实现
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-ui:2.5.7'
+}

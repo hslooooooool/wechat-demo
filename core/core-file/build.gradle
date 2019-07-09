@@ -1,0 +1,15 @@
+apply plugin: 'com.android.library'
+
+apply from: '../../base.gradle'
+
+android {
+    defaultConfig {
+        resourcePrefix "file_"
+    }
+}
+
+dependencies {
+    api project(':core:core-lib')
+    // 拍照图片视屏选择 https://github.com/qingmei2/RxImagePicker
+    api 'com.github.qingmei2:rximagepicker:2.4.2'
+}

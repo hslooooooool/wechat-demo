@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--首页底部标签页字体大小-->
+    <style name="AppTabLayoutTextStyle">
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>

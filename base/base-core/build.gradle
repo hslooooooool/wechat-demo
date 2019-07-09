@@ -1,0 +1,8 @@
+apply plugin: 'com.android.library'
+
+apply from: '../../base.gradle'
+
+dependencies {
+    api project(':core:core-file')
+    api project(':core:core-play')
+}

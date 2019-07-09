@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--下拉抽屉-->
+    <declare-styleable name="HoverView">
+        <attr name="mTopFill" format="float" />
+        <attr name="mTopHover" format="float" />
+        <attr name="mBottomHeight" format="float" />
+    </declare-styleable>
+
+    <!--标签列表-->
+    <declare-styleable name="StackLabel">
+        <attr name="textColor" format="color" />
+        <attr name="textSize" format="dimension" />
+        <attr name="paddingVertical" format="dimension" />
+        <attr name="paddingHorizontal" format="dimension" />
+        <attr name="itemMargin" format="dimension" />
+        <attr name="deleteButton" format="boolean" />
+
+        <attr name="deleteButtonImage" format="reference" />
+        <attr name="labelBackground" format="reference" />
+
+        <attr name="selectMode" format="boolean" />
+        <attr name="selectBackground" format="reference" />
+        <attr name="selectTextColor" format="color" />
+        <attr name="maxSelectNum" format="integer" />
+    </declare-styleable>
+
+</resources>
