@@ -1,0 +1,25 @@
+/**测试依赖库*/
+
+android {
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+}
+dependencies {
+    // junit
+    testImplementation 'junit:junit:4.12'
+    // mockito
+    testImplementation "org.mockito:mockito-core:2.25.0"
+    // power mock
+    testImplementation "org.powermock:powermock-module-junit4:1.7.4"
+    testImplementation "org.powermock:powermock-module-junit4-rule:1.7.4"
+    testImplementation "org.powermock:powermock-api-mockito2:1.7.4"
+    testImplementation "org.powermock:powermock-classloading-xstream:1.7.4"
+    // robolectric
+    testImplementation "org.robolectric:robolectric:3.8"
+    testImplementation "com.android.support.test:monitor:1.0.2"
+    // mock web server
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.9.1'
+}

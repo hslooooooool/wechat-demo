@@ -5,6 +5,7 @@ if (findIsModule.toBoolean()) {
 }
 
 apply from: '../../base.gradle'
+apply from: '../../test.gradle'
 
 android {
     defaultConfig {
