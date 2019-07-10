@@ -86,13 +86,11 @@ class NineGridLayout : AbsNineGridLayout {
         mListener?.onClickImage(view, position, urlList)
     }
 
-    override fun onLongClickImage(view: View, position: Int, url: String, urlList: List<String>) {
-        val floatMenu = FloatMenu(view.context, view)
-        floatMenu.items("保存", "分享")
-        floatMenu.setOnItemClickListener { _, index ->
+    override fun onLongClickImage(view: View, position: Int, url: String, menu: FloatMenu) {
+        menu.setOnItemClickListener { _, index ->
             mListener?.onLongClickImage(view, position, url, index)
         }
-        floatMenu.show()
+        menu.show()
     }
 
     fun setOnClickListener(listener: OnImageClickListener) {

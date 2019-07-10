@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.noober.menu.FloatMenu
 import qsos.lib.lib.R
 import java.util.*
 import kotlin.math.ceil
@@ -162,8 +163,10 @@ abstract class AbsNineGridLayout : ViewGroup {
         imageView.setOnClickListener {
             onClickImage(it, i, url, mUrlList)
         }
+        val floatMenu = FloatMenu(imageView.context, imageView)
+        floatMenu.items("保存", "分享")
         imageView.setOnLongClickListener {
-            onLongClickImage(it, i, url, mUrlList)
+            onLongClickImage(it, i, url, floatMenu)
             return@setOnLongClickListener true
         }
         return imageView
@@ -284,7 +287,7 @@ abstract class AbsNineGridLayout : ViewGroup {
 
     protected abstract fun onClickImage(view: View, position: Int, url: String, urlList: List<String>)
 
-    protected abstract fun onLongClickImage(view: View, position: Int, url: String, urlList: List<String>)
+    protected abstract fun onLongClickImage(view: View, position: Int, url: String, menu: FloatMenu)
 
     companion object {
         private const val DEFAULT_SPACING = 3f
