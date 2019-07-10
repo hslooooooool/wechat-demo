@@ -36,7 +36,7 @@ object TweetRepository : ITweetRepo, BaseRepository() {
     override fun getTweetList() {
         val temValue = dataWeChatTweetList.value
         // TODO Load all tweets in memory at first time, and get 5 of them each time from memory asynchronously
-        if (temValue != null) {
+        if (!temValue.isNullOrEmpty()) {
             if (temValue.size > 5) {
                 // 异步加载5条数据到列表刷新
                 dataWeChatTweetList.postValue(temValue.subList(0, 5))

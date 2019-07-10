@@ -10,9 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import qsos.lib.lib.R
 import java.util.*
+import kotlin.math.ceil
 
 /**
  * @author : 华清松
@@ -159,7 +159,13 @@ abstract class AbsNineGridLayout : ViewGroup {
     private fun createImageView(i: Int, url: String): RatioImageView {
         val imageView = RatioImageView(mContext!!)
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-        imageView.setOnClickListener { onClickImage(i, url, mUrlList) }
+        imageView.setOnClickListener {
+            onClickImage(it, i, url, mUrlList)
+        }
+        imageView.setOnLongClickListener {
+            onLongClickImage(it, i, url, mUrlList)
+            return@setOnLongClickListener true
+        }
         return imageView
     }
 
@@ -245,7 +251,6 @@ abstract class AbsNineGridLayout : ViewGroup {
                 mRows = 3
             }
         }
-
     }
 
     protected fun setOneImageLayoutParams(imageView: RatioImageView, width: Int, height: Int) {
@@ -264,7 +269,7 @@ abstract class AbsNineGridLayout : ViewGroup {
         val paint = Paint()
         paint.textSize = fontSize
         val fm = paint.fontMetrics
-        return Math.ceil((fm.descent - fm.ascent).toDouble()).toInt()
+        return ceil((fm.descent - fm.ascent).toDouble()).toInt()
     }
 
     /**
@@ -277,7 +282,9 @@ abstract class AbsNineGridLayout : ViewGroup {
 
     protected abstract fun displayImage(imageView: RatioImageView, url: String)
 
-    protected abstract fun onClickImage(position: Int, url: String, urlList: List<String>)
+    protected abstract fun onClickImage(view: View, position: Int, url: String, urlList: List<String>)
+
+    protected abstract fun onLongClickImage(view: View, position: Int, url: String, urlList: List<String>)
 
     companion object {
         private const val DEFAULT_SPACING = 3f

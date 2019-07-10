@@ -2,12 +2,20 @@ package qsos.base.find.view.holder
 
 import android.text.TextUtils
 import android.view.View
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.alibaba.android.arouter.launcher.ARouter
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.find_item_tweet.view.*
 import qsos.base.find.view.adapter.TweetCommentAdapter
+import qsos.core.lib.view.widget.image.NineGridLayout
 import qsos.lib.base.base.BaseHolder
 import qsos.lib.base.data.WeChatTweetBeen
+import qsos.lib.base.data.play.FileData
+import qsos.lib.base.data.play.FileListData
+import qsos.lib.base.routepath.PlayPath
+import qsos.lib.base.utils.ToastUtils
 import qsos.lib.base.utils.image.ImageLoaderUtils
 
 /**
@@ -30,6 +38,25 @@ class TweetItemViewHolder(
             if (!TextUtils.isEmpty(it.url)) images.add(it.url!!)
         }
         itemView.item_tweet_image_ngl.setUrlList(images)
+
+        itemView.item_tweet_image_ngl.setOnClickListener(object : NineGridLayout.OnImageClickListener {
+            override fun onClickImage(view: View, position: Int, urls: List<String>) {
+                val fileDataList = arrayListOf<FileData>()
+                urls.forEach {
+                    fileDataList.add(FileData(it, it))
+                }
+                val fileListData = FileListData(position, fileDataList)
+                val optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.width / 2, view.height / 2, 0, 0)
+                ARouter.getInstance().build(PlayPath.IMAGE_PREVIEW)
+                        .withString(PlayPath.IMAGE_LIST, Gson().toJson(fileListData))
+                        .withOptionsCompat(optionsCompat)
+                        .navigation()
+            }
+
+            override fun onLongClickImage(view: View, position: Int, url: String, index: Int) {
+                ToastUtils.showToast(itemView.context, "菜单$index")
+            }
+        })
 
         itemView.item_tweet_comment_rv.layoutManager = LinearLayoutManager(itemView.context)
         itemView.item_tweet_comment_rv.adapter = TweetCommentAdapter(data.comments

@@ -104,6 +104,7 @@
         app:contentInsetStartWithNavigation="0dp"
         app:layout_collapseMode="pin"
         app:navigationIcon="@drawable/icon_back"
+        app:title=""
         app:titleTextAppearance="@style/ToolBarTextStyle"
         app:titleTextColor="@color/black_light">
 

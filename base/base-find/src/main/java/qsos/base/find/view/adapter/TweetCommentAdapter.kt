@@ -1,6 +1,7 @@
 package qsos.base.find.view.adapter
 
 import android.view.View
+import android.widget.Toast
 import qsos.base.find.R
 import qsos.base.find.view.holder.TweetItemCommentViewHolder
 import qsos.lib.base.base.BaseAdapter
@@ -19,7 +20,7 @@ class TweetCommentAdapter(
     }
 
     override fun getHolder(view: View, viewType: Int): BaseHolder<WeChatCommentBean>? {
-        return TweetItemCommentViewHolder(view)
+        return TweetItemCommentViewHolder(view, this)
     }
 
     override fun getLayoutId(viewType: Int): Int? {
@@ -31,6 +32,10 @@ class TweetCommentAdapter(
     }
 
     override fun onItemLongClick(view: View, position: Int, obj: Any?) {
-
+        when (view.id) {
+            R.id.item_tweet_comment_content_tv -> {
+                Toast.makeText(view.context, "菜单$obj", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

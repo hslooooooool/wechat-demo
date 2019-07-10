@@ -3,18 +3,15 @@ package qsos.lib.base.base
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.launcher.ARouter
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.yanzhenjie.sofia.Bar
 import com.yanzhenjie.sofia.Sofia
-import kotlinx.android.synthetic.main.activity_base.*
 import org.reactivestreams.Subscription
 import qsos.lib.base.R
 import qsos.lib.base.data.http.HttpCode
@@ -26,14 +23,8 @@ import qsos.lib.base.utils.activity.ActivityUtils
  * @author : 华清松
  * @description : Base Activity
  */
-abstract class BaseActivity : AppCompatActivity(),
-        BaseView,
-        View.OnClickListener {
+abstract class BaseActivity : AppCompatActivity(), BaseView {
 
-    /**统一处理观察行为，在finish时取消行为*/
-    private var mSubscription: Subscription? = null
-    /**Rx方式进行动态权限请求*/
-    var mRxPermissions: RxPermissions? = null
     lateinit var mSofia: Bar
 
     final override var mContext: Context? = null
@@ -83,8 +74,6 @@ abstract class BaseActivity : AppCompatActivity(),
         // 全部竖屏显示
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        mRxPermissions = RxPermissions(this)
-
         ARouter.getInstance().inject(this)
 
         ActivityUtils.instance.addActivity(this)
@@ -97,8 +86,6 @@ abstract class BaseActivity : AppCompatActivity(),
             setContentView(layoutId!!)
             initView()
         }
-
-        ll_base?.setOnClickListener(this)
     }
 
     override fun onStart() {
@@ -134,9 +121,6 @@ abstract class BaseActivity : AppCompatActivity(),
     override fun onDestroy() {
         LogUtil.i("销毁:$localClassName")
         super.onDestroy()
-        if (mSubscription != null) {
-            mSubscription!!.cancel()
-        }
 
         ActivityUtils.instance.finishSingle(this)
     }
@@ -159,32 +143,4 @@ abstract class BaseActivity : AppCompatActivity(),
         }
     }
 
-    /**网络错误页面*/
-    private var baseNetErrorView: View? = null
-    /**数据加载中界面*/
-    private var baseDataLoadingView: View? = null
-    /**请求数据为空界面*/
-    private var baseDataNullView: View? = null
-    /**服务器错误界面*/
-    private var baseNet404View: View? = null
-
-    /**配置基础交互页面：网络错误，加载中，没有数据，服务器错误*/
-    override fun setBaseView(
-            baseNetErrorView: View?,
-            baseDataLoadingView: View?,
-            baseDataNullView: View?,
-            baseNet404View: View?) {
-        this.baseNetErrorView = baseNetErrorView
-        this.baseDataLoadingView = baseDataLoadingView
-        this.baseDataNullView = baseDataNullView
-        this.baseNet404View = baseNet404View
-    }
-
-    override fun changeBaseView(state: BaseView.STATE) {
-
-    }
-
-    override fun onClick(v: View?) {
-
-    }
 }

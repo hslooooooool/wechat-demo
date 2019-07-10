@@ -40,6 +40,7 @@
             android:layout_marginTop="5dp"
             android:text="TextView"
             android:textColor="@color/black_light"
+            android:textIsSelectable="true"
             android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="@id/item_tweet_nick_tv"
             app:layout_constraintTop_toBottomOf="@id/item_tweet_nick_tv" />

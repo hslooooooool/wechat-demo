@@ -17,6 +17,25 @@ import qsos.lib.base.R
 object ImageLoaderUtils {
 
     /**加载url图片*/
+    fun displayNormal(context: Context, imageView: ImageView?, url: String?) {
+        if (imageView == null) {
+            return
+        }
+        if (TextUtils.isEmpty(url)) {
+            return
+        }
+        GlideApp.with(context)
+                .load(url)
+                // 磁盘缓存
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                // 避免闪烁
+                .skipMemoryCache(false)
+                .dontAnimate()
+                .error(ContextCompat.getDrawable(context, R.drawable.bg_grey_white))
+                .into(imageView)
+    }
+
+    /**加载url图片*/
     fun display(context: Context, imageView: ImageView?, url: String?) {
         if (imageView == null) {
             return

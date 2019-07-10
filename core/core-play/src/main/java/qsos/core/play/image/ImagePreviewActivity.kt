@@ -75,13 +75,17 @@ class ImagePreviewActivity(
             }
         }
 
+        play_image_piv.setOnClickListener {
+            finishThis()
+        }
+
         getData()
     }
 
     override fun getData() {
         mUrl = imageListData!!.imageList[mPosition].url
         mName = imageListData!!.imageList[mPosition].name
-        ImageLoaderUtils.display(mContext!!, play_image_piv, mUrl)
+        ImageLoaderUtils.displayNormal(mContext!!, play_image_piv, mUrl)
 
         val str = "${mPosition + 1}/${mTotal + 1}"
         play_image_desc.text = "${if (mTotal == 0) "" else str} $mName"
@@ -94,7 +98,6 @@ class ImagePreviewActivity(
 
         play_image_last.visibility = visibility
         play_image_next.visibility = visibility
-
 
     }
 

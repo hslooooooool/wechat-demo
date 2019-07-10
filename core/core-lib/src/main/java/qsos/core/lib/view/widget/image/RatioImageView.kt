@@ -3,6 +3,7 @@ package qsos.core.lib.view.widget.image
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.os.Build
 import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatImageView
@@ -17,17 +18,27 @@ class RatioImageView : AppCompatImageView {
     /**宽高比例*/
     private var mRatio = 0f
 
-    constructor(context: Context) : super(context)
+    constructor(context: Context) : super(context) {
+        initView()
+    }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {}
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        initView()
+    }
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.RatioImageView)
 
         mRatio = typedArray.getFloat(R.styleable.RatioImageView_ratio, 0f)
         typedArray.recycle()
+        initView()
     }
 
+    private fun initView() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.transitionName = resources.getString(R.string.transition_image)
+        }
+    }
 
     /**
      * 设置ImageView的宽高比

@@ -3,12 +3,14 @@ package qsos.core.lib.view.widget.image
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.View
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.noober.menu.FloatMenu
 import qsos.lib.base.utils.image.GlideApp
 import qsos.lib.base.utils.image.ImageLoaderUtils
 import qsos.lib.lib.R
@@ -18,9 +20,19 @@ import qsos.lib.lib.R
  * @description : 九宫格图片布局
  */
 class NineGridLayout : AbsNineGridLayout {
-    constructor(context: Context) : super(context)
+    private var mListener: OnImageClickListener? = null
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+    constructor(context: Context) : super(context) {
+        initView()
+    }
+
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+        initView()
+    }
+
+    private fun initView() {
+
+    }
 
     override fun displayOneImage(imageView: RatioImageView, url: String, parentWidth: Int): Boolean {
         GlideApp.with(context)
@@ -70,8 +82,26 @@ class NineGridLayout : AbsNineGridLayout {
         ImageLoaderUtils.display(context, imageView, url)
     }
 
-    override fun onClickImage(position: Int, url: String, urlList: List<String>) {
+    override fun onClickImage(view: View, position: Int, url: String, urlList: List<String>) {
+        mListener?.onClickImage(view, position, urlList)
+    }
 
+    override fun onLongClickImage(view: View, position: Int, url: String, urlList: List<String>) {
+        val floatMenu = FloatMenu(view.context, view)
+        floatMenu.items("保存", "分享")
+        floatMenu.setOnItemClickListener { _, index ->
+            mListener?.onLongClickImage(view, position, url, index)
+        }
+        floatMenu.show()
+    }
+
+    fun setOnClickListener(listener: OnImageClickListener) {
+        this.mListener = listener
+    }
+
+    interface OnImageClickListener {
+        fun onClickImage(view: View, position: Int, urls: List<String>)
+        fun onLongClickImage(view: View, position: Int, url: String, index: Int)
     }
 
     companion object {

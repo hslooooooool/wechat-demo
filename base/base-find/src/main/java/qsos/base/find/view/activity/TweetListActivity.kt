@@ -3,6 +3,9 @@ package qsos.base.find.view.activity
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.ContextMenu
+import android.view.MenuItem
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
@@ -45,8 +48,6 @@ class TweetListActivity(
     private var mOffset = 0
     private var mScrollY = 0
     private lateinit var mToolbarBack: Drawable
-    /**剩余多少条时开始加载更多*/
-    private val mRemainingCount = 3
 
     override fun initData(savedInstanceState: Bundle?) {
         mTweetModel = ViewModelProviders.of(this).get(TweetModelIml::class.java)
@@ -63,7 +64,12 @@ class TweetListActivity(
                 .navigationBarBackground(ContextCompat.getColor(this, R.color.black_light))
                 .statusBarBackground(Color.TRANSPARENT)
 
-        mToolbarBack = ContextCompat.getDrawable(mContext!!, qsos.base.find.R.drawable.bg_wx)!!
+        mToolbarBack = ContextCompat.getDrawable(mContext!!, R.drawable.bg_wx)!!
+
+        setSupportActionBar(tweet_list_head_tb)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.title = ""
 
         /**默认Toolbar背景透明*/
         tweet_list_head_tb.setBackgroundColor(0)
@@ -139,9 +145,24 @@ class TweetListActivity(
             }
             mCanLoadMore = true
         })
+
+        registerForContextMenu(tweet_list_camera_iv)
+
+        tweet_list_camera_iv.setOnClickListener { showToast("TAKE PHOTO") }
     }
 
     override fun getData() {}
+
+    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+        menu?.add(0, 1, 0, "拍摄")
+        menu?.add(0, 2, 0, "VLOG")
+        menu?.setGroupEnabled(0, true)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        showToast("${item.title}")
+        return super.onContextItemSelected(item)
+    }
 
     /**修改状态栏样式*/
     private fun changeToolbar(color: Int) {

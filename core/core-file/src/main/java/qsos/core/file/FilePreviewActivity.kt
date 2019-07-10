@@ -7,6 +7,7 @@ import android.text.TextUtils
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.file_activity_file.*
 import qsos.lib.base.base.BaseNormalActivity
 import qsos.lib.base.data.http.UDFileEntity
@@ -74,7 +75,7 @@ class FilePreviewActivity(
             if (mFile == null) {
                 getData()
             } else {
-                mRxPermissions?.request(
+                RxPermissions(this).request(
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_PHONE_STATE
                 )

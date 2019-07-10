@@ -5,4 +5,6 @@ apply from: '../../base.gradle'
 dependencies {
     /*网络服务*/
     api project(":lib:lib-netservice")
+    /*悬浮菜单*/
+    api 'com.noober.floatmenu:common:1.0.4'
 }
