@@ -34,28 +34,41 @@ object TweetRepository : ITweetRepo, BaseRepository() {
     }
 
     override fun getTweetList() {
-        ObservableService.setObservable(
-                ApiEngine.createService(ApiTweet::class.java).getTweetList()
-        ).subscribe(
-                {
-                    // 数据校验
-                    val data = arrayListOf<WeChatTweetBeen>()
-                    it.forEach { tweet ->
-                        if (!tweet.images.isNullOrEmpty() && !TextUtils.isEmpty(tweet.content)) {
-                            tweet.comments?.forEach { comment ->
-                                if (TextUtils.isEmpty(comment.content)) {
-                                    tweet.comments!!.remove(comment)
+        val temValue = dataWeChatTweetList.value
+        // TODO Load all tweets in memory at first time, and get 5 of them each time from memory asynchronously
+        if (temValue != null) {
+            if (temValue.size > 5) {
+                // 异步加载5条数据到列表刷新
+                dataWeChatTweetList.postValue(temValue.subList(0, 5))
+            } else {
+                // 不足5条全部加载
+                dataWeChatTweetList.postValue(temValue)
+            }
+        } else {
+            ObservableService.setObservable(
+                    ApiEngine.createService(ApiTweet::class.java).getTweetList()
+            ).subscribe(
+                    {
+                        // NOTICE 数据校验 ignore the tweet which does not contain a content and images
+                        val data = arrayListOf<WeChatTweetBeen>()
+                        it.forEach { tweet ->
+                            if (!tweet.images.isNullOrEmpty() && !TextUtils.isEmpty(tweet.content)) {
+                                tweet.comments?.forEach { comment ->
+                                    if (TextUtils.isEmpty(comment.content)) {
+                                        tweet.comments!!.remove(comment)
+                                    }
                                 }
+                                data.add(tweet)
                             }
-                            data.add(tweet)
                         }
+                        dataWeChatTweetList.postValue(data)
+                    },
+                    {
+                        dataWeChatTweetList.postValue(arrayListOf())
                     }
-                    dataWeChatTweetList.postValue(data)
-                },
-                {
-                    dataWeChatTweetList.postValue(arrayListOf())
-                }
-        )
+            )
+        }
+
     }
 
 }

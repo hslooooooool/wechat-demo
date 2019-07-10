@@ -8,7 +8,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
@@ -37,12 +37,16 @@ class TweetListActivity(
 
     private lateinit var mTweetModel: TweetModelIml
     private lateinit var mTweetAdapter: TweetAdapter
-    private lateinit var mLinearLayoutManager: RecyclerView.LayoutManager
+    private lateinit var mLinearLayoutManager: LinearLayoutManager
     private val mList = arrayListOf<WeChatTweetBeen>()
-    private var mRefresh = true
+    /**数据加载模式，0加载所有推特，仅第一次加载有效，1刷新数据仅显示前五条数据，2往后追加5条数据*/
+    private var mDataLoadType: Int = 0
+    private var mCanLoadMore = true
     private var mOffset = 0
     private var mScrollY = 0
     private lateinit var mToolbarBack: Drawable
+    /**剩余多少条时开始加载更多*/
+    private val mRemainingCount = 3
 
     override fun initData(savedInstanceState: Bundle?) {
         mTweetModel = ViewModelProviders.of(this).get(TweetModelIml::class.java)
@@ -59,17 +63,19 @@ class TweetListActivity(
                 .navigationBarBackground(ContextCompat.getColor(this, R.color.black_light))
                 .statusBarBackground(Color.TRANSPARENT)
 
-        mToolbarBack = ContextCompat.getDrawable(mContext!!, R.drawable.bg_wx)!!
+        mToolbarBack = ContextCompat.getDrawable(mContext!!, qsos.base.find.R.drawable.bg_wx)!!
 
         /**默认Toolbar背景透明*/
         tweet_list_head_tb.setBackgroundColor(0)
 
         mTweetAdapter = TweetAdapter(mList)
         mLinearLayoutManager = LinearLayoutManager(this)
+        mLinearLayoutManager.isSmoothScrollbarEnabled = true
         tweet_list_rv.adapter = mTweetAdapter
         tweet_list_rv.layoutManager = mLinearLayoutManager
         tweet_list_rv.isNestedScrollingEnabled = false
-        tweet_list_rv.setHasFixedSize(true)
+        tweet_list_rv.setHasFixedSize(false)
+        (tweet_list_rv.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         /**滚动视图监听*/
         tweet_list_nsv.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
@@ -83,11 +89,11 @@ class TweetListActivity(
 
         /**刷新监听,重新获取数据*/
         tweet_list_srl.setOnRefreshListener {
-            mRefresh = true
+            mDataLoadType = 1
             TweetRepository.getUserInfo()
             TweetRepository.getTweetList()
         }.setOnLoadMoreListener {
-            mRefresh = false
+            mDataLoadType = 2
             TweetRepository.getTweetList()
         }
 
@@ -114,26 +120,24 @@ class TweetListActivity(
         mTweetModel.dataTweetList().observe(this, Observer { tweets ->
             tweet_list_srl.finishLoadMore()
 
-            if (mRefresh) {
+            if (mDataLoadType < 2) {
                 mList.clear()
             }
             val oldSize = mList.size
             val addSize = tweets.size
             mList.addAll(tweets)
-            if (mRefresh) {
+            if (mDataLoadType < 2) {
                 mTweetAdapter.notifyDataSetChanged()
             } else {
                 if (addSize > 0) {
                     if (oldSize == 0) {
                         mTweetAdapter.notifyItemRangeInserted(0, addSize)
                     } else {
-                        mTweetAdapter.notifyItemInserted(oldSize)
                         mTweetAdapter.notifyItemRangeInserted(oldSize, addSize)
-
-                        mTweetAdapter.notifyDataSetChanged()
                     }
                 }
             }
+            mCanLoadMore = true
         })
     }
 
