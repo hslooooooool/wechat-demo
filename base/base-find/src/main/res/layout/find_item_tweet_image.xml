@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/grey_white">
 
-    <ImageView
+    <qsos.core.lib.view.widget.image.RatioImageView
         android:id="@+id/item_tweet_image_iv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

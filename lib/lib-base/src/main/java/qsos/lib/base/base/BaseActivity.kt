@@ -3,14 +3,12 @@ package qsos.lib.base.base
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.alibaba.android.arouter.launcher.ARouter
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -43,10 +41,6 @@ abstract class BaseActivity : AppCompatActivity(),
 
     /**设置视图ID*/
     abstract val layoutId: Int?
-
-    /**状态栏颜色，每个页面不主动修改则默认为主题色*/
-
-    abstract var statusBarColor: Int?
 
     /**视图重载是否重新加载数据*/
     abstract val reload: Boolean
@@ -105,21 +99,13 @@ abstract class BaseActivity : AppCompatActivity(),
 
         /**修改状态栏颜色，默认主题色*/
         val mSofia = Sofia.with(this)
-        if (statusBarColor == null || R.color.white == statusBarColor) {
-            mSofia.statusBarDarkFont()
-        }
-        mSofia.statusBarBackground(ContextCompat.getColor(this, statusBarColor ?: R.color.white))
+//        if (statusBarColor == null || R.color.white == statusBarColor) {
+//            mSofia.statusBarDarkFont()
+//        }
+        //  mSofia.statusBarBackground(ContextCompat.getColor(this, statusBarColor ?: R.color.white))
         // 统一处理没有网络或网络错误的点击效果，一般为重新获取数据 getData()q
         ll_base?.setOnClickListener(this)
 
-    }
-
-    /**修改状态栏颜色，默认主题色*/
-    fun changeStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            window.statusBarColor = ContextCompat.getColor(this, statusBarColor ?: R.color.white)
-        }
     }
 
     override fun onStart() {

@@ -54,6 +54,7 @@ abstract class BaseAdapter<T>(
         }
     }
 
+
     /**返回数据个数*/
     override fun getItemCount(): Int {
         return data.size

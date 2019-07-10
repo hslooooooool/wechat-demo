@@ -4,10 +4,6 @@ apply from: '../../base.gradle'
 
 dependencies {
 
-    // Support libraries
-    api deps.support.app_compat
-    api deps.support.design
-
     // Room
     api deps.room.runtime
     api deps.room.rxjava2
@@ -56,10 +52,10 @@ dependencies {
     // Resolve conflicts between main and test APK:
     api deps.support.annotations
     api deps.support.app_compat
+    api deps.support.material
     api deps.support.cardview
     api deps.support.design
     api deps.support.core_ktx
-    api deps.support.v4
 
     // ARouter
     api deps.arouter

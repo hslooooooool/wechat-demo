@@ -4,23 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 /**
  * @author : 华清松
- * @description : 朋友圈列表项数据实体
- */
-data class WeChatBeen(
-        var dataType: WeChatType,
-        var data: Any
-)
-
-/**
- * @author : 华清松
- * @description : 朋友圈列表项类型枚举
- */
-enum class WeChatType(val key: String) {
-    ITEM("子项"), HEAD("顶部")
-}
-
-/**
- * @author : 华清松
  * @description : Tweet实体
  */
 data class WeChatTweetBeen(

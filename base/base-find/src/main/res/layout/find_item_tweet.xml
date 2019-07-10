@@ -13,7 +13,7 @@
         android:id="@+id/item_tweet_head_iv"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/bg_range_white_gray"
+        android:background="@drawable/bg_range_grey_white"
         android:scaleType="fitXY" />
 
     <LinearLayout
@@ -44,14 +44,15 @@
             app:layout_constraintLeft_toLeftOf="@id/item_tweet_nick_tv"
             app:layout_constraintTop_toBottomOf="@id/item_tweet_nick_tv" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/item_tweet_image_rv"
+        <qsos.core.lib.view.widget.image.NineGridLayout
+            android:id="@+id/item_tweet_image_ngl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:background="@color/white"
             app:layout_constraintLeft_toLeftOf="@id/item_tweet_content_tv"
-            app:layout_constraintTop_toBottomOf="@+id/item_tweet_content_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/item_tweet_content_tv"
+            app:space="5dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"

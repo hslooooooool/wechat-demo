@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import qsos.app.demo.R
 import qsos.core.lib.view.BaseModuleActivity
 import qsos.lib.base.base.BaseApplication
 import qsos.lib.base.routepath.AppPath
@@ -19,9 +20,8 @@ import qsos.lib.base.utils.activity.ActivityUtils
 @Route(group = AppPath.GROUP, path = AppPath.SPLASH)
 class SplashActivity : BaseModuleActivity() {
 
-    override val layoutId = qsos.app.demo.R.layout.app_activity_splash
+    override val layoutId = R.layout.app_activity_splash
     override val reload = false
-    override var statusBarColor: Int? = qsos.app.demo.R.color.white
 
     override fun initData(savedInstanceState: Bundle?) {}
 

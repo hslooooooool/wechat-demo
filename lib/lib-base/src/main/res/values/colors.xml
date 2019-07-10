@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--状态栏颜色-->
-    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimaryDark">#5f9ea0</color>
     <!--主题色-->
-    <color name="colorPrimary">#77BB60</color>
+    <color name="colorPrimary">#5f9ea0</color>
     <!--按钮字色-->
-    <color name="colorAccent">#3197ED</color>
+    <color name="colorAccent">#5f9ea0</color>
     <color name="colorBack">#DBDBDB</color>
     <!--自定义颜色-->
     <color name="grey_low">#f4f4f4</color>
@@ -118,6 +118,7 @@
     <color name="lightskyblue">#87cefa</color><!--亮天蓝色 -->
     <color name="skyblue">#87ceeb</color><!--天蓝色 -->
     <color name="grey">#808080</color><!--灰色 -->
+    <color name="toolbar">#ECECEC</color><!--灰色 -->
 
     <color name="olive">#808000</color><!--橄榄色 -->
     <color name="purple">#800080</color><!--紫色 -->

@@ -1,4 +1,4 @@
-package qsos.core.lib.view.widget
+package qsos.core.lib.view.widget.list
 
 import android.content.Context
 import android.graphics.Canvas

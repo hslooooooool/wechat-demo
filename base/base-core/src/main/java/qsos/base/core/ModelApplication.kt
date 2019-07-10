@@ -2,8 +2,8 @@ package qsos.base.core
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
-import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import qsos.core.file.FileApplication
+import qsos.core.lib.view.widget.list.MyClassicsHeader
 
 /**
  * @author : 华清松
@@ -14,7 +14,7 @@ abstract class ModelApplication : FileApplication() {
         // 设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
             layout.setPrimaryColorsId(R.color.white, R.color.black)
-            ClassicsHeader(context)
+            MyClassicsHeader(context)
         }
         // 设置全局的Footer构建器
         SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->

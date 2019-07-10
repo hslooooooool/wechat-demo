@@ -22,8 +22,7 @@
         android:networkSecurityConfig="@xml/app_network_security_config"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:label,android:icon,android:theme"
-        tools:targetApi="n">
+        tools:replace="android:label,android:icon,android:theme">
 
         <!--共享文件夹-->
         <provider
