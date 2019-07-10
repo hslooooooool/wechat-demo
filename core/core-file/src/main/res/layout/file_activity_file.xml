@@ -23,8 +23,7 @@
         <ImageView
             android:id="@+id/file_preview_file_icon"
             android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_100"
-            app:srcCompat="@drawable/file" />
+            android:layout_height="@dimen/dp_100" />
 
         <TextView
             android:id="@+id/file_preview_file_name"

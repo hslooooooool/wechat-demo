@@ -100,16 +100,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
         app:layout_collapseMode="pin"
-        app:navigationIcon="@drawable/icon_back">
+        app:navigationIcon="@drawable/icon_back"
+        app:titleTextAppearance="@style/ToolBarTextStyle"
+        app:titleTextColor="@color/black_light">
 
         <ImageView
             android:id="@+id/tweet_list_camera_iv"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
-            android:padding="5dp"
+            android:padding="4dp"
             app:srcCompat="@drawable/icon_take_photo" />
     </androidx.appcompat.widget.Toolbar>
 

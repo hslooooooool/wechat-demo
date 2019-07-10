@@ -107,5 +107,5 @@ dependencies {
     api 'com.github.pdog18:dimension-extensions:1.0'
 
     // 沉侵式状态栏
-    implementation 'com.yanzhenjie:sofia:1.0.5'
+    api 'com.yanzhenjie:sofia:1.0.5'
 }

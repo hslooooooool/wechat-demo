@@ -31,6 +31,8 @@ android {
 dependencies {
     if (findIsModule) {
         api project(":base:base-find")
+    } else {
+        api project(":base:base-core")
     }
 }
 

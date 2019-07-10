@@ -103,21 +103,6 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     </style>
 
-
-    <!--弹窗button样式-->
-    <style name="MainButtonStyle3">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/dp_48</item>
-        <item name="android:layout_marginLeft">@dimen/dp_24</item>
-        <item name="android:layout_marginRight">@dimen/dp_24</item>
-        <item name="android:layout_marginBottom">@dimen/dp_10</item>
-        <item name="android:layout_marginTop">@dimen/dp_20</item>
-        <item name="android:background">@drawable/bg_rectangle_violet</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/sp_18</item>
-    </style>
-
     <!--指令弹窗动画-->
     <style name="BottomPopAnim" parent="@android:style/Animation.Activity">
         <item name="android:windowEnterAnimation">@anim/bottom_in</item>

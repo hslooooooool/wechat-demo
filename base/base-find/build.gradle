@@ -13,6 +13,16 @@ android {
             applicationId "qsos.base.find"
         }
     }
+    buildTypes {
+        release {
+            // 默认的混淆文件以及我们指定的混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            // 默认的混淆文件以及我们指定的混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
     sourceSets {
         main {
             if (!findIsModule.toBoolean()) {

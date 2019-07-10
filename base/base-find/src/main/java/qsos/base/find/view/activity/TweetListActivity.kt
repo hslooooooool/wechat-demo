@@ -1,5 +1,6 @@
 package qsos.base.find.view.activity
 
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.core.content.ContextCompat
@@ -7,6 +8,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
@@ -21,6 +23,7 @@ import qsos.lib.base.routepath.FindPath
 import qsos.lib.base.utils.BaseUtils
 import qsos.lib.base.utils.StatusBarUtil
 import qsos.lib.base.utils.image.ImageLoaderUtils
+import kotlin.math.min
 
 /**
  * @author : 华轻松
@@ -34,7 +37,7 @@ class TweetListActivity(
 
     private lateinit var mTweetModel: TweetModelIml
     private lateinit var mTweetAdapter: TweetAdapter
-    private lateinit var mLinearLayoutManager: LinearLayoutManager
+    private lateinit var mLinearLayoutManager: RecyclerView.LayoutManager
     private val mList = arrayListOf<WeChatTweetBeen>()
     private var mRefresh = true
     private var mOffset = 0
@@ -49,8 +52,16 @@ class TweetListActivity(
         super.initView()
 
         StatusBarUtil.immersive(this)
+        StatusBarUtil.setMargin(this, tweet_list_ch)
+        StatusBarUtil.setPaddingSmart(this, tweet_list_head_tb)
+        mSofia.statusBarLightFont()
+                .invasionStatusBar()
+                .navigationBarBackground(ContextCompat.getColor(this, R.color.black_light))
+                .statusBarBackground(Color.TRANSPARENT)
+
         mToolbarBack = ContextCompat.getDrawable(mContext!!, R.drawable.bg_wx)!!
 
+        /**默认Toolbar背景透明*/
         tweet_list_head_tb.setBackgroundColor(0)
 
         mTweetAdapter = TweetAdapter(mList)
@@ -59,15 +70,14 @@ class TweetListActivity(
         tweet_list_rv.layoutManager = mLinearLayoutManager
         tweet_list_rv.isNestedScrollingEnabled = false
         tweet_list_rv.setHasFixedSize(true)
+
+        /**滚动视图监听*/
         tweet_list_nsv.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
-            private var lastScrollY = 0
             private val defaultHeight = BaseUtils.dip2px(mContext!!, 170f)
             override fun onScrollChange(v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) {
-                mScrollY = Math.min(defaultHeight, scrollY)
-                val scrollColor = 255 * mScrollY / defaultHeight
-                item_tweet_head_profile_iv.translationY = (mOffset - mScrollY).toFloat()
-                changeToolbar(scrollColor)
-                lastScrollY = scrollY
+                mScrollY = min(defaultHeight, scrollY)
+                item_tweet_head_profile_iv.translationY = (mOffset - scrollY).toFloat()
+                changeToolbar(255 * mScrollY / defaultHeight)
             }
         })
 
@@ -117,8 +127,10 @@ class TweetListActivity(
                     if (oldSize == 0) {
                         mTweetAdapter.notifyItemRangeInserted(0, addSize)
                     } else {
-                        mTweetAdapter.notifyItemChanged(oldSize)
+                        mTweetAdapter.notifyItemInserted(oldSize)
                         mTweetAdapter.notifyItemRangeInserted(oldSize, addSize)
+
+                        mTweetAdapter.notifyDataSetChanged()
                     }
                 }
             }
@@ -129,19 +141,28 @@ class TweetListActivity(
 
     /**修改状态栏样式*/
     private fun changeToolbar(color: Int) {
-
         when (color) {
-            in 240..255 -> {
+            in 250..255 -> {
                 mToolbarBack.alpha = color
                 tweet_list_head_tb.background = mToolbarBack
                 tweet_list_head_tb.navigationIcon = ContextCompat.getDrawable(mContext!!, R.drawable.icon_back_black)
                 tweet_list_camera_iv.setImageDrawable(ContextCompat.getDrawable(mContext!!, R.drawable.icon_take_photo_black))
+                tweet_list_head_tb.title = "朋友圈"
+                mSofia.statusBarDarkFont()
+                        .invasionStatusBar()
+                        .navigationBarBackground(ContextCompat.getColor(this, R.color.black_light))
+                        .statusBarBackground(Color.TRANSPARENT)
             }
             else -> {
                 mToolbarBack.alpha = 0
                 tweet_list_head_tb.background = mToolbarBack
                 tweet_list_head_tb.navigationIcon = ContextCompat.getDrawable(mContext!!, R.drawable.icon_back)
                 tweet_list_camera_iv.setImageDrawable(ContextCompat.getDrawable(mContext!!, R.drawable.icon_take_photo))
+                tweet_list_head_tb.title = ""
+                mSofia.statusBarLightFont()
+                        .invasionStatusBar()
+                        .navigationBarBackground(ContextCompat.getColor(this, R.color.black_light))
+                        .statusBarBackground(Color.TRANSPARENT)
             }
         }
     }

@@ -3,15 +3,16 @@ package qsos.lib.base.base
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
+import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.launcher.ARouter
 import com.tbruyelle.rxpermissions2.RxPermissions
+import com.yanzhenjie.sofia.Bar
 import com.yanzhenjie.sofia.Sofia
 import kotlinx.android.synthetic.main.activity_base.*
 import org.reactivestreams.Subscription
@@ -33,6 +34,7 @@ abstract class BaseActivity : AppCompatActivity(),
     private var mSubscription: Subscription? = null
     /**Rx方式进行动态权限请求*/
     var mRxPermissions: RxPermissions? = null
+    lateinit var mSofia: Bar
 
     final override var mContext: Context? = null
         protected set(value) {
@@ -76,9 +78,8 @@ abstract class BaseActivity : AppCompatActivity(),
     override fun onCreate(bundle: Bundle?) {
         LogUtil.i("创建:$localClassName")
         super.onCreate(bundle)
-
         mContext = this
-
+        mSofia = Sofia.with(this)
         // 全部竖屏显示
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
@@ -97,15 +98,7 @@ abstract class BaseActivity : AppCompatActivity(),
             initView()
         }
 
-        /**修改状态栏颜色，默认主题色*/
-        val mSofia = Sofia.with(this)
-//        if (statusBarColor == null || R.color.white == statusBarColor) {
-//            mSofia.statusBarDarkFont()
-//        }
-        //  mSofia.statusBarBackground(ContextCompat.getColor(this, statusBarColor ?: R.color.white))
-        // 统一处理没有网络或网络错误的点击效果，一般为重新获取数据 getData()q
         ll_base?.setOnClickListener(this)
-
     }
 
     override fun onStart() {
@@ -166,7 +159,6 @@ abstract class BaseActivity : AppCompatActivity(),
         }
     }
 
-    /**基础交互页面实体*/
     /**网络错误页面*/
     private var baseNetErrorView: View? = null
     /**数据加载中界面*/
@@ -189,56 +181,10 @@ abstract class BaseActivity : AppCompatActivity(),
     }
 
     override fun changeBaseView(state: BaseView.STATE) {
-        ll_base?.removeAllViews()
-        ll_base?.isClickable = false
-        val baseView: View? = when (state) {
-            BaseView.STATE.NOT_NET -> {
-                ll_base?.isClickable = true
-                baseNetErrorView
-                        ?: LayoutInflater.from(mContext).inflate(R.layout.activity_base_net_error, ll_base, false)
-            }
-            BaseView.STATE.LOADING -> {
-                ll_base?.isClickable = false
-                baseDataLoadingView
-                        ?: LayoutInflater.from(mContext).inflate(R.layout.activity_base_loading, ll_base, false)
-            }
-            BaseView.STATE.RESULT_NULL -> {
-                ll_base?.isClickable = true
-                baseDataNullView
-                        ?: LayoutInflater.from(mContext).inflate(R.layout.activity_base_null, ll_base, false)
-            }
-            BaseView.STATE.SERVICE_ERROR -> {
-                ll_base?.isClickable = true
-                baseNet404View
-                        ?: LayoutInflater.from(mContext).inflate(R.layout.activity_base_404, ll_base, false)
-            }
-            BaseView.STATE.NOT_FOUND -> {
-                ll_base?.isClickable = true
-                baseNet404View
-                        ?: LayoutInflater.from(mContext).inflate(R.layout.activity_base_404, ll_base, false)
-            }
-            BaseView.STATE.OK -> {
-                null
-            }
-        }
-        if (baseView == null) {
-            ll_base?.visibility = View.GONE
-        } else {
-            ll_base?.visibility = View.VISIBLE
-            ll_base?.addView(baseView)
-        }
+
     }
 
     override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.ll_base -> {
-                if (ll_base.isVisible) {
-                    // 没有网络或网络错误点击是重新获取数据
-                    changeBaseView(BaseView.STATE.LOADING)
-                    getData()
-                }
-            }
-        }
-    }
 
+    }
 }
