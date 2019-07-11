@@ -41,6 +41,7 @@ class TweetListActivity(
     private lateinit var mTweetAdapter: TweetAdapter
     private lateinit var mLinearLayoutManager: LinearLayoutManager
     private val mList = arrayListOf<WeChatTweetBeen>()
+
     /**数据加载模式，0加载所有推特，仅第一次加载有效，1刷新数据仅显示前五条数据，2往后追加5条数据*/
     private var mDataLoadType: Int = 0
     private var mCanLoadMore = true
@@ -64,11 +65,6 @@ class TweetListActivity(
                 .statusBarBackground(Color.TRANSPARENT)
 
         mToolbarBack = ContextCompat.getDrawable(mContext!!, R.drawable.bg_wx)!!
-
-        setSupportActionBar(tweet_list_head_tb)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.title = ""
 
         /**默认Toolbar背景透明*/
         tweet_list_head_tb.setBackgroundColor(0)
@@ -153,7 +149,7 @@ class TweetListActivity(
     override fun getData() {}
 
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
-        menu?.add(0, 1, 0, "拍摄")
+        menu?.add(0, 1, 0, "LIVE")
         menu?.add(0, 2, 0, "VLOG")
         menu?.setGroupEnabled(0, true)
     }

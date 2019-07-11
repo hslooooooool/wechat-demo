@@ -76,7 +76,6 @@
                             android:layout_marginTop="10dp"
                             android:layout_toStartOf="@+id/tweet_list_head_avatar_iv"
                             android:maxLines="1"
-                            android:text="@string/find_hqs"
                             android:textColor="@color/white"
                             android:textSize="14sp"
                             android:textStyle="bold" />

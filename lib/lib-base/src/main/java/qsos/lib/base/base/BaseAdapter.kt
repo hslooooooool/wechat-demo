@@ -45,15 +45,7 @@ abstract class BaseAdapter<T>(
     /**绑定数据*/
     override fun onBindViewHolder(holder: BaseHolder<T>, position: Int) {
         holder.setData(data[position], position)
-        holder.itemView.setOnClickListener {
-            onItemClick(it, position, data[position])
-        }
-        holder.itemView.setOnLongClickListener {
-            onItemLongClick(it, position, data[position])
-            return@setOnLongClickListener true
-        }
     }
-
 
     /**返回数据个数*/
     override fun getItemCount(): Int {
