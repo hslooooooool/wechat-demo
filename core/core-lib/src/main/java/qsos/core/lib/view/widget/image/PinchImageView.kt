@@ -9,7 +9,6 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
-import android.view.View
 import android.widget.ImageView
 import java.util.*
 
@@ -19,22 +18,19 @@ import java.util.*
  */
 open class PinchImageView : ImageView {
 
-
-    ////////////////////////////////监听器////////////////////////////////
-
     /**
      * 外界点击事件
      *
      * @see .setOnClickListener
      */
-    private var mOnClickListener: View.OnClickListener? = null
+    private var mOnClickListener: OnClickListener? = null
 
     /**
      * 外界长按事件
      *
      * @see .setOnLongClickListener
      */
-    private var mOnLongClickListener: View.OnLongClickListener? = null
+    private var mOnLongClickListener: OnLongClickListener? = null
 
     /**
      * 外层变换矩阵，如果是单位矩阵，那么图片是fit center状态
@@ -51,17 +47,6 @@ open class PinchImageView : ImageView {
      * @see .zoomMaskTo
      */
     private var mMask: RectF? = null
-
-    /**
-     * 当前手势状态
-     *
-     * @see .getPinchMode
-     * @see .PINCH_MODE_FREE
-     *
-     * @see .PINCH_MODE_SCROLL
-     *
-     * @see .PINCH_MODE_SCALE
-     */
     /**
      * 获取当前手势状态
      *
@@ -113,9 +98,6 @@ open class PinchImageView : ImageView {
      */
     private var mDispatchOuterMatrixChangedLock: Int = 0
 
-
-    ////////////////////////////////用于重载定制////////////////////////////////
-
     /**
      * 获取图片最大可放大的比例
      *
@@ -132,9 +114,6 @@ open class PinchImageView : ImageView {
     private val maxScale: Float
         get() = MAX_SCALE
 
-
-    ////////////////////////////////有效性判断////////////////////////////////
-
     /**
      * 判断当前情况是否能执行手势相关计算
      *
@@ -147,9 +126,6 @@ open class PinchImageView : ImageView {
         get() = (drawable != null && drawable.intrinsicWidth > 0 && drawable.intrinsicHeight > 0
                 && width > 0 && height > 0)
 
-
-    ////////////////////////////////mask动画处理////////////////////////////////
-
     /**
      * mask修改的动画
      *
@@ -159,9 +135,6 @@ open class PinchImageView : ImageView {
      * @see .zoomMaskTo
      */
     private var mMaskAnimator: MaskAnimator? = null
-
-
-    ////////////////////////////////手势动画处理////////////////////////////////
 
     /**
      * 在单指模式下:
@@ -236,7 +209,7 @@ open class PinchImageView : ImageView {
     private val mGestureDetector = GestureDetector(this@PinchImageView.context, object : GestureDetector.SimpleOnGestureListener() {
 
         override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
-            //只有在单指模式结束之后才允许执行fling
+            // 只有在单指模式结束之后才允许执行fling
             if (pinchMode == PINCH_MODE_FREE && !(mScaleAnimator != null && mScaleAnimator!!.isRunning)) {
                 fling(velocityX, velocityY)
             }
@@ -244,14 +217,14 @@ open class PinchImageView : ImageView {
         }
 
         override fun onLongPress(e: MotionEvent) {
-            //触发长按
+            // 触发长按
             if (mOnLongClickListener != null) {
                 mOnLongClickListener!!.onLongClick(this@PinchImageView)
             }
         }
 
         override fun onDoubleTap(e: MotionEvent): Boolean {
-            //当手指快速第二次按下触发,此时必须是单指模式才允许执行doubleTap
+            // 当手指快速第二次按下触发,此时必须是单指模式才允许执行doubleTap
             if (pinchMode == PINCH_MODE_SCROLL && !(mScaleAnimator != null && mScaleAnimator!!.isRunning)) {
                 doubleTap(e.x, e.y)
             }
@@ -267,12 +240,12 @@ open class PinchImageView : ImageView {
         }
     })
 
-    override fun setOnClickListener(l: View.OnClickListener?) {
+    override fun setOnClickListener(l: OnClickListener?) {
         //默认的click会在任何点击情况下都会触发，所以搞成自己的
         mOnClickListener = l
     }
 
-    override fun setOnLongClickListener(l: View.OnLongClickListener?) {
+    override fun setOnLongClickListener(l: OnLongClickListener?) {
         //默认的long click会在任何长按情况下都会触发，所以搞成自己的
         mOnLongClickListener = l
     }
@@ -288,13 +261,13 @@ open class PinchImageView : ImageView {
      * @return 如果传了matrix参数则将matrix填充后返回, 否则new一个填充返回
      */
     fun getOuterMatrix(matrix: Matrix?): Matrix {
-        var matrix = matrix
-        if (matrix == null) {
-            matrix = Matrix(mOuterMatrix)
+        var mMatrix = matrix
+        if (mMatrix == null) {
+            mMatrix = Matrix(mOuterMatrix)
         } else {
-            matrix.set(mOuterMatrix)
+            mMatrix.set(mOuterMatrix)
         }
-        return matrix
+        return mMatrix
     }
 
     /**
@@ -389,7 +362,7 @@ open class PinchImageView : ImageView {
      * @return
      */
     override fun canScrollHorizontally(direction: Int): Boolean {
-        if (pinchMode == PinchImageView.PINCH_MODE_SCALE) {
+        if (pinchMode == PINCH_MODE_SCALE) {
             return true
         }
         val bound = getImageBound(null) ?: return false
@@ -410,10 +383,10 @@ open class PinchImageView : ImageView {
      * @return
      */
     override fun canScrollVertically(direction: Int): Boolean {
-        if (pinchMode == PinchImageView.PINCH_MODE_SCALE) {
+        if (pinchMode == PINCH_MODE_SCALE) {
             return true
         }
-        val bound = getImageBound(null) ?: return false
+        val bound = getImageBound(null)
         if (bound.isEmpty) {
             return false
         }
@@ -520,7 +493,6 @@ open class PinchImageView : ImageView {
         //重绘
         invalidate()
     }
-
 
     ////////////////////////////////对外广播事件////////////////////////////////
 

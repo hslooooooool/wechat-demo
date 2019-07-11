@@ -1,5 +1,6 @@
 package qsos.core.lib.view.widget.image
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -59,6 +60,7 @@ class RatioImageView : AppCompatImageView {
         super.onMeasure(widthMeasureSpec, mHeightMeasureSpec)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {

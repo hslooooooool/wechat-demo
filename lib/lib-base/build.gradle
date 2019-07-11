@@ -29,26 +29,6 @@ dependencies {
     api deps.kotlin.stdlib
     testImplementation deps.kotlin.test
 
-    // Dependencies for local unit tests
-    testImplementation deps.mockito.all
-    testImplementation deps.hamcrest
-    testImplementation deps.arch_core.testing
-
-    // Android Testing Support Library's runner and rules
-    androidTestImplementation deps.atsl.runner
-    androidTestImplementation deps.atsl.rules
-    androidTestImplementation deps.room.testing
-    androidTestImplementation deps.arch_core.testing
-
-    // Dependencies for Android unit tests
-    androidTestImplementation deps.mockito.core, { exclude group: 'net.bytebuddy' }
-    androidTestImplementation deps.dexmaker
-
-    // Espresso UI Testing
-    androidTestImplementation deps.espresso.core
-    androidTestImplementation deps.espresso.contrib
-    androidTestImplementation deps.espresso.intents
-
     // Resolve conflicts between main and test APK:
     api deps.support.annotations
     api deps.support.app_compat
@@ -91,21 +71,9 @@ dependencies {
     api deps.lifecycle.livedata
     api deps.lifecycle.reactivestreams
     annotationProcessor deps.lifecycle.compiler
-
-    // 上拉抽屉
-    api 'com.yinglan.scrolllayout:scrolllayout:1.0.2'
-
-    // 图片、视频
-    api 'cn.finalteam.rxgalleryfinal:library:1.0.9'
-
-    // 通用弹窗
-    api 'com.afollestad.material-dialogs:core:3.0.1'
-    api 'com.afollestad.material-dialogs:input:3.0.1'
-    // 图标
-    api 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    
     // px 转 dp 工具
     api 'com.github.pdog18:dimension-extensions:1.0'
-
     // 沉侵式状态栏
     api 'com.yanzhenjie:sofia:1.0.5'
 }
