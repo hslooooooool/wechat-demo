@@ -24,14 +24,14 @@ import java.util.concurrent.TimeUnit
  */
 object ApiEngine {
 
-    private var mHost: String = BuildConfig.BASE_URL
+    var mHost: String = BuildConfig.BASE_URL
     private var mBuild: Retrofit.Builder
     private var mClient: OkHttpClient.Builder
     private var uploadInterceptor: Interceptor? = null
     private var downloadInterceptor: Interceptor? = null
 
-    private val mGsonBuilder: GsonBuilder = GsonBuilder()
-    private val mGsonConverterFactory: GsonConverterFactory
+    val mGsonBuilder: GsonBuilder = GsonBuilder()
+    val mGsonConverterFactory: GsonConverterFactory
 
     init {
         mGsonBuilder.registerTypeAdapter(Date::class.java, DateDeserializer()).setDateFormat("yyyy-MM-dd HH:mm:ss").create()

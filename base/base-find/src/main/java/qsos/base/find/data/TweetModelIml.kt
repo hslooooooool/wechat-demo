@@ -11,21 +11,22 @@ import qsos.lib.base.data.WeChatUserBeen
  * @description : 朋友圈数据Model
  */
 class TweetModelIml : ITweetModel, ViewModel() {
+    val mTweetRepository = TweetRepository()
     private var tweetList: MutableLiveData<List<WeChatTweetBeen>>? = null
     private var userInfo: MutableLiveData<WeChatUserBeen>? = null
 
     override fun dataTweetList(): LiveData<List<WeChatTweetBeen>> {
         if (tweetList == null) {
-            tweetList = TweetRepository.dataWeChatTweetList
-            TweetRepository.getTweetList()
+            tweetList = mTweetRepository.dataWeChatTweetList
+            mTweetRepository.getTweetList()
         }
         return tweetList!!
     }
 
     override fun dataUserInfo(): LiveData<WeChatUserBeen> {
         if (userInfo == null) {
-            userInfo = TweetRepository.dataWeChatUserInfo
-            TweetRepository.getUserInfo()
+            userInfo = mTweetRepository.dataWeChatUserInfo
+            mTweetRepository.getUserInfo()
         }
         return userInfo!!
     }

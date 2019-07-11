@@ -18,7 +18,6 @@ import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import kotlinx.android.synthetic.main.find_activity_tweet_list.*
 import qsos.base.find.R
 import qsos.base.find.data.TweetModelIml
-import qsos.base.find.data.TweetRepository
 import qsos.base.find.view.adapter.TweetAdapter
 import qsos.core.lib.view.BaseModuleActivity
 import qsos.lib.base.data.WeChatTweetBeen
@@ -96,11 +95,11 @@ class TweetListActivity(
         /**刷新监听,重新获取数据*/
         tweet_list_srl.setOnRefreshListener {
             mDataLoadType = 1
-            TweetRepository.getUserInfo()
-            TweetRepository.getTweetList()
+            mTweetModel.mTweetRepository.getUserInfo()
+            mTweetModel.mTweetRepository.getTweetList()
         }.setOnLoadMoreListener {
             mDataLoadType = 2
-            TweetRepository.getTweetList()
+            mTweetModel.mTweetRepository.getTweetList()
         }
 
         /**刷新滚动监听,设置状态栏及背景图动效*/

@@ -14,7 +14,7 @@ import qsos.lib.netservice.file.BaseRepository
  * @description : 聊天数据获取
  */
 @SuppressLint("CheckResult")
-object TweetRepository : ITweetRepo, BaseRepository() {
+class TweetRepository : ITweetRepo, BaseRepository() {
     /**推特列表数据*/
     val dataWeChatTweetList = MutableLiveData<List<WeChatTweetBeen>>()
     /**用户数据*/

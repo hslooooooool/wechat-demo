@@ -1,10 +1,7 @@
-# 安卓快速开发框架 [ABCL](https://github.com/hslooooooool/abcl)
-
 ## 项目介绍
 
 ### 前言
-本项目为自贡情指勤项目安卓客户端项目代码
-
+本项目为 [ABCL](https://github.com/hslooooooool/abcl)精简优化后得到
 为避免过度设计、设计缺陷等问题，暂定框架的开发边界仅为安卓核心功能，如需要常用工具、自定义控件请自行拓展。
 
 ### 结构：
