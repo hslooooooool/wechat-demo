@@ -1,6 +1,5 @@
 package qsos.lib.base.base
 
-import qsos.lib.base.R
 import qsos.lib.base.data.http.HttpCode
 
 /**

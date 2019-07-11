@@ -1,9 +1,9 @@
 package qsos.core.play.image
 
+import android.app.Activity
 import android.view.View
 import kotlinx.android.synthetic.main.play_item_image.view.*
 import qsos.core.play.R
-import qsos.lib.base.base.BaseActivity
 import qsos.lib.base.base.BaseAdapter
 import qsos.lib.base.base.BaseHolder
 import qsos.lib.base.data.play.FileData
@@ -24,7 +24,7 @@ class ImageAdapter(files: ArrayList<FileData>) : BaseAdapter<FileData>(files) {
     }
 
     override fun onItemClick(view: View, position: Int, obj: Any?) {
-        (mContext as BaseActivity).finishThis()
+        (mContext as Activity).finish()
     }
 
     override fun onItemLongClick(view: View, position: Int, obj: Any?) {

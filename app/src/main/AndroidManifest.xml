@@ -36,7 +36,10 @@
         </provider>
 
         <!--闪屏页-->
-        <activity android:name="qsos.app.demo.view.activity.SplashActivity">
+        <activity
+            android:name="qsos.app.demo.view.activity.SplashActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

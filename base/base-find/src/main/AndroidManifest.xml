@@ -2,6 +2,9 @@
     package="qsos.base.find">
 
     <application>
-        <activity android:name="qsos.base.find.view.activity.TweetListActivity" />
+        <activity
+            android:name="qsos.base.find.view.activity.TweetListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

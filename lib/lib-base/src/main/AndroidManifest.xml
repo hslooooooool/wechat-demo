@@ -9,8 +9,4 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <application>
-        <!--功能列表界面-->
-        <activity android:name=".view.ComponentActivity" />
-    </application>
 </manifest>
