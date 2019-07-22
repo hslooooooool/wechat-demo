@@ -20,7 +20,7 @@ import java.math.BigDecimal
  * @description : 文件服务
  */
 @SuppressLint("CheckResult")
-class FileRepository : IFileModel, BaseRepository() {
+class FileRepository  : IFileModel, BaseRepository() {
 
     override fun downloadFile(fileEntity: UDFileEntity) {
         if (TextUtils.isEmpty(fileEntity.url)) {

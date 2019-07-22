@@ -1,13 +1,9 @@
 /*****************************************业务整合 APP***************************************************/
 
-include ':app'
+include ':app', ':module:module-chat'
 
 /*****************************************业务模块 BASE***************************************************/
 
-/*聊天*/
-//include ':base:base-chat'
-/*工作台*/
-//include ':base:base-work'
 /*发现*/
 include ':base:base-find'
 // 公共模块
@@ -15,7 +11,7 @@ include ':base:base-core'
 
 /*****************************************功能组件 CORE***************************************************/
 
-include  ':core:core-play' //,':core:core-form', ':core:core-file'
+include ':core:core-play' //,':core:core-form', ':core:core-file'
 
 // 基础依赖集合
 include ':core:core-lib'

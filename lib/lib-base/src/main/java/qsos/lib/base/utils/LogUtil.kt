@@ -1,5 +1,6 @@
 package qsos.lib.base.utils
 
+import qsos.lib.base.BuildConfig
 import timber.log.Timber
 
 /**
@@ -8,8 +9,8 @@ import timber.log.Timber
  */
 object LogUtil {
 
-    private var isOpen = true
-    var TAG = "QSOS"
+    private var isOpen = BuildConfig.DEBUG
+    var TAG = BuildConfig.APPLICATION_ID
 
     init {
         Timber.tag(TAG)
