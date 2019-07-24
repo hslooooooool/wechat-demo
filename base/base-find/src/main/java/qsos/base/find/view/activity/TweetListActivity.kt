@@ -18,6 +18,7 @@ import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import kotlinx.android.synthetic.main.find_activity_tweet_list.*
 import qsos.base.find.R
 import qsos.base.find.data.TweetModelIml
+import qsos.base.find.data.TweetRepository
 import qsos.base.find.view.adapter.TweetAdapter
 import qsos.core.lib.view.BaseModuleActivity
 import qsos.lib.base.data.WeChatTweetBeen
@@ -140,7 +141,6 @@ class TweetListActivity(
             }
             mCanLoadMore = true
         })
-
         registerForContextMenu(tweet_list_camera_iv)
 
         tweet_list_camera_iv.setOnClickListener { showToast("TAKE PHOTO") }

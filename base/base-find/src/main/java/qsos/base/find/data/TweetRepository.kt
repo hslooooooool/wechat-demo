@@ -12,37 +12,38 @@ import qsos.lib.netservice.file.BaseRepository
 /**
  * @author : 华清松
  * @description : 聊天数据获取
+ * TweetRepository 内部中 MutableLiveData 的对象必须为 val 不可变对象，防止外部篡改，外部仅观察数据。
  */
 @SuppressLint("CheckResult")
 class TweetRepository : ITweetRepo, BaseRepository() {
     /**推特列表数据*/
-    val dataWeChatTweetList = MutableLiveData<List<WeChatTweetBeen>>()
+    val dataTweetList = MutableLiveData<List<WeChatTweetBeen>>()
+
     /**用户数据*/
-    val dataWeChatUserInfo = MutableLiveData<WeChatUserBeen>()
+    val dataUserInfo = MutableLiveData<WeChatUserBeen>()
 
     override fun getUserInfo() {
         ObservableService.setObservable(
                 ApiEngine.createService(ApiTweet::class.java).getUserInfo()
         ).subscribe(
                 {
-                    dataWeChatUserInfo.postValue(it)
+                    dataUserInfo.postValue(it)
                 },
                 {
-                    dataWeChatUserInfo.postValue(WeChatUserBeen())
+                    dataUserInfo.postValue(WeChatUserBeen())
                 }
         )
     }
 
     override fun getTweetList() {
-        val temValue = dataWeChatTweetList.value
-        // NOTICE Load all tweets in memory at first time, and get 5 of them each time from memory asynchronously
+        val temValue = dataTweetList.value
         if (!temValue.isNullOrEmpty()) {
             if (temValue.size > 5) {
                 // 异步加载5条数据到列表刷新
-                dataWeChatTweetList.postValue(temValue.subList(0, 5))
+                dataTweetList.postValue(temValue.subList(0, 5))
             } else {
                 // 不足5条全部加载
-                dataWeChatTweetList.postValue(temValue)
+                dataTweetList.postValue(temValue)
             }
         } else {
             ObservableService.setObservable(
@@ -61,10 +62,10 @@ class TweetRepository : ITweetRepo, BaseRepository() {
                                 data.add(tweet)
                             }
                         }
-                        dataWeChatTweetList.postValue(data)
+                        dataTweetList.postValue(data)
                     },
                     {
-                        dataWeChatTweetList.postValue(arrayListOf())
+                        dataTweetList.postValue(arrayListOf())
                     }
             )
         }
