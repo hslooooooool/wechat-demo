@@ -3,11 +3,11 @@ package qsos.base.find.data
 import android.annotation.SuppressLint
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
+import qsos.lib.base.data.HttpLiveData
 import qsos.lib.base.data.WeChatTweetBeen
 import qsos.lib.base.data.WeChatUserBeen
 import qsos.lib.netservice.ApiEngine
 import qsos.lib.netservice.ObservableService
-import qsos.lib.netservice.file.BaseRepository
 
 /**
  * @author : 华清松
@@ -15,12 +15,12 @@ import qsos.lib.netservice.file.BaseRepository
  * TweetRepository 内部中 MutableLiveData 的对象必须为 val 不可变对象，防止外部篡改，外部仅观察数据。
  */
 @SuppressLint("CheckResult")
-class TweetRepository : ITweetRepo, BaseRepository() {
+class TweetRepository : ITweetRepo {
     /**推特列表数据*/
-    val dataTweetList = MutableLiveData<List<WeChatTweetBeen>>()
+    val dataTweetList = HttpLiveData<List<WeChatTweetBeen>>()
 
     /**用户数据*/
-    val dataUserInfo = MutableLiveData<WeChatUserBeen>()
+    val dataUserInfo = HttpLiveData<WeChatUserBeen>()
 
     override fun getUserInfo() {
         ObservableService.setObservable(

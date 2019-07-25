@@ -5,7 +5,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import qsos.lib.base.data.BaseResult
+import qsos.lib.base.data.BaseHttpResult
 
 /**
  * @author 华清松
@@ -14,7 +14,7 @@ import qsos.lib.base.data.BaseResult
 object ObservableService {
 
     /**设置统一的请求处理，结果数据标准化*/
-    fun <T> setObservableBase(observable: Observable<BaseResult<T>>): Observable<T> {
+    fun <T> setObservableBase(observable: Observable<BaseHttpResult<T>>): Observable<T> {
         return observable.map(ApiResponseFunc())
                 .onErrorResumeNext(HttpErrorFunc())
                 .subscribeOn(Schedulers.io())
@@ -28,7 +28,7 @@ object ObservableService {
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun <T> setFlowableBaseResult(observable: Flowable<BaseResult<T>>): Flowable<T> {
+    fun <T> setFlowableBaseResult(observable: Flowable<BaseHttpResult<T>>): Flowable<T> {
         return observable.map(ApiResponseFunc())
                 .onErrorResumeNext(HttpErrorFunctionFlowable<T>())
                 .subscribeOn(Schedulers.io())

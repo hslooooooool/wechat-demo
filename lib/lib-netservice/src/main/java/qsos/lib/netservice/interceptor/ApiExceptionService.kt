@@ -1,23 +1,31 @@
 package qsos.lib.netservice.interceptor
 
+import android.net.ParseException
+import com.google.gson.JsonParseException
 import io.reactivex.observers.DisposableObserver
-import qsos.lib.base.data.http.ApiException
-import qsos.lib.base.data.http.HttpCode
-import qsos.lib.netservice.file.HttpResult
+import org.json.JSONException
+import qsos.lib.base.data.GlobalException
+import qsos.lib.netservice.BaseHttpResult
+import qsos.lib.netservice.HttpResult
+import retrofit2.HttpException
+import java.net.ConnectException
+import java.net.SocketTimeoutException
 
 /**
  * @author 华清松
- * @doc 类说明：请求错误处理类
+ * 网络请求错误处理类
  */
 abstract class ApiExceptionService<T> : DisposableObserver<T>() {
 
     protected abstract fun onError(it: HttpResult)
 
     override fun onError(e: Throwable) {
-        if (e is ApiException) {
-            onError(HttpResult(e.code, e.msg))
-        } else {
-            onError(HttpResult(HttpCode.UNKNOWN, "未知异常"))
+        when (e) {
+            is SocketTimeoutException -> onError(BaseHttpResult())
+            is JsonParseException, is JSONException, is ParseException -> onError(BaseHttpResult())
+            is GlobalException.ServerException -> onError(BaseHttpResult(e.code, e.msg))
+            is HttpException, is ConnectException, is NullPointerException -> throw e
+            else -> throw e
         }
     }
 }

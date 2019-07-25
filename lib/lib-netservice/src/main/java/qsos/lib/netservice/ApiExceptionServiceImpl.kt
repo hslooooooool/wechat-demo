@@ -25,8 +25,8 @@ object ApiExceptionServiceImpl {
         } else if (e is HttpException) {
             // HTTP错误
             ex = when (e.code()) {
-                HttpCode.UNAUTHORIZED.value -> ApiException(e, HttpCode.UNAUTHORIZED, "认证失败")
-                HttpCode.NOT_FOUND.value -> ApiException(e, HttpCode.NOT_FOUND, "找不到服务器")
+                HttpCode.UNAUTHORIZED.code -> ApiException(e, HttpCode.UNAUTHORIZED, "认证失败")
+                HttpCode.NOT_FOUND.code -> ApiException(e, HttpCode.NOT_FOUND, "找不到服务器")
                 else -> ApiException(e, HttpCode.SERVER_ERROR, "服务器错误")
             }
         } else if (e is ServerException) {

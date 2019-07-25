@@ -4,9 +4,7 @@ package qsos.lib.base.data.http
  * @author : 华清松
  * @description : 网络请求码类型
  */
-enum class HttpCode(code: Int) {
-    /*规定的*/
-
+enum class HttpCode(val code: Int) {
     /**200*/
     SUCCESS(200),
     /**401 授权失败*/
@@ -39,6 +37,4 @@ enum class HttpCode(code: Int) {
     NULL_POINT(3),
     /**返回数据为 null，暂无数据*/
     RESULT_NULL(4);
-
-    val value = code
 }

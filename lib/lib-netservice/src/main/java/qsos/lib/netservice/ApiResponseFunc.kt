@@ -1,30 +1,31 @@
 package qsos.lib.netservice
 
 import io.reactivex.functions.Function
-import qsos.lib.base.data.Result
+import qsos.lib.base.data.GlobalException
+import qsos.lib.base.data.IHttpResult
 import qsos.lib.base.data.http.ApiException
 import qsos.lib.base.data.http.HttpCode
 import qsos.lib.base.data.http.ServerException
 
 /**
  * @author : 华清松
- * @description : 拦截固定格式的公共数据类型 Response<T>,判断里面状态码 <T>
+ * 拦截固定格式的公共数据类型 HttpResult<T>,判断里面状态码 httpCode
  */
-class ApiResponseFunc<T> : Function<Result<T>, T> {
+class ApiResponseFunc<T> : Function<IHttpResult<T>, T> {
 
     @Throws(ApiException::class)
-    override fun apply(result: Result<T>): T {
-        if (result.isError()) {
-            throw ServerException(result.getResultCode(), result.getResultMsg())
+    override fun apply(mHttpResult: IHttpResult<T>): T {
+        if (mHttpResult.httpSuccess()) {
+            throw GlobalException.ServerException(mHttpResult.httpCode(), mHttpResult.httpMsg())
         }
-        when (result.getResultCode()) {
+        when (mHttpResult.httpCode()) {
             // 服务器错误码,统一处理
-            401 -> throw ApiException(ServerException(result.getResultCode(), result.getResultMsg()), HttpCode.UNAUTHORIZED, "认证失败")
-            400, 404, 500 -> throw ApiException(ServerException(result.getResultCode(), result.getResultMsg()), HttpCode.SERVER_ERROR, result.getResultMsg())
+            401 -> throw ApiException(ServerException(mHttpResult.httpCode(), mHttpResult.httpMsg()), HttpCode.UNAUTHORIZED, "认证失败")
+            400, 404, 500 -> throw ApiException(ServerException(mHttpResult.httpCode(), mHttpResult.httpMsg()), HttpCode.SERVER_ERROR, mHttpResult.httpMsg())
         }
-        if (result.getResultCode() == 200 && result.getResult() == null) {
-            return result.getResultMsg() as T
+        if (mHttpResult.httpCode() == 200 && mHttpResult.httpResult() == null) {
+            return mHttpResult.httpMsg() as T
         }
-        return result.getResult()!!
+        return mHttpResult.httpResult()!!
     }
 }

@@ -58,10 +58,6 @@ dependencies {
     // Log and Test
     api deps.timber
 
-    // 上拉加载下拉刷新
-    api deps.smartrefresh
-    api deps.smartrefresh_header
-
     // Lifecycle
     api deps.lifecycle.runtime
     api deps.lifecycle.extensions

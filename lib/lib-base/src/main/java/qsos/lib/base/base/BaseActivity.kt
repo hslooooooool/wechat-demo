@@ -5,16 +5,15 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
-import com.tbruyelle.rxpermissions2.RxPermissions
 import com.yanzhenjie.sofia.Bar
 import com.yanzhenjie.sofia.Sofia
-import org.reactivestreams.Subscription
 import qsos.lib.base.R
 import qsos.lib.base.data.http.HttpCode
+import qsos.lib.base.helper.GlobalExceptionHelper
 import qsos.lib.base.utils.LogUtil
 import qsos.lib.base.utils.ToastUtils
 import qsos.lib.base.utils.activity.ActivityUtils
@@ -86,6 +85,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
             setContentView(layoutId!!)
             initView()
         }
+
     }
 
     override fun onStart() {

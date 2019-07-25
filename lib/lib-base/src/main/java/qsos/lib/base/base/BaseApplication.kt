@@ -5,6 +5,7 @@ import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import com.alibaba.android.arouter.launcher.ARouter
 import qsos.lib.base.BuildConfig
+import qsos.lib.base.helper.GlobalExceptionHelper
 import qsos.lib.base.utils.data.SharedPreUtils
 import timber.log.Timber
 import timber.log.Timber.DebugTree
@@ -24,14 +25,17 @@ open class BaseApplication : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         appContext = this
-        /*阿里路由配置*/
+        /**阿里路由配置*/
         if (BuildConfig.DEBUG) {
             ARouter.openLog()
             ARouter.openDebug()
         }
         ARouter.init(this)
 
-        /*Timber 日志*/
+        /**全局异常捕获处理*/
+        Thread.setDefaultUncaughtExceptionHandler(GlobalExceptionHelper)
+
+        /**Timber 日志*/
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         }

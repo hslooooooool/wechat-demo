@@ -8,6 +8,7 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import qsos.lib.base.data.HttpLiveData
 import qsos.lib.base.data.http.UDFileEntity
 import qsos.lib.base.utils.LogUtil
 import qsos.lib.base.utils.file.FileUtils
@@ -20,7 +21,7 @@ import java.math.BigDecimal
  * @description : 文件服务
  */
 @SuppressLint("CheckResult")
-class FileRepository  : IFileModel, BaseRepository() {
+class FileRepository : IFileModel {
 
     override fun downloadFile(fileEntity: UDFileEntity) {
         if (TextUtils.isEmpty(fileEntity.url)) {
@@ -116,7 +117,7 @@ class FileRepository  : IFileModel, BaseRepository() {
         }
     }
 
-    val dataUploadFile = MutableLiveData<UDFileEntity>()
-    val dataDownloadFile = MutableLiveData<UDFileEntity>()
+    val dataUploadFile = HttpLiveData<UDFileEntity>()
+    val dataDownloadFile = HttpLiveData<UDFileEntity>()
 
 }

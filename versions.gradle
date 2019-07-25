@@ -117,8 +117,8 @@ deps.robolectric = "org.robolectric:robolectric:4.2"
 
 def build_versions = [:]
 build_versions.SDK_MIN = 17
-build_versions.SDK_TARGET = 29
-build_versions.SDK_COMPILE = 29
+build_versions.SDK_TARGET = 28
+build_versions.SDK_COMPILE = 28
 ext.build_versions = build_versions
 
 def work = [:]

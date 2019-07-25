@@ -1,7 +1,5 @@
 package qsos.lib.base.data.http
 
-import qsos.lib.base.data.BaseHttpEntity
-
 /**
  * @author : 华清松
  * @description : 上传下载文件进度
@@ -15,7 +13,8 @@ data class UDFileEntity(
         var filename: String?,
         /**百分比进度*/
         var progress: Int = 0
-) : BaseHttpEntity() {
+) {
+    var id: String? = null
     /**伴随携带的数据，用于数据传递使用，比如发送消息中的文件时，文件上传成功返回结果时，可通过value得知是哪条消息的文件上传成功*/
     var adjoint: Any? = null
     /**文件类型*/
