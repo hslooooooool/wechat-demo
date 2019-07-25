@@ -32,6 +32,7 @@ object GlobalExceptionHelper : Thread.UncaughtExceptionHandler {
         }
     }
 
+    /**错误码详见 @see https://blog.csdn.net/Gjc_csdn/article/details/80449996 */
     private fun handleHttpException(e: HttpException) {
         Timber.tag("网络服务异常").w(e.message())
         when (e.code()) {
