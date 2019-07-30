@@ -20,8 +20,8 @@ class ApiResponseFunc<T> : Function<IHttpResult<T>, T> {
         }
         when (mHttpResult.httpCode()) {
             // 服务器错误码,统一处理
-            401 -> throw ApiException(ServerException(mHttpResult.httpCode(), mHttpResult.httpMsg()), HttpCode.UNAUTHORIZED, "认证失败")
-            400, 404, 500 -> throw ApiException(ServerException(mHttpResult.httpCode(), mHttpResult.httpMsg()), HttpCode.SERVER_ERROR, mHttpResult.httpMsg())
+            401 -> throw ApiException(ServerException(mHttpResult.httpCode(), mHttpResult.httpMsg()), HttpCode.UNAUTHORIZED.code, "认证失败")
+            400, 404, 500 -> throw ApiException(ServerException(mHttpResult.httpCode(), mHttpResult.httpMsg()), HttpCode.SERVER_ERROR.code, mHttpResult.httpMsg())
         }
         if (mHttpResult.httpCode() == 200 && mHttpResult.httpResult() == null) {
             return mHttpResult.httpMsg() as T

@@ -25,16 +25,16 @@ enum class HttpCode(val code: Int) {
     GATEWAY_TIMEOUT(504),
 
     /*自定义的*/
-    /**未知错误*/
-    UNKNOWN(-1),
     /**请求中*/
     LOADING(0),
+    /**未知错误*/
+    UNKNOWN(-1),
     /**数据解析错误*/
-    DATA_PARSE(1),
+    DATA_PARSE(-2),
     /**没有网络*/
-    NOT_NETWORK(2),
+    NOT_NETWORK(-3),
     /**空指针异常*/
-    NULL_POINT(3),
+    NULL_POINT(-4),
     /**返回数据为 null，暂无数据*/
-    RESULT_NULL(4);
+    RESULT_NULL(-5);
 }

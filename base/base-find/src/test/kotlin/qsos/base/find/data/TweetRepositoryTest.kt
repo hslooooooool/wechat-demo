@@ -1,9 +1,13 @@
 package qsos.base.find.data
 
+import android.text.TextUtils
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import org.junit.Before
 import org.junit.Test
@@ -13,6 +17,7 @@ import qsos.lib.base.data.WeChatUserBeen
 import qsos.lib.base.utils.RxTestUtils
 import qsos.lib.base.utils.date.DateDeserializer
 import qsos.lib.base.utils.date.DateSerializer
+import qsos.lib.netservice.ApiEngine
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
@@ -41,6 +46,31 @@ class TweetRepositoryTest {
                 .addConverterFactory(mGSonConverterFactory)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(mClient.build())
+    }
+
+    @Test
+    fun getTweet() = runBlocking {
+        launch {
+            val tweets = ApiEngine.createService(ApiTweet::class.java).getTweet().await()
+
+            val data = arrayListOf<WeChatTweetBeen>()
+            tweets.forEach { tweet ->
+                if (!tweet.images.isNullOrEmpty() && !TextUtils.isEmpty(tweet.content)) {
+                    tweet.comments?.forEach { comment ->
+                        if (TextUtils.isEmpty(comment.content)) {
+                            tweet.comments!!.remove(comment)
+                        }
+                    }
+                    data.add(tweet)
+                }
+            }
+
+            assert(tweets.isNotEmpty())
+            assert(data.isNotEmpty())
+
+            System.out.println("数量：" + tweets.size)
+            System.out.println(data.size)
+        }
     }
 
     @Test

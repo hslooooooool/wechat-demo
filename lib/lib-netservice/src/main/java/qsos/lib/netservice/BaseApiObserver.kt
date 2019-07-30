@@ -15,12 +15,12 @@ import timber.log.Timber
 open class BaseApiObserver<T>(private val httpResult: MutableLiveData<HttpResult>) : ApiExceptionService<T>() {
 
     override fun onNext(it: T) {
-        httpResult.postValue(BaseHttpResult(HttpCode.SUCCESS, "请求成功"))
+        httpResult.postValue(BaseHttpResult(HttpCode.SUCCESS.code, "请求成功"))
         Timber.tag("网络请求：").d("onNext: 请求结果= ${Gson().toJson(it)}")
     }
 
     override fun onError(it: HttpResult) {
-        if (it.httpCode == HttpCode.UNAUTHORIZED) {
+        if (it.httpCode == HttpCode.UNAUTHORIZED.code) {
             ToastUtils.showToast(BaseApplication.appContext, "请重新登录")
         } else {
             httpResult.postValue(it)
@@ -34,7 +34,7 @@ open class BaseApiObserver<T>(private val httpResult: MutableLiveData<HttpResult
     }
 
     override fun onStart() {
-        httpResult.postValue(BaseHttpResult(HttpCode.LOADING, "请求中..."))
+        httpResult.postValue(BaseHttpResult(HttpCode.LOADING.code, "请求中..."))
         Timber.tag("网络请求：").d("onStart: 开始请求")
     }
 

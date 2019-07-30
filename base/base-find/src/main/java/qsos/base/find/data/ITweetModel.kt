@@ -1,6 +1,6 @@
 package qsos.base.find.data
 
-import androidx.lifecycle.LiveData
+import qsos.lib.base.data.HttpLiveData
 import qsos.lib.base.data.WeChatTweetBeen
 import qsos.lib.base.data.WeChatUserBeen
 
@@ -11,10 +11,10 @@ import qsos.lib.base.data.WeChatUserBeen
 interface ITweetModel {
 
     /**获取用户信息*/
-    fun dataUserInfo(): LiveData<WeChatUserBeen>
+    fun dataUserInfo(): HttpLiveData<WeChatUserBeen>
 
     /**获取Tweet列表*/
-    fun dataTweetList(): LiveData<List<WeChatTweetBeen>>
+    fun dataTweetList(): HttpLiveData<List<WeChatTweetBeen>>
 
 }
 

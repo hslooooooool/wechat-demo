@@ -10,6 +10,12 @@ kapt {
         arg("room.schemaLocation", "$projectDir/schemas".toString())
     }
 }
+kotlin {
+    experimental {
+        // 开启kotlin协程
+        coroutines 'enable'
+    }
+}
 
 android {
     compileSdkVersion build_versions.SDK_COMPILE

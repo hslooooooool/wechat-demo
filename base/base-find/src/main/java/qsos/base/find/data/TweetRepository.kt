@@ -2,7 +2,6 @@ package qsos.base.find.data
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
-import androidx.lifecycle.MutableLiveData
 import qsos.lib.base.data.HttpLiveData
 import qsos.lib.base.data.WeChatTweetBeen
 import qsos.lib.base.data.WeChatUserBeen

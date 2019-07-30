@@ -18,7 +18,6 @@ import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import kotlinx.android.synthetic.main.find_activity_tweet_list.*
 import qsos.base.find.R
 import qsos.base.find.data.TweetModelIml
-import qsos.base.find.data.TweetRepository
 import qsos.base.find.view.adapter.TweetAdapter
 import qsos.core.lib.view.BaseModuleActivity
 import qsos.lib.base.data.WeChatTweetBeen
@@ -51,7 +50,7 @@ class TweetListActivity(
     private lateinit var mToolbarBack: Drawable
 
     override fun initData(savedInstanceState: Bundle?) {
-        mTweetModel = ViewModelProviders.of(this).get(TweetModelIml::class.java)
+        mTweetModel = ViewModelProviders.of(this).get(TweetModelIml(coroutineContext)::class.java)
     }
 
     override fun initView() {
@@ -118,6 +117,10 @@ class TweetListActivity(
                     R.drawable.bg_cadet_blue, R.drawable.bg_cadet_blue)
             tweet_list_head_name_tv.text = userBeen.nick
         })
+        mTweetModel.dataUserInfo().httpState.observe(this, Observer {
+
+        })
+
         /**观测推特数据更新*/
         mTweetModel.dataTweetList().observe(this, Observer { tweets ->
             tweet_list_srl.finishLoadMore()
@@ -141,12 +144,19 @@ class TweetListActivity(
             }
             mCanLoadMore = true
         })
+        mTweetModel.dataTweetList().httpState.observe(this, Observer {
+
+        })
+
         registerForContextMenu(tweet_list_camera_iv)
 
         tweet_list_camera_iv.setOnClickListener { showToast("TAKE PHOTO") }
     }
 
-    override fun getData() {}
+    override fun getData() {
+        mTweetModel.getUser()
+        mTweetModel.getTweet()
+    }
 
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         menu?.add(0, 1, 0, "LIVE")
