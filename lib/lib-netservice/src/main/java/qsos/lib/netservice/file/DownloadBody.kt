@@ -4,6 +4,7 @@ import okhttp3.MediaType
 import okhttp3.ResponseBody
 import okio.*
 import java.io.IOException
+import java.math.BigDecimal
 
 /**
  * @author : 华清松
@@ -51,8 +52,17 @@ class DownloadBody(
                 val bytesRead = super.read(sink, byteCount)
                 // 增加当前读取的字节数，如果读取完成了bytesRead会返回-1
                 totalBytesRead += if (bytesRead != -1L) bytesRead else 0L
+                val mProgress = if (bytesRead == -1L) {
+                    100
+                } else {
+                    val temLength = BigDecimal(totalBytesRead * 100 / contentLength())
+                            .setScale(2, BigDecimal.ROUND_HALF_UP).toInt()
+
+                    if (temLength >= 100) 99 else temLength
+                }
+                // 进度回调
+                listener?.progress(mProgress, contentLength(), mProgress == 100)
                 // 回调，如果 contentLength() 不知道长度，会返回-1
-                listener?.progress(totalBytesRead, responseBody.contentLength(), bytesRead == -1L)
                 return bytesRead
             }
         }

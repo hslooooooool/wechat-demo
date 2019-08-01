@@ -2,7 +2,6 @@ package qsos.lib.netservice.file
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
-import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType
@@ -10,11 +9,9 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import qsos.lib.base.data.HttpLiveData
 import qsos.lib.base.data.http.UDFileEntity
-import qsos.lib.base.utils.LogUtil
 import qsos.lib.base.utils.file.FileUtils
 import qsos.lib.netservice.ApiEngine
 import qsos.lib.netservice.ObservableService
-import java.math.BigDecimal
 
 /**
  * @author : 华清松
@@ -31,23 +28,7 @@ class FileRepository : IFileModel {
             val saveName = fileEntity.filename ?: FileUtils.getFileNameByUrl(fileEntity.url)
             val savePath = "${FileUtils.CHAT_PATH}/$saveName"
 
-            ApiEngine.createDownloadService(
-                    ApiDownloadFile::class.java,
-                    object : ProgressListener {
-                        override fun progress(progress: Long, total: Long, done: Boolean) {
-                            val mProgress = if (done) {
-                                100
-                            } else {
-                                BigDecimal(progress * 100 / total)
-                                        .setScale(2, BigDecimal.ROUND_HALF_UP)
-                                        .toInt()
-                            }
-                            fileEntity.path = savePath
-                            fileEntity.filename = saveName
-                            fileEntity.progress = mProgress
-                            dataDownloadFile.postValue(fileEntity)
-                        }
-                    }).downloadFile(fileEntity.url!!)
+            ApiEngine.createDownloadService(ApiDownloadFile::class.java).downloadFile(fileEntity.url!!)
                     .subscribeOn(Schedulers.io())
                     .map {
                         FileUtils.writeBodyToFile(savePath, it)
@@ -68,6 +49,7 @@ class FileRepository : IFileModel {
     }
 
     override fun uploadFile(fileEntity: UDFileEntity) {
+        dataUploadFile.postValue(fileEntity)
         if (TextUtils.isEmpty(fileEntity.path)) {
             fileEntity.progress = -1
             dataUploadFile.postValue(fileEntity)
@@ -78,27 +60,16 @@ class FileRepository : IFileModel {
                 dataUploadFile.postValue(fileEntity)
             } else {
                 val requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), uploadFile)
-                val part = MultipartBody.Part.createFormData("file", uploadFile.name, requestBody)
+                val uploadBody = UploadBody(requestBody, object : ProgressListener {
+                    override fun progress(progress: Int, length: Long, success: Boolean) {
+                        fileEntity.progress = progress
+                        fileEntity.loadSuccess = false
+                        dataUploadFile.postValue(fileEntity)
+                    }
+                })
+                val part = MultipartBody.Part.createFormData("file", uploadFile.name, uploadBody)
                 ObservableService.setFlowableBaseResult(
-                        ApiEngine.createUploadService(ApiUploadFile::class.java, object : ProgressListener {
-                            override fun progress(progress: Long, total: Long, done: Boolean) {
-                                val mProgress = if (done) {
-                                    100
-                                } else {
-                                    BigDecimal(progress * 100 / total)
-                                            .setScale(2, BigDecimal.ROUND_HALF_UP)
-                                            .toInt()
-                                }
-                                fileEntity.progress = mProgress
-                                when (mProgress) {
-                                    -1 -> LogUtil.i("上传失败")
-                                    100 -> LogUtil.i("上传成功")
-                                    else -> LogUtil.i("上传中 $mProgress %")
-                                }
-                                dataUploadFile.postValue(fileEntity)
-                            }
-                        })
-                                .uploadFile(part)
+                        ApiEngine.createUploadService(ApiUploadFile::class.java).uploadFile(part)
                 ).subscribe(
                         {
                             it.progress = 100
@@ -110,6 +81,7 @@ class FileRepository : IFileModel {
                             fileEntity.id = null
                             fileEntity.url = null
                             fileEntity.progress = -1
+                            fileEntity.loadSuccess = false
                             dataUploadFile.postValue(fileEntity)
                         }
                 )

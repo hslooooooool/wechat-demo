@@ -9,16 +9,59 @@ import retrofit2.Call
 import java.io.IOException
 import java.net.ConnectException
 
+class ECoroutineScope {
+
+    class RetrofitCoroutineDsl<ResultType> {
+        var api: (Call<ResultType>)? = null
+
+        /**请求开始*/
+        var onStart: (() -> Unit)? = null
+            private set
+        /**请求成功*/
+        var onSuccess: ((ResultType?) -> Unit)? = null
+            private set
+        /**请求完成*/
+        var onComplete: (() -> Unit)? = null
+            private set
+        /**请求失败*/
+        var onFailed: ((code: Int, error: String) -> Unit)? = null
+            private set
+
+        fun clean() {
+            onStart = null
+            onSuccess = null
+            onComplete = null
+            onFailed = null
+        }
+
+        fun onStart(block: () -> Unit) {
+            this.onStart = block
+        }
+
+        fun onSuccess(block: (ResultType?) -> Unit) {
+            this.onSuccess = block
+        }
+
+        fun onComplete(block: () -> Unit) {
+            this.onComplete = block
+        }
+
+        fun onFailed(block: (code: Int, error: String) -> Unit) {
+            this.onFailed = block
+        }
+
+    }
+}
+
 /**
  * @author : 华清松
  * @description : Retrofit协程请求
  */
 fun <ResultType> CoroutineScope.retrofit(
-        // 传递方法
-        dsl: RetrofitCoroutineDsl<ResultType>.() -> Unit
+        dsl: ECoroutineScope.RetrofitCoroutineDsl<ResultType>.() -> Unit
 ) {
     this.launch(Dispatchers.Main) {
-        val retrofitCoroutine = RetrofitCoroutineDsl<ResultType>()
+        val retrofitCoroutine = ECoroutineScope.RetrofitCoroutineDsl<ResultType>()
         retrofitCoroutine.dsl()
         retrofitCoroutine.api?.let { api ->
             // IO线程执行网络请求
@@ -63,44 +106,4 @@ fun <ResultType> CoroutineScope.retrofit(
     }
 }
 
-class RetrofitCoroutineDsl<ResultType> {
-    var api: (Call<ResultType>)? = null
-
-    /**请求开始*/
-    var onStart: (() -> Unit)? = null
-        private set
-    /**请求成功*/
-    var onSuccess: ((ResultType?) -> Unit)? = null
-        private set
-    /**请求完成*/
-    var onComplete: (() -> Unit)? = null
-        private set
-    /**请求失败*/
-    var onFailed: ((code: Int, error: String) -> Unit)? = null
-        private set
-
-    fun clean() {
-        onStart = null
-        onSuccess = null
-        onComplete = null
-        onFailed = null
-    }
-
-    fun onStart(block: () -> Unit) {
-        this.onStart = block
-    }
-
-    fun onSuccess(block: (ResultType?) -> Unit) {
-        this.onSuccess = block
-    }
-
-    fun onComplete(block: () -> Unit) {
-        this.onComplete = block
-    }
-
-    fun onFailed(block: (code: Int, error: String) -> Unit) {
-        this.onFailed = block
-    }
-
-}
 

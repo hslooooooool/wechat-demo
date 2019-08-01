@@ -7,8 +7,8 @@ package qsos.lib.netservice.file
 interface ProgressListener {
 
     /**@param progress 已有长度
-     * @param total 总长度
-     * @param done 是否完成
+     * @param length 总长度
+     * @param success 是否完成
      */
-    fun progress(progress: Long, total: Long, done: Boolean)
+    fun progress(progress: Int, length: Long, success: Boolean)
 }

@@ -14,6 +14,7 @@ import qsos.lib.base.helper.GlobalExceptionHelper
  * @description : Application 类，此类被替换了怎么办？TODO
  */
 open class AppApplication : ModelApplication(), LifecycleOwner {
+
     override fun getLifecycle(): Lifecycle {
         return LifecycleRegistry(this)
     }

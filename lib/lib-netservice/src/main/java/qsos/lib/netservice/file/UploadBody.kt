@@ -4,7 +4,7 @@ import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.*
 import java.io.IOException
-
+import java.math.BigDecimal
 
 /**
  * @author : 华清松
@@ -60,8 +60,16 @@ class UploadBody(
                 super.write(source, byteCount)
                 // 增加当前写入的字节数
                 bytesWritten += byteCount
+                val mProgress = if (bytesWritten == contentLength) {
+                    100
+                } else {
+                    val temLength = BigDecimal(bytesWritten * 100 / contentLength)
+                            .setScale(2, BigDecimal.ROUND_HALF_UP).toInt()
+
+                    if (temLength >= 100) 99 else temLength
+                }
                 // 进度回调
-                listener?.progress(bytesWritten, contentLength, bytesWritten == contentLength)
+                listener?.progress(mProgress, contentLength, mProgress == 100)
             }
         }
     }
