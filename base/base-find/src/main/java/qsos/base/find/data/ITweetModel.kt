@@ -11,10 +11,10 @@ import qsos.lib.base.data.WeChatUserBeen
 interface ITweetModel {
 
     /**获取用户信息*/
-    fun dataUserInfo(): HttpLiveData<WeChatUserBeen>
+    fun getUserInfo()
 
     /**获取Tweet列表*/
-    fun dataTweetList(): HttpLiveData<List<WeChatTweetBeen>>
+    fun getTweetList()
 
 }
 

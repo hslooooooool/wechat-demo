@@ -5,6 +5,6 @@
         <activity
             android:name="qsos.base.find.view.activity.TweetListActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
+            />
     </application>
 </manifest>

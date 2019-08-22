@@ -92,6 +92,8 @@ dependencies {
     api deps.kotlin.stdlib
     kapt deps.arouter_compiler
     kapt deps.room.compiler
+    kapt deps.lifecycle.compiler
+    annotationProcessor deps.lifecycle.compiler
 }
 
 repositories {

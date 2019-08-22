@@ -50,7 +50,7 @@ class TweetListActivity(
     private lateinit var mToolbarBack: Drawable
 
     override fun initData(savedInstanceState: Bundle?) {
-        mTweetModel = ViewModelProviders.of(this).get(TweetModelIml(coroutineContext)::class.java)
+        mTweetModel = ViewModelProviders.of(this).get(TweetModelIml::class.java)
     }
 
     override fun initView() {
@@ -107,7 +107,7 @@ class TweetListActivity(
         })
 
         /**观测用户数据更新*/
-        mTweetModel.dataUserInfo().observe(this, Observer { userBeen ->
+        mTweetModel.mTweetRepository.mDataUserInfo.observe(this, Observer { userBeen ->
             tweet_list_srl.finishRefresh()
             // 加载头像
             ImageLoaderUtils.displayRounded(mContext!!, tweet_list_head_avatar_iv, userBeen.avatar)
@@ -117,12 +117,10 @@ class TweetListActivity(
                     R.drawable.bg_cadet_blue, R.drawable.bg_cadet_blue)
             tweet_list_head_name_tv.text = userBeen.nick
         })
-        mTweetModel.dataUserInfo().httpState.observe(this, Observer {
 
-        })
 
         /**观测推特数据更新*/
-        mTweetModel.dataTweetList().observe(this, Observer { tweets ->
+        mTweetModel.mTweetRepository.mDataTweetList.observe(this, Observer { tweets ->
             tweet_list_srl.finishLoadMore()
 
             if (mDataLoadType < 2) {
@@ -144,9 +142,6 @@ class TweetListActivity(
             }
             mCanLoadMore = true
         })
-        mTweetModel.dataTweetList().httpState.observe(this, Observer {
-
-        })
 
         registerForContextMenu(tweet_list_camera_iv)
 
@@ -154,8 +149,8 @@ class TweetListActivity(
     }
 
     override fun getData() {
-        mTweetModel.getUser()
-        mTweetModel.getTweet()
+        mTweetModel.getUserInfo()
+        mTweetModel.getTweetList()
     }
 
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {

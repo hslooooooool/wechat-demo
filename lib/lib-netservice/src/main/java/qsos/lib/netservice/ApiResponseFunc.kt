@@ -15,7 +15,7 @@ class ApiResponseFunc<T> : Function<IHttpResult<T>, T> {
 
     @Throws(ApiException::class)
     override fun apply(mHttpResult: IHttpResult<T>): T {
-        if (mHttpResult.httpSuccess()) {
+        if (!mHttpResult.httpSuccess()) {
             throw GlobalException.ServerException(mHttpResult.httpCode(), mHttpResult.httpMsg())
         }
         when (mHttpResult.httpCode()) {

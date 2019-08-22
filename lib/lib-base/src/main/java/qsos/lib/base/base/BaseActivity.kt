@@ -2,7 +2,6 @@ package qsos.lib.base.base
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.inputmethod.InputMethodManager
@@ -10,27 +9,19 @@ import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.launcher.ARouter
 import com.yanzhenjie.sofia.Bar
 import com.yanzhenjie.sofia.Sofia
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import qsos.lib.base.R
 import qsos.lib.base.data.http.HttpCode
 import qsos.lib.base.utils.LogUtil
 import qsos.lib.base.utils.ToastUtils
 import qsos.lib.base.utils.activity.ActivityUtils
-import kotlin.coroutines.CoroutineContext
 
 /**
  * @author : 华清松
  * @description : Base Activity
  */
-abstract class BaseActivity : AppCompatActivity(), BaseView, CoroutineScope {
+abstract class BaseActivity : AppCompatActivity(), BaseView {
 
     lateinit var mSofia: Bar
-    lateinit var job: Job
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
 
     final override var mContext: Context? = null
         protected set(value) {
@@ -76,14 +67,11 @@ abstract class BaseActivity : AppCompatActivity(), BaseView, CoroutineScope {
         super.onCreate(bundle)
         mContext = this
         mSofia = Sofia.with(this)
-        // 全部竖屏显示
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        // FIXME 全部竖屏显示 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         ARouter.getInstance().inject(this)
 
         ActivityUtils.instance.addActivity(this)
-
-        job = Job()
 
         initData(bundle)
 
@@ -129,8 +117,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseView, CoroutineScope {
     override fun onDestroy() {
         LogUtil.i("销毁:$localClassName")
         super.onDestroy()
-        // 清除协程内的请求
-        job.cancel()
         ActivityUtils.instance.finishSingle(this)
     }
 

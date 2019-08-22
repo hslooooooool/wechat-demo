@@ -95,8 +95,10 @@ fun <ResultType> CoroutineScope.retrofit(
                     // NOTICE 统一处理 HTTP CODE
                     when (response.code()) {
                         401 -> {
+                            // 授权失败或未授权，一般需要登录
                         }
                         500 -> {
+                            // 服务器报错，一般有错误信息提示
                         }
                     }
                     retrofitCoroutine.onFailed?.invoke(response.code(), response.errorBody().toString())
