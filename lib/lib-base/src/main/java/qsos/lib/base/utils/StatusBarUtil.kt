@@ -216,7 +216,8 @@ object StatusBarUtil {
         if (Build.VERSION.SDK_INT >= MIN_API) {
             val lp = view.layoutParams
             if (lp != null && lp.height > 0) {
-                lp.height += getStatusBarHeight(context)//增高
+                //增高
+                lp.height += getStatusBarHeight(context)
             }
             view.setPadding(view.paddingLeft, view.paddingTop + getStatusBarHeight(context),
                     view.paddingRight, view.paddingBottom)

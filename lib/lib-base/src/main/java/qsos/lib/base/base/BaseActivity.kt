@@ -7,8 +7,6 @@ import android.text.TextUtils
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.launcher.ARouter
-import com.yanzhenjie.sofia.Bar
-import com.yanzhenjie.sofia.Sofia
 import qsos.lib.base.R
 import qsos.lib.base.data.http.HttpCode
 import qsos.lib.base.utils.LogUtil
@@ -20,8 +18,6 @@ import qsos.lib.base.utils.activity.ActivityUtils
  * @description : Base Activity
  */
 abstract class BaseActivity : AppCompatActivity(), BaseView {
-
-    lateinit var mSofia: Bar
 
     final override var mContext: Context? = null
         protected set(value) {
@@ -66,7 +62,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         LogUtil.i("创建:$localClassName")
         super.onCreate(bundle)
         mContext = this
-        mSofia = Sofia.with(this)
         // FIXME 全部竖屏显示 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         ARouter.getInstance().inject(this)

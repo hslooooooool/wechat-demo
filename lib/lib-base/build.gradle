@@ -70,8 +70,6 @@ dependencies {
     
     // px 转 dp 工具
     api 'com.github.pdog18:dimension-extensions:1.0'
-    // 沉侵式状态栏
-    api 'com.yanzhenjie:sofia:1.0.5'
     // kotlin 协程
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
 }

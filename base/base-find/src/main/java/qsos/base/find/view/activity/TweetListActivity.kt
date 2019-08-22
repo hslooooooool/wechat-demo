@@ -71,10 +71,6 @@ class TweetListActivity(
         StatusBarUtil.immersive(this)
         StatusBarUtil.setMargin(this, tweet_list_ch)
         StatusBarUtil.setPaddingSmart(this, tweet_list_head_tb)
-        mSofia.statusBarLightFont()
-                .invasionStatusBar()
-                .navigationBarBackground(ContextCompat.getColor(this, R.color.black_light))
-                .statusBarBackground(Color.TRANSPARENT)
 
         mToolbarBack = ContextCompat.getDrawable(mContext!!, R.drawable.bg_wx)!!
 
@@ -190,10 +186,6 @@ class TweetListActivity(
                 tweet_list_head_tb.navigationIcon = ContextCompat.getDrawable(mContext!!, R.drawable.icon_back_black)
                 tweet_list_camera_iv.setImageDrawable(ContextCompat.getDrawable(mContext!!, R.drawable.icon_take_photo_black))
                 tweet_list_head_tb.title = "朋友圈"
-                mSofia.statusBarDarkFont()
-                        .invasionStatusBar()
-                        .navigationBarBackground(ContextCompat.getColor(this, R.color.black_light))
-                        .statusBarBackground(Color.TRANSPARENT)
             }
             else -> {
                 mToolbarBack.alpha = 0
@@ -201,10 +193,6 @@ class TweetListActivity(
                 tweet_list_head_tb.navigationIcon = ContextCompat.getDrawable(mContext!!, R.drawable.icon_back)
                 tweet_list_camera_iv.setImageDrawable(ContextCompat.getDrawable(mContext!!, R.drawable.icon_take_photo))
                 tweet_list_head_tb.title = ""
-                mSofia.statusBarLightFont()
-                        .invasionStatusBar()
-                        .navigationBarBackground(ContextCompat.getColor(this, R.color.black_light))
-                        .statusBarBackground(Color.TRANSPARENT)
             }
         }
     }

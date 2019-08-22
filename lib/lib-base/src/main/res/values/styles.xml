@@ -16,7 +16,7 @@
     <style name="AppTheme.Toolbar" parent="Widget.AppCompat.ActionBar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
-        <item name="android:background">@android:color/transparent</item>
+        <item name="android:background">@color/colorPrimary</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
