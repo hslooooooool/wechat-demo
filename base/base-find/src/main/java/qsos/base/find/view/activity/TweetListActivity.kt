@@ -26,6 +26,7 @@ import qsos.base.find.data.TweetModelIml
 import qsos.base.find.view.adapter.TweetCommentAdapter
 import qsos.core.lib.view.BaseModuleActivity
 import qsos.core.lib.view.widget.image.NineGridLayout
+import qsos.lib.base.base.BaseHolder
 import qsos.lib.base.data.WeChatTweetBeen
 import qsos.lib.base.data.play.FileData
 import qsos.lib.base.data.play.FileListData
@@ -80,42 +81,8 @@ class TweetListActivity(
         /**默认Toolbar背景透明*/
         tweet_list_head_tb.setBackgroundColor(0)
 
-        mTweetAdapter = SimpleSingleAdapter(R.layout.find_item_tweet, mList) { holder, data, _ ->
-            // 加载头像
-            ImageLoaderUtils.displayRounded(holder.itemView.context, holder.itemView.item_tweet_head_iv, data.sender?.avatar)
-
-            holder.itemView.item_tweet_nick_tv.text = data.sender?.nick
-            holder.itemView.item_tweet_content_tv.text = data.content
-
-            val images = arrayListOf<String>()
-            data.images?.forEach {
-                if (!TextUtils.isEmpty(it.url)) images.add(it.url!!)
-            }
-            holder.itemView.item_tweet_image_ngl.setUrlList(images)
-
-            holder.itemView.item_tweet_image_ngl.setOnClickListener(object : NineGridLayout.OnImageClickListener {
-                override fun onClickImage(view: View, position: Int, urls: List<String>) {
-                    val fileDataList = arrayListOf<FileData>()
-                    urls.forEach {
-                        fileDataList.add(FileData(it, it))
-                    }
-                    val fileListData = FileListData(position, fileDataList)
-                    val optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.width / 2, view.height / 2, 0, 0)
-                    ARouter.getInstance().build(PlayPath.IMAGE_PREVIEW)
-                            .withString(PlayPath.IMAGE_LIST, Gson().toJson(fileListData))
-                            .withOptionsCompat(optionsCompat)
-                            .navigation()
-                }
-
-                override fun onLongClickImage(view: View, position: Int, url: String, index: Int) {
-                    ToastUtils.showToast(holder.itemView.context, "菜单$index")
-                }
-            })
-
-            holder.itemView.item_tweet_comment_rv.layoutManager = LinearLayoutManager(holder.itemView.context)
-            holder.itemView.item_tweet_comment_rv.adapter = TweetCommentAdapter(data.comments
-                    ?: arrayListOf())
-            (holder.itemView.item_tweet_comment_rv.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        mTweetAdapter = SimpleSingleAdapter(R.layout.find_item_tweet, mList) { holder, data, position ->
+            setHolder(holder, data)
         }
 
         mLinearLayoutManager = LinearLayoutManager(this)
@@ -125,6 +92,10 @@ class TweetListActivity(
         tweet_list_rv.isNestedScrollingEnabled = false
         tweet_list_rv.setHasFixedSize(false)
         (tweet_list_rv.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+
+        registerForContextMenu(tweet_list_camera_iv)
+
+        tweet_list_camera_iv.setOnClickListener { showToast("TAKE PHOTO") }
 
         /**滚动视图监听*/
         tweet_list_nsv.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
@@ -191,9 +162,7 @@ class TweetListActivity(
             mCanLoadMore = true
         })
 
-        registerForContextMenu(tweet_list_camera_iv)
-
-        tweet_list_camera_iv.setOnClickListener { showToast("TAKE PHOTO") }
+        getData()
     }
 
     override fun getData() {
@@ -239,4 +208,43 @@ class TweetListActivity(
             }
         }
     }
+
+    private fun setHolder(holder: BaseHolder<WeChatTweetBeen>, data: WeChatTweetBeen) {
+        // 加载头像
+        ImageLoaderUtils.displayRounded(holder.itemView.context, holder.itemView.item_tweet_head_iv, data.sender?.avatar)
+
+        holder.itemView.item_tweet_nick_tv.text = data.sender?.nick
+        holder.itemView.item_tweet_content_tv.text = data.content
+
+        val images = arrayListOf<String>()
+        data.images?.forEach {
+            if (!TextUtils.isEmpty(it.url)) images.add(it.url!!)
+        }
+        holder.itemView.item_tweet_image_ngl.setUrlList(images)
+
+        holder.itemView.item_tweet_image_ngl.setOnClickListener(object : NineGridLayout.OnImageClickListener {
+            override fun onClickImage(view: View, position: Int, urls: List<String>) {
+                val fileDataList = arrayListOf<FileData>()
+                urls.forEach {
+                    fileDataList.add(FileData(it, it))
+                }
+                val fileListData = FileListData(position, fileDataList)
+                val optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.width / 2, view.height / 2, 0, 0)
+                ARouter.getInstance().build(PlayPath.IMAGE_PREVIEW)
+                        .withString(PlayPath.IMAGE_LIST, Gson().toJson(fileListData))
+                        .withOptionsCompat(optionsCompat)
+                        .navigation()
+            }
+
+            override fun onLongClickImage(view: View, position: Int, url: String, index: Int) {
+                ToastUtils.showToast(holder.itemView.context, "菜单$index")
+            }
+        })
+
+        holder.itemView.item_tweet_comment_rv.layoutManager = LinearLayoutManager(holder.itemView.context)
+        holder.itemView.item_tweet_comment_rv.adapter = TweetCommentAdapter(data.comments
+                ?: arrayListOf())
+        (holder.itemView.item_tweet_comment_rv.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+    }
+
 }
