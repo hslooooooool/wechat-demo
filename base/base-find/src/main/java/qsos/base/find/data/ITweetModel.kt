@@ -8,13 +8,13 @@ import qsos.lib.base.data.WeChatUserBeen
  * @author : 华清松
  * @description :朋友圈数据
  */
-interface ITweetModel {
+interface ITweetModel : ITweetRepo {
 
-    /**获取用户信息*/
-    fun getUserInfo()
+    /**用户信息*/
+    fun mUserInfo(): HttpLiveData<WeChatUserBeen>
 
-    /**获取Tweet列表*/
-    fun getTweetList()
+    /**Tweet列表*/
+    fun mTweetList(): HttpLiveData<List<WeChatTweetBeen>>
 
 }
 

@@ -18,10 +18,12 @@ import kotlin.coroutines.CoroutineContext
  * TweetRepository 内部中 MutableLiveData 的对象必须为 val 不可变对象，防止外部篡改，外部仅观察数据。
  */
 class TweetRepository(
-        private val mCoroutineContext: CoroutineContext,
-        val mDataTweetList: HttpLiveData<List<WeChatTweetBeen>> = HttpLiveData(),
-        val mDataUserInfo: HttpLiveData<WeChatUserBeen> = HttpLiveData()
+        private val mCoroutineContext: CoroutineContext
 ) : ITweetRepo {
+
+    val mDataTweetList: HttpLiveData<List<WeChatTweetBeen>> = HttpLiveData()
+
+    val mDataUserInfo: HttpLiveData<WeChatUserBeen> = HttpLiveData()
 
     override fun getUserInfo() {
         CoroutineScope(mCoroutineContext).retrofit<WeChatUserBeen> {

@@ -91,11 +91,11 @@ class TweetListActivity(
         /**刷新监听,重新获取数据*/
         tweet_list_srl.setOnRefreshListener {
             mDataLoadType = 1
-            mTweetModel.mTweetRepository.getUserInfo()
-            mTweetModel.mTweetRepository.getTweetList()
+            mTweetModel.getUserInfo()
+            mTweetModel.getTweetList()
         }.setOnLoadMoreListener {
             mDataLoadType = 2
-            mTweetModel.mTweetRepository.getTweetList()
+            mTweetModel.getTweetList()
         }
 
         /**刷新滚动监听,设置状态栏及背景图动效*/
@@ -107,7 +107,7 @@ class TweetListActivity(
         })
 
         /**观测用户数据更新*/
-        mTweetModel.mTweetRepository.mDataUserInfo.observe(this, Observer { userBeen ->
+        mTweetModel.mUserInfo().observe(this, Observer { userBeen ->
             tweet_list_srl.finishRefresh()
             // 加载头像
             ImageLoaderUtils.displayRounded(mContext!!, tweet_list_head_avatar_iv, userBeen.avatar)
@@ -120,7 +120,7 @@ class TweetListActivity(
 
 
         /**观测推特数据更新*/
-        mTweetModel.mTweetRepository.mDataTweetList.observe(this, Observer { tweets ->
+        mTweetModel.mTweetList().observe(this, Observer { tweets ->
             tweet_list_srl.finishLoadMore()
 
             if (mDataLoadType < 2) {

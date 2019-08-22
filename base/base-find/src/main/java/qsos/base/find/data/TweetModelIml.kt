@@ -3,6 +3,10 @@ package qsos.base.find.data
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import qsos.lib.base.data.HttpLiveData
+import qsos.lib.base.data.WeChatTweetBeen
+import qsos.lib.base.data.WeChatUserBeen
 
 /**
  * @author : 华清松
@@ -13,9 +17,19 @@ import kotlinx.coroutines.Job
  * 则可以通过 TweetRepository() 传递判断参数，当然，我们应该限制参数是影响 TweetRepository() 内所有请求结果的。
  * 比如不同的用户角色进入某活动，活动内所有数据都是根据当前用户角色进行获取，且你不需要缓存当前用户角色信息。
  */
-class TweetModelIml(
-        val mTweetRepository: TweetRepository = TweetRepository(Dispatchers.Main + Job())
-) : ITweetModel, ViewModel() {
+class TweetModelIml : ITweetModel, ViewModel() {
+
+    /**创建协程Context，绑定生命周期*/
+    private val mJob = Dispatchers.Main + Job()
+    private val mTweetRepository: TweetRepository = TweetRepository(mJob)
+
+    override fun mTweetList(): HttpLiveData<List<WeChatTweetBeen>> {
+        return this.mTweetRepository.mDataTweetList
+    }
+
+    override fun mUserInfo(): HttpLiveData<WeChatUserBeen> {
+        return this.mTweetRepository.mDataUserInfo
+    }
 
     override fun getUserInfo() {
         mTweetRepository.getUserInfo()
@@ -25,4 +39,8 @@ class TweetModelIml(
         mTweetRepository.getTweetList()
     }
 
+    override fun onCleared() {
+        mJob.cancel()
+        super.onCleared()
+    }
 }
