@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import qsos.lib.base.callback.OnRecyclerViewItemClickListener
 
@@ -22,6 +23,7 @@ abstract class BaseAdapter<T>(
     abstract fun getHolder(view: View, viewType: Int): BaseHolder<T>?
 
     /**提供用于 item 布局的 layoutId */
+    @LayoutRes
     abstract fun getLayoutId(viewType: Int): Int?
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseHolder<T> {

@@ -3,9 +3,11 @@ package qsos.base.find.view.activity
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
@@ -13,17 +15,26 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
+import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import kotlinx.android.synthetic.main.find_activity_tweet_list.*
+import kotlinx.android.synthetic.main.find_item_tweet.view.*
 import qsos.base.find.R
 import qsos.base.find.data.TweetModelIml
-import qsos.base.find.view.adapter.TweetAdapter
+import qsos.base.find.view.adapter.TweetCommentAdapter
 import qsos.core.lib.view.BaseModuleActivity
+import qsos.core.lib.view.widget.image.NineGridLayout
 import qsos.lib.base.data.WeChatTweetBeen
+import qsos.lib.base.data.play.FileData
+import qsos.lib.base.data.play.FileListData
 import qsos.lib.base.routepath.FindPath
+import qsos.lib.base.routepath.PlayPath
+import qsos.lib.base.simple.SimpleSingleAdapter
 import qsos.lib.base.utils.BaseUtils
 import qsos.lib.base.utils.StatusBarUtil
+import qsos.lib.base.utils.ToastUtils
 import qsos.lib.base.utils.image.ImageLoaderUtils
 import kotlin.math.min
 
@@ -38,7 +49,7 @@ class TweetListActivity(
 ) : BaseModuleActivity() {
 
     private lateinit var mTweetModel: TweetModelIml
-    private lateinit var mTweetAdapter: TweetAdapter
+    private lateinit var mTweetAdapter: SimpleSingleAdapter<WeChatTweetBeen>
     private lateinit var mLinearLayoutManager: LinearLayoutManager
     private val mList = arrayListOf<WeChatTweetBeen>()
 
@@ -69,7 +80,44 @@ class TweetListActivity(
         /**默认Toolbar背景透明*/
         tweet_list_head_tb.setBackgroundColor(0)
 
-        mTweetAdapter = TweetAdapter(mList)
+        mTweetAdapter = SimpleSingleAdapter(R.layout.find_item_tweet, mList) { holder, data, _ ->
+            // 加载头像
+            ImageLoaderUtils.displayRounded(holder.itemView.context, holder.itemView.item_tweet_head_iv, data.sender?.avatar)
+
+            holder.itemView.item_tweet_nick_tv.text = data.sender?.nick
+            holder.itemView.item_tweet_content_tv.text = data.content
+
+            val images = arrayListOf<String>()
+            data.images?.forEach {
+                if (!TextUtils.isEmpty(it.url)) images.add(it.url!!)
+            }
+            holder.itemView.item_tweet_image_ngl.setUrlList(images)
+
+            holder.itemView.item_tweet_image_ngl.setOnClickListener(object : NineGridLayout.OnImageClickListener {
+                override fun onClickImage(view: View, position: Int, urls: List<String>) {
+                    val fileDataList = arrayListOf<FileData>()
+                    urls.forEach {
+                        fileDataList.add(FileData(it, it))
+                    }
+                    val fileListData = FileListData(position, fileDataList)
+                    val optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.width / 2, view.height / 2, 0, 0)
+                    ARouter.getInstance().build(PlayPath.IMAGE_PREVIEW)
+                            .withString(PlayPath.IMAGE_LIST, Gson().toJson(fileListData))
+                            .withOptionsCompat(optionsCompat)
+                            .navigation()
+                }
+
+                override fun onLongClickImage(view: View, position: Int, url: String, index: Int) {
+                    ToastUtils.showToast(holder.itemView.context, "菜单$index")
+                }
+            })
+
+            holder.itemView.item_tweet_comment_rv.layoutManager = LinearLayoutManager(holder.itemView.context)
+            holder.itemView.item_tweet_comment_rv.adapter = TweetCommentAdapter(data.comments
+                    ?: arrayListOf())
+            (holder.itemView.item_tweet_comment_rv.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
+
         mLinearLayoutManager = LinearLayoutManager(this)
         mLinearLayoutManager.isSmoothScrollbarEnabled = true
         tweet_list_rv.adapter = mTweetAdapter

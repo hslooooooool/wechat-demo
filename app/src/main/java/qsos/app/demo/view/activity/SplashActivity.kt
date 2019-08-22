@@ -1,6 +1,5 @@
 package qsos.app.demo.view.activity
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -25,7 +24,6 @@ class SplashActivity : BaseModuleActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {}
 
-    @SuppressLint("CheckResult", "RestrictedApi")
     override fun initView() {
         super.initView()
         ActivityUtils.instance.finishAllButNotMe(this)

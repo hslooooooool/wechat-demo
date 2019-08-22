@@ -14,6 +14,7 @@ import qsos.lib.base.data.WeChatTweetBeen
 class TweetAdapter(
         list: ArrayList<WeChatTweetBeen>
 ) : BaseAdapter<WeChatTweetBeen>(list) {
+
     override fun getItemViewType(position: Int): Int {
         return R.layout.find_item_tweet
     }
@@ -26,11 +27,7 @@ class TweetAdapter(
         return viewType
     }
 
-    override fun onItemClick(view: View, position: Int, obj: Any?) {
+    override fun onItemClick(view: View, position: Int, obj: Any?) {}
 
-    }
-
-    override fun onItemLongClick(view: View, position: Int, obj: Any?) {
-
-    }
+    override fun onItemLongClick(view: View, position: Int, obj: Any?) {}
 }

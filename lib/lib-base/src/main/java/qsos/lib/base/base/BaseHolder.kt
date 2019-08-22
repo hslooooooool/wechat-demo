@@ -1,6 +1,5 @@
 package qsos.lib.base.base
 
-import android.annotation.SuppressLint
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
@@ -8,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
  * @author : 华清松
  * @desc : 子项布局 Holder
  */
-@SuppressLint("SetTextI18n")
 abstract class BaseHolder<T>(
         itemView: View
 ) : RecyclerView.ViewHolder(itemView) {
