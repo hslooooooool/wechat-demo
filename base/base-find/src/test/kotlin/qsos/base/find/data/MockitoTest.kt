@@ -3,7 +3,7 @@ package qsos.base.find.data
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 import org.mockito.Mockito.mock
-import qsos.lib.base.data.*
+import vip.qsos.lib_data.data.*
 
 class MockitoTest {
 

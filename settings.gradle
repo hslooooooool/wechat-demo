@@ -22,3 +22,5 @@ include ':lib:lib-netservice'
 
 // 基础架包
 include ':lib:lib-base'
+// 数据结构与常量管理模块
+include ':lib:lib-data'

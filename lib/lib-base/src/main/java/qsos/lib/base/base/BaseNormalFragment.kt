@@ -1,6 +1,6 @@
 package qsos.lib.base.base
 
-import qsos.lib.base.data.http.HttpCode
+import vip.qsos.lib_data.data.http.HttpCode
 
 /**
  * @author : 华清松

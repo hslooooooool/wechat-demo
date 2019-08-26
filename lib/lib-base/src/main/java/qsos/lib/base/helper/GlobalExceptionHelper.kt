@@ -4,8 +4,8 @@ import android.net.ParseException
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonParseException
 import org.json.JSONException
-import qsos.lib.base.data.GlobalException
-import qsos.lib.base.data.GlobalExceptionType
+import vip.qsos.lib_data.data.GlobalException
+import vip.qsos.lib_data.data.GlobalExceptionType
 import retrofit2.HttpException
 import timber.log.Timber
 import java.net.ConnectException

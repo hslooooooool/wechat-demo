@@ -76,7 +76,7 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
-    
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -89,11 +89,20 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
+    // Kotlin
     api deps.kotlin.stdlib
-    kapt deps.arouter_compiler
+    testImplementation deps.kotlin.test
+    // Room数据库
+    api deps.room.runtime
+    api deps.room.rxjava2
     kapt deps.room.compiler
+    // 阿里路由
+    kapt deps.arouter_compiler
+    // LifeCycle
     kapt deps.lifecycle.compiler
     annotationProcessor deps.lifecycle.compiler
+    // Multidex
+    api deps.multidex
 }
 
 repositories {

@@ -5,7 +5,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import qsos.lib.base.data.BaseHttpResult
+import vip.qsos.lib_data.data.BaseHttpResult
 
 /**
  * @author 华清松

@@ -2,7 +2,6 @@ package qsos.lib.netservice
 
 import io.reactivex.Flowable
 import io.reactivex.functions.Function
-import qsos.lib.base.data.http.ApiException
 
 /**
  * @author 华清松

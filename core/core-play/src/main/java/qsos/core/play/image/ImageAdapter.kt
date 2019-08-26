@@ -6,7 +6,7 @@ import kotlinx.android.synthetic.main.play_item_image.view.*
 import qsos.core.play.R
 import qsos.lib.base.base.BaseAdapter
 import qsos.lib.base.base.BaseHolder
-import qsos.lib.base.data.play.FileData
+import vip.qsos.lib_data.data.play.FileData
 import qsos.lib.base.utils.image.ImageLoaderUtils
 
 /**

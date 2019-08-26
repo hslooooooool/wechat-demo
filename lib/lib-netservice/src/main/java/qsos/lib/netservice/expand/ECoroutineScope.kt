@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import qsos.lib.base.data.http.DataState
+import vip.qsos.lib_data.data.http.DataState
 import retrofit2.Call
 import java.io.IOException
 import java.net.ConnectException

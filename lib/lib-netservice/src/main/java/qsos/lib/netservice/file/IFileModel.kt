@@ -1,6 +1,6 @@
 package qsos.lib.netservice.file
 
-import qsos.lib.base.data.http.UDFileEntity
+import vip.qsos.lib_data.data.http.UDFileEntity
 
 /**
  * @author : 华清松

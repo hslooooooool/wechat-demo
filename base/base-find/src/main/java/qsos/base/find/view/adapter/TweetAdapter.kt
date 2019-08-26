@@ -5,7 +5,7 @@ import qsos.base.find.R
 import qsos.base.find.view.holder.TweetItemViewHolder
 import qsos.lib.base.base.BaseAdapter
 import qsos.lib.base.base.BaseHolder
-import qsos.lib.base.data.WeChatTweetBeen
+import vip.qsos.lib_data.data.WeChatTweetBeen
 
 /**
  * @author : 华清松

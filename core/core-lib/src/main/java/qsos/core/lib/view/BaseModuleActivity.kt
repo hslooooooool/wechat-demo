@@ -2,7 +2,7 @@ package qsos.core.lib.view
 
 import android.annotation.SuppressLint
 import qsos.lib.base.base.BaseActivity
-import qsos.lib.base.data.http.HttpCode
+import vip.qsos.lib_data.data.http.HttpCode
 
 /**
  * @author : 华清松

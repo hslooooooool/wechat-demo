@@ -9,7 +9,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.dueeeke.videocontroller.StandardVideoController
 import kotlinx.android.synthetic.main.play_activity_main.*
 import qsos.lib.base.base.BaseNormalActivity
-import qsos.lib.base.routepath.PlayPath
+import vip.qsos.lib_data.router.PlayPath
 
 /**
  * @author : 华清松

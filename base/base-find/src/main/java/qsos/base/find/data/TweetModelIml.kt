@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
-import qsos.lib.base.data.HttpLiveData
-import qsos.lib.base.data.WeChatTweetBeen
-import qsos.lib.base.data.WeChatUserBeen
+import vip.qsos.lib_data.data.HttpLiveData
+import vip.qsos.lib_data.data.WeChatTweetBeen
+import vip.qsos.lib_data.data.WeChatUserBeen
 
 /**
  * @author : 华清松
@@ -37,6 +37,10 @@ class TweetModelIml : ITweetModel, ViewModel() {
 
     override fun getTweetList() {
         mTweetRepository.getTweetList()
+    }
+
+    override fun postForm(success: () -> Unit) {
+        mTweetRepository.postForm(success)
     }
 
     override fun onCleared() {

@@ -8,7 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.launcher.ARouter
 import qsos.lib.base.R
-import qsos.lib.base.data.http.HttpCode
+import vip.qsos.lib_data.data.http.HttpCode
 import qsos.lib.base.utils.LogUtil
 import qsos.lib.base.utils.ToastUtils
 import qsos.lib.base.utils.activity.ActivityUtils

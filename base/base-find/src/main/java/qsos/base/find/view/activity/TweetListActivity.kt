@@ -1,6 +1,5 @@
 package qsos.base.find.view.activity
 
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextUtils
@@ -27,11 +26,11 @@ import qsos.base.find.view.adapter.TweetCommentAdapter
 import qsos.core.lib.view.BaseModuleActivity
 import qsos.core.lib.view.widget.image.NineGridLayout
 import qsos.lib.base.base.BaseHolder
-import qsos.lib.base.data.WeChatTweetBeen
-import qsos.lib.base.data.play.FileData
-import qsos.lib.base.data.play.FileListData
-import qsos.lib.base.routepath.FindPath
-import qsos.lib.base.routepath.PlayPath
+import vip.qsos.lib_data.data.WeChatTweetBeen
+import vip.qsos.lib_data.data.play.FileData
+import vip.qsos.lib_data.data.play.FileListData
+import vip.qsos.lib_data.router.FindPath
+import vip.qsos.lib_data.router.PlayPath
 import qsos.lib.base.simple.SimpleSingleAdapter
 import qsos.lib.base.utils.BaseUtils
 import qsos.lib.base.utils.StatusBarUtil
@@ -133,7 +132,6 @@ class TweetListActivity(
             tweet_list_head_name_tv.text = userBeen.nick
         })
 
-
         /**观测推特数据更新*/
         mTweetModel.mTweetList().observe(this, Observer { tweets ->
             tweet_list_srl.finishLoadMore()
@@ -164,6 +162,14 @@ class TweetListActivity(
     override fun getData() {
         mTweetModel.getUserInfo()
         mTweetModel.getTweetList()
+
+        mTweetModel.postForm {
+            getUserInfoSuccess()
+        }
+    }
+
+    private fun getUserInfoSuccess() {
+        showToast("提交成功")
     }
 
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {

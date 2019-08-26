@@ -6,7 +6,7 @@ import com.noober.menu.FloatMenu
 import kotlinx.android.synthetic.main.find_item_tweet_comment.view.*
 import qsos.lib.base.base.BaseHolder
 import qsos.lib.base.callback.OnRecyclerViewItemClickListener
-import qsos.lib.base.data.WeChatCommentBean
+import vip.qsos.lib_data.data.WeChatCommentBean
 
 /**
  * @author : 华清松

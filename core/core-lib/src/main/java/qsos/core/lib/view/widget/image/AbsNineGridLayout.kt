@@ -132,11 +132,14 @@ abstract class AbsNineGridLayout : ViewGroup {
                 if (i < MAX_COUNT - 1) {
                     imageView = createImageView(i, url)
                     layoutImageView(imageView, i, url, false)
-                } else { //第9张时
-                    if (size <= MAX_COUNT) {//刚好第9张
+                } else {
+                    //第9张时
+                    if (size <= MAX_COUNT) {
+                        //刚好第9张
                         imageView = createImageView(i, url)
                         layoutImageView(imageView, i, url, false)
-                    } else {//超过9张
+                    } else {
+                        //超过9张
                         imageView = createImageView(i, url)
                         layoutImageView(imageView, i, url, true)
                         break

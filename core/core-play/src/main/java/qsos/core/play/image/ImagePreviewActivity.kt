@@ -9,8 +9,8 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.play_activity_image.*
 import qsos.core.play.R
 import qsos.lib.base.base.BaseNormalActivity
-import qsos.lib.base.data.play.FileListData
-import qsos.lib.base.routepath.PlayPath
+import vip.qsos.lib_data.data.play.FileListData
+import vip.qsos.lib_data.router.PlayPath
 import qsos.lib.base.utils.image.ImageLoaderUtils
 
 /**

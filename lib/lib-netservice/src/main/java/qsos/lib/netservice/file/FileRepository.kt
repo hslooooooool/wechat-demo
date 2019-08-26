@@ -7,8 +7,8 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import qsos.lib.base.data.HttpLiveData
-import qsos.lib.base.data.http.UDFileEntity
+import vip.qsos.lib_data.data.HttpLiveData
+import vip.qsos.lib_data.data.http.UDFileEntity
 import qsos.lib.base.utils.file.FileUtils
 import qsos.lib.netservice.ApiEngine
 import qsos.lib.netservice.ObservableService

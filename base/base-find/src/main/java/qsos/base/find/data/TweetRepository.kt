@@ -2,12 +2,12 @@ package qsos.base.find.data
 
 import android.text.TextUtils
 import kotlinx.coroutines.CoroutineScope
-import qsos.lib.base.data.HttpLiveData
-import qsos.lib.base.data.WeChatTweetBeen
-import qsos.lib.base.data.WeChatUserBeen
-import qsos.lib.base.data.http.BaseDataState
-import qsos.lib.base.data.http.DataState
-import qsos.lib.base.data.http.DataStateEntity
+import vip.qsos.lib_data.data.HttpLiveData
+import vip.qsos.lib_data.data.WeChatTweetBeen
+import vip.qsos.lib_data.data.WeChatUserBeen
+import vip.qsos.lib_data.data.http.BaseDataState
+import vip.qsos.lib_data.data.http.DataState
+import vip.qsos.lib_data.data.http.DataStateEntity
 import qsos.lib.netservice.ApiEngine
 import qsos.lib.netservice.expand.retrofit
 import kotlin.coroutines.CoroutineContext
@@ -24,6 +24,26 @@ class TweetRepository(
     val mDataTweetList: HttpLiveData<List<WeChatTweetBeen>> = HttpLiveData()
 
     val mDataUserInfo: HttpLiveData<WeChatUserBeen> = HttpLiveData()
+
+    override fun postForm(success: () -> Unit) {
+        CoroutineScope(mCoroutineContext).retrofit<WeChatUserBeen> {
+            api = ApiEngine.createService(ApiTweet::class.java).getUser()
+
+            onStart {
+                mDataUserInfo.httpState.postValue(DataStateEntity(DataState.LOADING))
+            }
+            onSuccess {
+                mDataUserInfo.httpState.postValue(DataStateEntity(DataState.SUCCESS))
+                success()
+            }
+            onFailed { code, msg ->
+                mDataUserInfo.httpState.postValue(DataStateEntity(BaseDataState(code, msg)))
+            }
+            onComplete {
+
+            }
+        }
+    }
 
     override fun getUserInfo() {
         CoroutineScope(mCoroutineContext).retrofit<WeChatUserBeen> {

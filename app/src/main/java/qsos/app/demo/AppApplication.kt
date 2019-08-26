@@ -5,8 +5,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import qsos.base.core.ModelApplication
-import qsos.lib.base.data.GlobalException
-import qsos.lib.base.data.GlobalExceptionType
+import vip.qsos.lib_data.data.GlobalException
+import vip.qsos.lib_data.data.GlobalExceptionType
 import qsos.lib.base.helper.GlobalExceptionHelper
 
 /**

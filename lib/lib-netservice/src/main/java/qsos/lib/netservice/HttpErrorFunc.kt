@@ -2,7 +2,7 @@ package qsos.lib.netservice
 
 import io.reactivex.Observable
 import io.reactivex.functions.Function
-import qsos.lib.base.data.http.ApiException
+import vip.qsos.lib_data.data.http.ApiException
 
 /**
  * @author 华清松

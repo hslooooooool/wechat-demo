@@ -1,11 +1,11 @@
 package qsos.lib.netservice
 
 import io.reactivex.functions.Function
-import qsos.lib.base.data.GlobalException
-import qsos.lib.base.data.IHttpResult
-import qsos.lib.base.data.http.ApiException
-import qsos.lib.base.data.http.HttpCode
-import qsos.lib.base.data.http.ServerException
+import vip.qsos.lib_data.data.GlobalException
+import vip.qsos.lib_data.data.IHttpResult
+import vip.qsos.lib_data.data.http.ApiException
+import vip.qsos.lib_data.data.http.HttpCode
+import vip.qsos.lib_data.data.http.ServerException
 
 /**
  * @author : 华清松

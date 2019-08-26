@@ -2,8 +2,8 @@ package qsos.lib.netservice.file
 
 import io.reactivex.Flowable
 import okhttp3.MultipartBody
-import qsos.lib.base.data.BaseHttpResult
-import qsos.lib.base.data.http.UDFileEntity
+import vip.qsos.lib_data.data.BaseHttpResult
+import vip.qsos.lib_data.data.http.UDFileEntity
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part

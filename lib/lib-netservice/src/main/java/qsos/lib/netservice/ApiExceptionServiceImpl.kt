@@ -3,9 +3,9 @@ package qsos.lib.netservice
 import android.net.ParseException
 import com.google.gson.JsonParseException
 import org.json.JSONException
-import qsos.lib.base.data.http.ApiException
-import qsos.lib.base.data.http.HttpCode
-import qsos.lib.base.data.http.ServerException
+import vip.qsos.lib_data.data.http.ApiException
+import vip.qsos.lib_data.data.http.HttpCode
+import vip.qsos.lib_data.data.http.ServerException
 import retrofit2.HttpException
 import timber.log.Timber
 import java.net.ConnectException

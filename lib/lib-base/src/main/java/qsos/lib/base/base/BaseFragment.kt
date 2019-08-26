@@ -12,7 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import qsos.lib.base.R
-import qsos.lib.base.data.http.HttpCode
+import vip.qsos.lib_data.data.http.HttpCode
 import qsos.lib.base.utils.LogUtil
 
 /**

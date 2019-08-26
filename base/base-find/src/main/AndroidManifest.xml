@@ -1,10 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="qsos.base.find">
-
-    <application>
-        <activity
-            android:name="qsos.base.find.view.activity.TweetListActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            />
-    </application>
+	package="qsos.base.find">
+	
+	<application>
+		<activity
+			android:name="qsos.base.find.view.activity.TweetListActivity"
+			android:configChanges="orientation|keyboardHidden|screenSize" />
+	</application>
 </manifest>

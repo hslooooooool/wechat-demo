@@ -11,10 +11,10 @@ import kotlinx.android.synthetic.main.find_item_tweet.view.*
 import qsos.base.find.view.adapter.TweetCommentAdapter
 import qsos.core.lib.view.widget.image.NineGridLayout
 import qsos.lib.base.base.BaseHolder
-import qsos.lib.base.data.WeChatTweetBeen
-import qsos.lib.base.data.play.FileData
-import qsos.lib.base.data.play.FileListData
-import qsos.lib.base.routepath.PlayPath
+import vip.qsos.lib_data.data.WeChatTweetBeen
+import vip.qsos.lib_data.data.play.FileData
+import vip.qsos.lib_data.data.play.FileListData
+import vip.qsos.lib_data.router.PlayPath
 import qsos.lib.base.utils.ToastUtils
 import qsos.lib.base.utils.image.ImageLoaderUtils
 

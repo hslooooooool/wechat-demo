@@ -11,7 +11,7 @@ import com.bumptech.glide.load.engine.cache.ExternalPreferredCacheDiskCacheFacto
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory
 import com.bumptech.glide.load.engine.cache.LruResourceCache
 import com.bumptech.glide.module.AppGlideModule
-import qsos.lib.base.data.Constants
+import vip.qsos.lib_data.data.Constants
 import qsos.lib.base.utils.file.FileUtils
 
 @GlideModule

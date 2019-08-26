@@ -79,7 +79,7 @@ class NineGridLayout : AbsNineGridLayout {
     }
 
     override fun displayImage(imageView: RatioImageView, url: String) {
-        ImageLoaderUtils.display(context, imageView, url)
+        ImageLoaderUtils.display(imageView.context, imageView, url)
     }
 
     override fun onClickImage(view: View, position: Int, url: String, urlList: List<String>) {

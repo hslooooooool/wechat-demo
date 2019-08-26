@@ -1,8 +1,8 @@
 package qsos.base.find.data
 
-import qsos.lib.base.data.HttpLiveData
-import qsos.lib.base.data.WeChatTweetBeen
-import qsos.lib.base.data.WeChatUserBeen
+import vip.qsos.lib_data.data.HttpLiveData
+import vip.qsos.lib_data.data.WeChatTweetBeen
+import vip.qsos.lib_data.data.WeChatUserBeen
 
 /**
  * @author : 华清松
@@ -29,5 +29,7 @@ interface ITweetRepo {
 
     /**获取Tweet列表*/
     fun getTweetList()
+
+    fun postForm(success: () -> Unit)
 
 }

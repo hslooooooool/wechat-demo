@@ -4,7 +4,7 @@ import android.net.ParseException
 import com.google.gson.JsonParseException
 import io.reactivex.observers.DisposableObserver
 import org.json.JSONException
-import qsos.lib.base.data.GlobalException
+import vip.qsos.lib_data.data.GlobalException
 import qsos.lib.netservice.BaseHttpResult
 import qsos.lib.netservice.HttpResult
 import retrofit2.HttpException

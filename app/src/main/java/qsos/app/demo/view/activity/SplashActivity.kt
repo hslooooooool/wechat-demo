@@ -7,8 +7,8 @@ import com.alibaba.android.arouter.launcher.ARouter
 import qsos.app.demo.R
 import qsos.core.lib.view.BaseModuleActivity
 import qsos.lib.base.base.BaseApplication
-import qsos.lib.base.routepath.AppPath
-import qsos.lib.base.routepath.FindPath
+import vip.qsos.lib_data.router.AppPath
+import vip.qsos.lib_data.router.FindPath
 import qsos.lib.base.utils.activity.ActivityUtils
 
 
