@@ -5,14 +5,13 @@ import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import com.alibaba.android.arouter.launcher.ARouter
 import qsos.lib.base.BuildConfig
-import qsos.lib.base.helper.GlobalExceptionHelper
-import qsos.lib.base.utils.data.SharedPreUtils
+import qsos.core.lib.utils.data.SharedPreUtils
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
 /**
  * @author : 华清松
- * @description : BaseApplication
+ * BaseApplication
  */
 open class BaseApplication : MultiDexApplication() {
 
@@ -32,9 +31,6 @@ open class BaseApplication : MultiDexApplication() {
         }
         ARouter.init(this)
 
-        /**全局异常捕获处理*/
-        Thread.setDefaultUncaughtExceptionHandler(GlobalExceptionHelper)
-
         /**Timber 日志*/
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
@@ -43,9 +39,9 @@ open class BaseApplication : MultiDexApplication() {
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
-        /*是否第一次启动APP判断*/
-        if (SharedPreUtils.getBoolean(base, "FirstLaunch")) {
-            SharedPreUtils.saveBoolean(base, "FirstLaunch", true)
+        /**是否第一次启动APP判断*/
+        if (SharedPreUtils.getBoolean(base, SharedPreUtils.FIRST_LAUNCH)) {
+            SharedPreUtils.saveBoolean(base, SharedPreUtils.FIRST_LAUNCH, true)
             // 首次启动
             Thread(Runnable {
                 MultiDex.install(this)

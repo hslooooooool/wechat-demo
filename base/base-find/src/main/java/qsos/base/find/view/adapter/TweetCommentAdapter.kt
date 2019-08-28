@@ -4,13 +4,13 @@ import android.view.View
 import android.widget.Toast
 import qsos.base.find.R
 import qsos.base.find.view.holder.TweetItemCommentViewHolder
-import qsos.lib.base.base.BaseAdapter
-import qsos.lib.base.base.BaseHolder
-import vip.qsos.lib_data.data.WeChatCommentBean
+import qsos.lib.base.base.adapter.BaseAdapter
+import qsos.lib.base.base.holder.BaseHolder
+import vip.qsos.lib_data.data._do.chat.WeChatCommentBean
 
 /**
  * @author : 华清松
- * @description : 推特列表之评论列表容器
+ * 推特列表之评论列表容器
  */
 class TweetCommentAdapter(
         list: ArrayList<WeChatCommentBean>
@@ -19,11 +19,11 @@ class TweetCommentAdapter(
         return R.layout.find_item_tweet_comment
     }
 
-    override fun getHolder(view: View, viewType: Int): BaseHolder<WeChatCommentBean>? {
+    override fun getHolder(view: View, viewType: Int): BaseHolder<WeChatCommentBean> {
         return TweetItemCommentViewHolder(view, this)
     }
 
-    override fun getLayoutId(viewType: Int): Int? {
+    override fun getLayoutId(viewType: Int): Int {
         return viewType
     }
 

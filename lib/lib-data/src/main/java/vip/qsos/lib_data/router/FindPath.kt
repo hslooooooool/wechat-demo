@@ -2,7 +2,7 @@ package vip.qsos.lib_data.router
 
 /**
  * @author : 华清松
- * @description : 发现
+ * 发现
  */
 object FindPath {
     const val GROUP = "FIND"

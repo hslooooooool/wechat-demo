@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 /**
  * @author : 华清松
- * @description : 七月
+ * 七月
  */
 class RecyclerViewSpacesItemDecoration(
         private val top: Int = 0,

@@ -10,7 +10,7 @@ import timber.log.Timber
 object LogUtil {
 
     private var isOpen = BuildConfig.DEBUG
-    var TAG = BuildConfig.APPLICATION_ID
+    private var TAG = "日志"
 
     init {
         Timber.tag(TAG)

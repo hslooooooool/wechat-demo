@@ -2,21 +2,18 @@ package qsos.app.demo.view.activity
 
 import android.os.Bundle
 import android.os.Handler
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import qsos.app.demo.R
-import qsos.core.lib.view.BaseModuleActivity
+import qsos.base.core.view.BaseModuleActivity
 import qsos.lib.base.base.BaseApplication
-import vip.qsos.lib_data.router.AppPath
+import qsos.lib.base.utils.ActivityManager
 import vip.qsos.lib_data.router.FindPath
-import qsos.lib.base.utils.activity.ActivityUtils
 
 
 /**
  * @author : 华清松
- * @description : 闪屏界面
+ * 闪屏界面
  */
-@Route(group = AppPath.GROUP, path = AppPath.SPLASH)
 class SplashActivity : BaseModuleActivity() {
 
     override val layoutId = R.layout.app_activity_splash
@@ -26,7 +23,7 @@ class SplashActivity : BaseModuleActivity() {
 
     override fun initView() {
         super.initView()
-        ActivityUtils.instance.finishAllButNotMe(this)
+        ActivityManager.finishAllButNotMe(this)
 
         mHandler.sendEmptyMessageDelayed(0, 1000)
     }
@@ -36,7 +33,7 @@ class SplashActivity : BaseModuleActivity() {
     private val mHandler = Handler {
         while (BaseApplication.buildFinish) {
             ARouter.getInstance().build(FindPath.TWEET_LIST).navigation()
-            finishThis()
+            finish()
             break
         }
         return@Handler true

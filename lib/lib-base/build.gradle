@@ -27,6 +27,7 @@ dependencies {
 
     // Kotlin
     api deps.kotlin.stdlib
+    api deps.kotlin.coroutines
     testImplementation deps.kotlin.test
 
     // Resolve conflicts between main and test APK:
@@ -44,8 +45,6 @@ dependencies {
     // Glide
     api deps.glide.runtime
     kapt deps.glide.compiler
-
-    api deps.gson
 
     api deps.constraint_layout
 
@@ -67,11 +66,6 @@ dependencies {
     api deps.lifecycle.livedata
     api deps.lifecycle.reactivestreams
     annotationProcessor deps.lifecycle.compiler
-
-    // px 转 dp 工具
-    api 'com.github.pdog18:dimension-extensions:1.0'
-    // kotlin 协程
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
 
     api project(':lib:lib-data')
 }

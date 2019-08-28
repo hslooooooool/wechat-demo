@@ -2,19 +2,19 @@ package qsos.base.find.data
 
 import android.text.TextUtils
 import kotlinx.coroutines.CoroutineScope
-import vip.qsos.lib_data.data.HttpLiveData
-import vip.qsos.lib_data.data.WeChatTweetBeen
-import vip.qsos.lib_data.data.WeChatUserBeen
-import vip.qsos.lib_data.data.http.BaseDataState
-import vip.qsos.lib_data.data.http.DataState
-import vip.qsos.lib_data.data.http.DataStateEntity
+import qsos.lib.netservice.data.HttpLiveData
+import vip.qsos.lib_data.data._do.chat.WeChatTweetBeen
+import vip.qsos.lib_data.data._do.chat.WeChatUserBeen
+import qsos.lib.netservice.data.BaseDataState
+import qsos.lib.netservice.data.DataState
+import qsos.lib.netservice.data.DataStateEntity
 import qsos.lib.netservice.ApiEngine
 import qsos.lib.netservice.expand.retrofit
 import kotlin.coroutines.CoroutineContext
 
 /**
  * @author : 华清松
- * @description : 聊天数据获取
+ * 聊天数据获取
  * TweetRepository 内部中 MutableLiveData 的对象必须为 val 不可变对象，防止外部篡改，外部仅观察数据。
  */
 class TweetRepository(

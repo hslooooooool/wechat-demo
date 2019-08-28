@@ -1,8 +1,8 @@
 package qsos.base.find.data
 
-import vip.qsos.lib_data.data.HttpLiveData
-import vip.qsos.lib_data.data.WeChatTweetBeen
-import vip.qsos.lib_data.data.WeChatUserBeen
+import qsos.lib.netservice.data.HttpLiveData
+import vip.qsos.lib_data.data._do.chat.WeChatTweetBeen
+import vip.qsos.lib_data.data._do.chat.WeChatUserBeen
 
 /**
  * @author : 华清松
@@ -20,7 +20,7 @@ interface ITweetModel : ITweetRepo {
 
 /**
  * @author : 华清松
- * @description : 朋友圈数据接口
+ * 朋友圈数据接口
  */
 interface ITweetRepo {
 

@@ -1,25 +1,16 @@
 package qsos.lib.base.base
 
-import android.content.Context
-
 /**
  * @author : 华清松
- * @description : View 接口
+ * View 接口
  */
 interface BaseView {
-    /**LayoutId*/
+    /**视图ID*/
     val defLayoutId: Int
 
-    /**获取上下文*/
-    val mContext: Context?
-
-    /** UI 是否存活*/
+    /**是否处于前台*/
     val isActive: Boolean
 
-    /**显示消息*/
-    fun showToast(msg: String?)
-
-    /**结束当前页面*/
-    fun finishThis()
-
+    /**是否竖屏显示*/
+    val isOrientation: Boolean
 }

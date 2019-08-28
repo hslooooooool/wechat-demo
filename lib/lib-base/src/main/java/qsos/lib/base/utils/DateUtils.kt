@@ -9,7 +9,7 @@ import java.util.*
 
 /**
  * @author : 华清松
- * @description : 时间格式转换 工具类
+ * 时间格式转换 工具类
  */
 @SuppressLint("SimpleDateFormat")
 object DateUtils {

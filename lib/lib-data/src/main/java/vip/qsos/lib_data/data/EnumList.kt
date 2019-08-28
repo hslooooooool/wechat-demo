@@ -2,7 +2,7 @@ package vip.qsos.lib_data.data
 
 /**
  * @author : 华清松
- * @description : 中华名族字典
+ * 中华名族字典
  */
 enum class EnumNation(val key: String) {
     HA("汉族"),
@@ -65,43 +65,9 @@ enum class EnumNation(val key: String) {
 
 /**
  * @author : 华清松
- * @description : 性别枚举
+ * 性别枚举
  */
 enum class EnumSex(val key: String) {
     MAN("男"),
     WOMAN("女");
-}
-
-/**
- * @author : 华清松
- * @description : 布控级别枚举
- */
-enum class EnumExecuteLevel(val key: String) {
-    ONE("一级"),
-    TWO("二级"),
-    THREE("三级"),
-    FOUR("四级");
-}
-
-/**
- * @author : 华清松
- * @description : 布控处置方式枚举
- */
-enum class EnumExecuteDeal(val key: String) {
-    DEAL1("关注"),
-    DEAL2("干预"),
-    DEAL3("盘查"),
-    DEAL4("抓捕");
-}
-
-/**
- * @author : 华清松
- * @description : 标签类型枚举
- */
-enum class EnumDict(val key: String, val type: String, val parentId: String) {
-    SEX("性别", "sys_sex", "0"),
-    NATION("民族", "bkxx_mz", "0"),
-    USER_TYPE("人员类型", "person_type", "0"),
-    EXECUTE_LEVEL("布控级别", "ps_grade", "0"),
-    DEAL_TYPE("处置方式", "ps_handler", "0");
 }

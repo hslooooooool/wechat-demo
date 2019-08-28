@@ -1,13 +1,13 @@
 package qsos.base.find.data
 
-import vip.qsos.lib_data.data.WeChatTweetBeen
-import vip.qsos.lib_data.data.WeChatUserBeen
+import vip.qsos.lib_data.data._do.chat.WeChatTweetBeen
+import vip.qsos.lib_data.data._do.chat.WeChatUserBeen
 import retrofit2.Call
 import retrofit2.http.GET
 
 /**
  * @author : 华清松
- * @description : 朋友圈接口
+ * 朋友圈接口
  */
 interface ApiTweet {
 

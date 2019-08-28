@@ -19,17 +19,16 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import java.security.MessageDigest
 import kotlin.experimental.and
 
 /**
  * @author : 华清松
- * @description : 工具类
+ * 工具类
  */
 class BaseUtils {
     companion object {
-        private var mToast: Toast? = null
+
         /**
          * 拨打电话（跳转到拨号界面，用户手动点击拨打）
          *
@@ -172,20 +171,6 @@ class BaseUtils {
          */
         fun inflate(context: Context, detailScreen: Int): View {
             return View.inflate(context, detailScreen, null)
-        }
-
-        /**
-         * 单例 toast
-         *
-         * @param string
-         */
-        fun makeText(context: Context, string: String) {
-            if (mToast == null) {
-                mToast = Toast.makeText(context.applicationContext, string, Toast.LENGTH_SHORT)
-            } else {
-                mToast!!.setText(string)
-            }
-            mToast!!.show()
         }
 
         /**

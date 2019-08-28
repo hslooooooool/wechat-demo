@@ -10,6 +10,7 @@ kapt {
         arg("room.schemaLocation", "$projectDir/schemas".toString())
     }
 }
+
 kotlin {
     experimental {
         // 开启kotlin协程
@@ -97,12 +98,22 @@ dependencies {
     api deps.room.rxjava2
     kapt deps.room.compiler
     // 阿里路由
+    api deps.arouter
     kapt deps.arouter_compiler
     // LifeCycle
-    kapt deps.lifecycle.compiler
+    api deps.lifecycle.runtime
+    api deps.lifecycle.extensions
+    api deps.lifecycle.java8
+    api deps.lifecycle.viewmodel
+    api deps.lifecycle.viewmodel_ktx
+    api deps.lifecycle.livedata
+    api deps.lifecycle.reactivestreams
     annotationProcessor deps.lifecycle.compiler
+    kapt deps.lifecycle.compiler
     // Multidex
     api deps.multidex
+    // gson
+    api deps.gson
 }
 
 repositories {

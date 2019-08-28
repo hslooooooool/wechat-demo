@@ -2,7 +2,7 @@ package vip.qsos.lib_data.router
 
 /**
  * @author : 华清松
- * @description : 表单模块页面路由
+ * 表单模块页面路由
  */
 object FormPath {
 

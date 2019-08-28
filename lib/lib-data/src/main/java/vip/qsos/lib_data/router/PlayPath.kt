@@ -2,7 +2,7 @@ package vip.qsos.lib_data.router
 
 /**
  * @author : 华清松
- * @description : 通用界面 路由地址
+ * 通用界面 路由地址
  */
 object PlayPath {
 

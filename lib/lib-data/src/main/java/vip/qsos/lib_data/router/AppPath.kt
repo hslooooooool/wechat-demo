@@ -2,7 +2,7 @@ package vip.qsos.lib_data.router
 
 /**
  * @author : 华清松
- * @description : 主界面路由地址
+ * 主界面路由地址
  */
 object AppPath {
 

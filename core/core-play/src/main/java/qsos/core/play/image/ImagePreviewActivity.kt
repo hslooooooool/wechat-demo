@@ -8,20 +8,21 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.play_activity_image.*
 import qsos.core.play.R
-import qsos.lib.base.base.BaseNormalActivity
-import vip.qsos.lib_data.data.play.FileListData
+import qsos.lib.base.base.activity.BaseActivity
+import qsos.lib.base.utils.ToastUtils.showToast
+import qsos.core.lib.utils.image.ImageLoaderUtils
 import vip.qsos.lib_data.router.PlayPath
-import qsos.lib.base.utils.image.ImageLoaderUtils
 
 /**
  * @author : 华清松
- * @description : 图片预览界面
+ * 图片预览界面
  */
 @SuppressLint("CheckResult", "SetTextI18n")
 @Route(group = PlayPath.GROUP, path = PlayPath.IMAGE_PREVIEW)
 class ImagePreviewActivity(
-        override val layoutId: Int? = R.layout.play_activity_image
-) : BaseNormalActivity() {
+        override val layoutId: Int? = R.layout.play_activity_image,
+        override val reload: Boolean = false
+) : BaseActivity() {
 
     @Autowired(name = PlayPath.IMAGE_LIST)
     @JvmField
@@ -38,7 +39,7 @@ class ImagePreviewActivity(
         imageListData = Gson().fromJson(imageListDataString, FileListData::class.java)
 
         if (imageListData == null) {
-            showToast("图片预览失败，数据错误")
+            showToast(this, "图片预览失败，数据错误")
             finish()
             return
         }
@@ -52,7 +53,7 @@ class ImagePreviewActivity(
                 mPosition <= 0 -> {
                     mPosition = 0
                     getData()
-                    showToast("已是第一张了")
+                    showToast(this, "已是第一张了")
                 }
                 mPosition > 0 -> {
                     mPosition--
@@ -66,7 +67,7 @@ class ImagePreviewActivity(
                 mPosition >= mTotal -> {
                     mPosition = mTotal
                     getData()
-                    showToast("已是最后一张了")
+                    showToast(this, "已是最后一张了")
                 }
                 mPosition < mTotal -> {
                     mPosition++
@@ -76,7 +77,7 @@ class ImagePreviewActivity(
         }
 
         play_image_piv.setOnClickListener {
-            finishThis()
+            finish()
         }
 
         getData()
@@ -85,7 +86,7 @@ class ImagePreviewActivity(
     override fun getData() {
         mUrl = imageListData!!.imageList[mPosition].url
         mName = imageListData!!.imageList[mPosition].name
-        ImageLoaderUtils.displayNormal(mContext!!, play_image_piv, mUrl)
+        ImageLoaderUtils.displayNormal(mContext, play_image_piv, mUrl)
 
         val str = "${mPosition + 1}/${mTotal + 1}"
         play_image_desc.text = "${if (mTotal == 0) "" else str} $mName"

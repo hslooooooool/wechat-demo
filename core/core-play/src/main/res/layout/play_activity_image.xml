@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <qsos.core.lib.view.widget.image.PinchImageView
+    <qsos.core.lib.PinchImageView
         android:id="@+id/play_image_piv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
