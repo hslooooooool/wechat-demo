@@ -5,7 +5,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import qsos.base.core.ModelApplication
+import vip.qsos.exception.GlobalException
 import vip.qsos.exception.GlobalExceptionHelper
+import vip.qsos.exception.GlobalExceptionType
 
 /**
  * @author : 华清松
@@ -26,18 +28,18 @@ open class AppApplication : ModelApplication(), LifecycleOwner {
     }
 
     /**统一处理异常，如重新登录、强制下线、异常反馈、网络检查*/
-    private fun dealGlobalException(ex: vip.qsos.exception.GlobalException) {
+    private fun dealGlobalException(ex: GlobalException) {
         when (ex.exceptionType) {
-            vip.qsos.exception.GlobalExceptionType.HttpException -> {
+            GlobalExceptionType.HttpException -> {
                 /**在此处理，应在弹出对应处置窗口*/
             }
-            vip.qsos.exception.GlobalExceptionType.ConnectException -> {
+            GlobalExceptionType.ConnectException -> {
                 /**在此处理，应在弹出网络检测窗口，前往网络设置*/
             }
-            vip.qsos.exception.GlobalExceptionType.JsonException, vip.qsos.exception.GlobalExceptionType.ServerException, vip.qsos.exception.GlobalExceptionType.TimeoutException -> {
+            GlobalExceptionType.JsonException, GlobalExceptionType.ServerException, GlobalExceptionType.TimeoutException -> {
                 /**在此无需处理，应在具体请求页面进行交互*/
             }
-            vip.qsos.exception.GlobalExceptionType.NullPointerException, vip.qsos.exception.GlobalExceptionType.OtherException -> {
+            GlobalExceptionType.NullPointerException, GlobalExceptionType.OtherException -> {
                 /**在此处理，应在弹出异常提交窗口，将异常发送给服务器*/
             }
         }
