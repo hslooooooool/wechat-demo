@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit
  */
 object ApiEngine {
 
-    private var mHost: String = ""
+    private var mHost: String = "http://thoughtworks-ios.herokuapp.com/"
     private var mBuild: Retrofit.Builder
     private var mClient: OkHttpClient.Builder
     private var uploadInterceptor: Interceptor? = null
