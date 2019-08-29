@@ -12,10 +12,11 @@ import kotlin.coroutines.CoroutineContext
 /**
  * @author : 华清松
  * 推特数据 Model
+ * TweetModelIml（ViewModel）在Activity不变的情况下，全局唯一实例
  */
 class TweetModelIml : ITweetModel, ViewModel() {
 
-    /**创建协程Context，绑定生命周期*/
+    /**创建协程CoroutineContext，绑定生命周期*/
     override val mJob: CoroutineContext = Dispatchers.Main + Job()
 
     private val mTweetRepository: TweetRepository = TweetRepository(mJob)
