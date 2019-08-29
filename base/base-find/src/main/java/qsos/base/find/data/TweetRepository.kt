@@ -6,8 +6,10 @@ import qsos.core.lib.data.chat.WeChatTweetBeen
 import qsos.core.lib.data.chat.WeChatUserBeen
 import qsos.lib.netservice.ApiEngine
 import qsos.lib.netservice.data.HttpLiveData
+import qsos.lib.netservice.expand.retrofit
 import qsos.lib.netservice.expand.retrofitWithFunction
 import qsos.lib.netservice.expand.retrofitWithLiveData
+import vip.qsos.exception.GlobalException
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -24,11 +26,13 @@ class TweetRepository(
     val mDataUserInfo: HttpLiveData<WeChatUserBeen> = HttpLiveData()
 
     override fun postForm(success: () -> Unit) {
-        CoroutineScope(mCoroutineContext).retrofitWithFunction<WeChatUserBeen> {
+        CoroutineScope(mCoroutineContext).retrofit<WeChatUserBeen> {
             api = ApiEngine.createService(ApiTweet::class.java).getUser()
-            data = mDataUserInfo
             onSuccess {
                 success()
+            }
+            onFailed { code, error ->
+                throw GlobalException.ServerException(code, error)
             }
         }
     }

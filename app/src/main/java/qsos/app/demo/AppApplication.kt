@@ -1,10 +1,11 @@
 package qsos.app.demo
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.Observer
 import qsos.base.core.ModelApplication
+import qsos.lib.base.utils.rx.RxBus
 import vip.qsos.exception.GlobalException
 import vip.qsos.exception.GlobalExceptionHelper
 import vip.qsos.exception.GlobalExceptionType
@@ -19,12 +20,14 @@ open class AppApplication : ModelApplication(), LifecycleOwner {
         return LifecycleRegistry(this)
     }
 
+    @SuppressLint("CheckResult")
     override fun onCreate() {
         super.onCreate()
 
-        GlobalExceptionHelper.globalException.observe(this, Observer {
-            dealGlobalException(it)
-        })
+        RxBus.toFlow(GlobalExceptionHelper.ExceptionEvent::class.java)
+                .subscribe {
+                    dealGlobalException(it.exception)
+                }
     }
 
     /**统一处理异常，如重新登录、强制下线、异常反馈、网络检查*/

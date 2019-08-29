@@ -1,4 +1,4 @@
-package vip.qsos.lib_data.data
+package qsos.core.lib.data
 
 /**
  * @author : 华清松

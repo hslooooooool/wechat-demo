@@ -6,10 +6,18 @@ package vip.qsos.exception
  */
 data class GlobalException(
         var exceptionType: GlobalExceptionType,
-        var exception: Throwable
+        var exception: RuntimeException
 ) {
     /**服务器主动发出的异常，通常为业务限制异常，应在具体页面内部处理*/
-    class ServerException(var code: Int, var msg: String = "") : RuntimeException()
+    class ServerException(var code: Int, var msg: String = "服务器错误") : RuntimeException() {
+        override fun toString(): String {
+            return "\nServerException >>>>>> code=$code\tmsg=$msg\n"
+        }
+    }
+
+    override fun toString(): String {
+        return "\nGlobalException.$exceptionType >>>>>>${exception.message}\n"
+    }
 }
 
 /**

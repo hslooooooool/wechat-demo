@@ -3,5 +3,5 @@ apply plugin: 'com.android.library'
 apply from: '../../base.gradle'
 
 dependencies {
-    api project(':core:core-lib')
+    api 'com.github.hslooooooool:abcl-l:1.0'
 }

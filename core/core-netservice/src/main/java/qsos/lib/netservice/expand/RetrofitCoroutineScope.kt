@@ -8,7 +8,6 @@ import qsos.lib.netservice.data.BaseDataStatus
 import qsos.lib.netservice.data.DataStatusEnum
 import qsos.lib.netservice.data.HttpLiveData
 import retrofit2.Call
-import java.io.IOException
 import java.net.ConnectException
 
 /**
@@ -110,9 +109,9 @@ fun <ResultType> CoroutineScope.retrofit(
                     // 网络连接异常
                     retrofitCoroutine.onFailed?.invoke(DataStatusEnum.NO_NET.code, DataStatusEnum.NO_NET.msg)
                     null
-                } catch (e: IOException) {
-                    // 网络IO处理异常
-                    retrofitCoroutine.onFailed?.invoke(DataStatusEnum.ERROR.code, DataStatusEnum.ERROR.msg)
+                } catch (e: Exception) {
+                    // 其它异常
+                    retrofitCoroutine.onFailed?.invoke(DataStatusEnum.ERROR.code, e.message.toString())
                     null
                 }
                 // ...TODO 其它异常捕获处理
