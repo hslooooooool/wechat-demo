@@ -1,9 +1,10 @@
 package qsos.base.find.data
 
-import vip.qsos.lib_data.data._do.chat.WeChatTweetBeen
-import vip.qsos.lib_data.data._do.chat.WeChatUserBeen
+import qsos.core.lib.data.chat.WeChatTweetBeen
+import qsos.core.lib.data.chat.WeChatUserBeen
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Headers
 
 /**
  * @author : 华清松

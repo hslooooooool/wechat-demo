@@ -10,7 +10,7 @@ import okhttp3.RequestBody
 import qsos.core.lib.utils.file.FileUtils
 import qsos.lib.netservice.ApiEngine
 import qsos.lib.netservice.data.HttpLiveData
-import qsos.lib.netservice.data.UDFileEntity
+import qsos.lib.netservice.data.HttpFileEntity
 
 /**
  * @author : 华清松
@@ -19,7 +19,7 @@ import qsos.lib.netservice.data.UDFileEntity
 @SuppressLint("CheckResult")
 class FileRepository : IFileModel {
 
-    override fun downloadFile(fileEntity: UDFileEntity) {
+    override fun downloadFile(fileEntity: HttpFileEntity) {
         if (TextUtils.isEmpty(fileEntity.url)) {
             fileEntity.progress = -1
             dataDownloadFile.postValue(fileEntity)
@@ -27,7 +27,7 @@ class FileRepository : IFileModel {
             val saveName = fileEntity.filename ?: FileUtils.getFileNameByUrl(fileEntity.url)
             val savePath = "${FileUtils.DOWNLOAD_PATH}/$saveName"
 
-            ApiEngine.createDownloadService(ApiDownloadFile::class.java).downloadFile(fileEntity.url!!)
+            ApiEngine.createService(ApiDownloadFile::class.java).downloadFile(fileEntity.url!!)
                     .subscribeOn(Schedulers.io())
                     .map {
                         FileUtils.writeBodyToFile(savePath, it)
@@ -47,7 +47,7 @@ class FileRepository : IFileModel {
         }
     }
 
-    override fun uploadFile(fileEntity: UDFileEntity) {
+    override fun uploadFile(fileEntity: HttpFileEntity) {
         dataUploadFile.postValue(fileEntity)
         if (TextUtils.isEmpty(fileEntity.path)) {
             fileEntity.progress = -1
@@ -67,17 +67,16 @@ class FileRepository : IFileModel {
                     }
                 })
                 val part = MultipartBody.Part.createFormData("file", uploadFile.name, uploadBody)
-                ApiEngine.createUploadService(ApiUploadFile::class.java).uploadFile(part)
+                ApiEngine.createService(ApiUploadFile::class.java).uploadFile(part)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread()).subscribe(
                                 {
                                     it.data!!.progress = 100
-                                    it.data!!.adjoint = fileEntity.adjoint
-                                    it.data!!.loadSuccess = true
-                                    dataUploadFile.postValue(it.data!!)
+                                    it.data.adjoin = fileEntity.adjoin
+                                    it.data.loadSuccess = true
+                                    dataUploadFile.postValue(it.data)
                                 },
                                 {
-                                    fileEntity.id = null
                                     fileEntity.url = null
                                     fileEntity.progress = -1
                                     fileEntity.loadSuccess = false
@@ -88,7 +87,7 @@ class FileRepository : IFileModel {
         }
     }
 
-    val dataUploadFile = HttpLiveData<UDFileEntity>()
-    val dataDownloadFile = HttpLiveData<UDFileEntity>()
+    val dataUploadFile = HttpLiveData<HttpFileEntity>()
+    val dataDownloadFile = HttpLiveData<HttpFileEntity>()
 
 }

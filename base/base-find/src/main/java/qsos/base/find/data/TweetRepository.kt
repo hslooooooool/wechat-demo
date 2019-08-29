@@ -2,14 +2,12 @@ package qsos.base.find.data
 
 import android.text.TextUtils
 import kotlinx.coroutines.CoroutineScope
-import qsos.lib.netservice.data.HttpLiveData
-import vip.qsos.lib_data.data._do.chat.WeChatTweetBeen
-import vip.qsos.lib_data.data._do.chat.WeChatUserBeen
-import qsos.lib.netservice.data.BaseDataState
-import qsos.lib.netservice.data.DataState
-import qsos.lib.netservice.data.DataStateEntity
+import qsos.core.lib.data.chat.WeChatTweetBeen
+import qsos.core.lib.data.chat.WeChatUserBeen
 import qsos.lib.netservice.ApiEngine
-import qsos.lib.netservice.expand.retrofit
+import qsos.lib.netservice.data.HttpLiveData
+import qsos.lib.netservice.expand.retrofitWithFunction
+import qsos.lib.netservice.expand.retrofitWithLiveData
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -26,42 +24,19 @@ class TweetRepository(
     val mDataUserInfo: HttpLiveData<WeChatUserBeen> = HttpLiveData()
 
     override fun postForm(success: () -> Unit) {
-        CoroutineScope(mCoroutineContext).retrofit<WeChatUserBeen> {
+        CoroutineScope(mCoroutineContext).retrofitWithFunction<WeChatUserBeen> {
             api = ApiEngine.createService(ApiTweet::class.java).getUser()
-
-            onStart {
-                mDataUserInfo.httpState.postValue(DataStateEntity(DataState.LOADING))
-            }
+            data = mDataUserInfo
             onSuccess {
-                mDataUserInfo.httpState.postValue(DataStateEntity(DataState.SUCCESS))
                 success()
-            }
-            onFailed { code, msg ->
-                mDataUserInfo.httpState.postValue(DataStateEntity(BaseDataState(code, msg)))
-            }
-            onComplete {
-
             }
         }
     }
 
     override fun getUserInfo() {
-        CoroutineScope(mCoroutineContext).retrofit<WeChatUserBeen> {
+        CoroutineScope(mCoroutineContext).retrofitWithLiveData<WeChatUserBeen> {
             api = ApiEngine.createService(ApiTweet::class.java).getUser()
-
-            onStart {
-                mDataUserInfo.httpState.postValue(DataStateEntity(DataState.LOADING))
-            }
-            onSuccess {
-                mDataUserInfo.httpState.postValue(DataStateEntity(DataState.SUCCESS))
-                mDataUserInfo.postValue(it)
-            }
-            onFailed { code, msg ->
-                mDataUserInfo.httpState.postValue(DataStateEntity(BaseDataState(code, msg)))
-            }
-            onComplete {
-
-            }
+            data = mDataUserInfo
         }
     }
 
@@ -76,15 +51,10 @@ class TweetRepository(
                 mDataTweetList.postValue(temValue)
             }
         } else {
-            CoroutineScope(mCoroutineContext).retrofit<List<WeChatTweetBeen>> {
+            CoroutineScope(mCoroutineContext).retrofitWithFunction<List<WeChatTweetBeen>> {
                 api = ApiEngine.createService(ApiTweet::class.java).getTweet()
-
-                onStart {
-                    mDataTweetList.httpState.postValue(DataStateEntity(DataState.LOADING))
-                }
+                data = mDataTweetList
                 onSuccess {
-                    mDataTweetList.httpState.postValue(DataStateEntity(DataState.SUCCESS))
-                    // NOTICE 数据校验 ignore the tweet which does not contain a content and images
                     val data = arrayListOf<WeChatTweetBeen>()
                     it!!.forEach { tweet ->
                         if (!tweet.images.isNullOrEmpty() && !TextUtils.isEmpty(tweet.content)) {
@@ -98,12 +68,8 @@ class TweetRepository(
                     }
                     mDataTweetList.postValue(it)
                 }
-                onFailed { code, msg ->
-                    mDataTweetList.httpState.postValue(DataStateEntity(BaseDataState(code, msg)))
-                }
             }
         }
-
     }
 
 }

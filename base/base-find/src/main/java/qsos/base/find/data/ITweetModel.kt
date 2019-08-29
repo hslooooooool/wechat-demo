@@ -1,8 +1,8 @@
 package qsos.base.find.data
 
+import qsos.core.lib.data.chat.WeChatTweetBeen
+import qsos.core.lib.data.chat.WeChatUserBeen
 import qsos.lib.netservice.data.HttpLiveData
-import vip.qsos.lib_data.data._do.chat.WeChatTweetBeen
-import vip.qsos.lib_data.data._do.chat.WeChatUserBeen
 
 /**
  * @author : 华清松

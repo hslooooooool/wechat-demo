@@ -1,6 +1,6 @@
 package qsos.lib.netservice.file
 
-import qsos.lib.netservice.data.UDFileEntity
+import qsos.lib.netservice.data.HttpFileEntity
 
 /**
  * @author : 华清松
@@ -9,8 +9,8 @@ import qsos.lib.netservice.data.UDFileEntity
 interface IFileModel {
 
     /**下载文件*/
-    fun downloadFile(fileEntity: UDFileEntity)
+    fun downloadFile(fileEntity: HttpFileEntity)
 
     /**上传文件*/
-    fun uploadFile(fileEntity: UDFileEntity)
+    fun uploadFile(fileEntity: HttpFileEntity)
 }

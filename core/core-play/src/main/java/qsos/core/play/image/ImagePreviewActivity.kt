@@ -7,11 +7,11 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.play_activity_image.*
+import qsos.core.lib.router.PlayPath
 import qsos.core.play.R
 import qsos.lib.base.base.activity.BaseActivity
 import qsos.lib.base.utils.ToastUtils.showToast
 import qsos.core.lib.utils.image.ImageLoaderUtils
-import vip.qsos.lib_data.router.PlayPath
 
 /**
  * @author : 华清松

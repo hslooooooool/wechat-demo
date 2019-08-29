@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.view.View
 import com.noober.menu.FloatMenu
 import kotlinx.android.synthetic.main.find_item_tweet_comment.view.*
+import qsos.core.lib.data.chat.WeChatCommentBean
 import qsos.lib.base.base.holder.BaseHolder
 import qsos.lib.base.callback.OnListItemClickListener
-import vip.qsos.lib_data.data._do.chat.WeChatCommentBean
 
 /**
  * @author : 华清松
@@ -16,7 +16,7 @@ class TweetItemCommentViewHolder(
         itemView: View,
         private val itemListener: OnListItemClickListener
 ) : BaseHolder<WeChatCommentBean>(itemView) {
-    var floatMenu: FloatMenu? = null
+    private var floatMenu: FloatMenu? = null
     @SuppressLint("SetTextI18n")
     override fun setData(data: WeChatCommentBean, position: Int) {
         itemView.item_tweet_comment_name_tv.text = data.sender?.nick

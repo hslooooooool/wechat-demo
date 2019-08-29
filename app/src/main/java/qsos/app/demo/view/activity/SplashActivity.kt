@@ -5,10 +5,9 @@ import android.os.Handler
 import com.alibaba.android.arouter.launcher.ARouter
 import qsos.app.demo.R
 import qsos.base.core.view.BaseModuleActivity
+import qsos.core.lib.router.FindPath
 import qsos.lib.base.base.BaseApplication
 import qsos.lib.base.utils.ActivityManager
-import vip.qsos.lib_data.router.FindPath
-
 
 /**
  * @author : 华清松

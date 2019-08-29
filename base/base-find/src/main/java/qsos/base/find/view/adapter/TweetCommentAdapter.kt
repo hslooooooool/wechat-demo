@@ -4,9 +4,9 @@ import android.view.View
 import android.widget.Toast
 import qsos.base.find.R
 import qsos.base.find.view.holder.TweetItemCommentViewHolder
+import qsos.core.lib.data.chat.WeChatCommentBean
 import qsos.lib.base.base.adapter.BaseAdapter
 import qsos.lib.base.base.holder.BaseHolder
-import vip.qsos.lib_data.data._do.chat.WeChatCommentBean
 
 /**
  * @author : 华清松

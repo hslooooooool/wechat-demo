@@ -19,10 +19,10 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.play_activity_image2.*
+import qsos.core.lib.router.PlayPath
 import qsos.core.lib.utils.image.BitmapUtils
 import qsos.core.play.R
 import qsos.lib.base.base.activity.BaseActivity
-import vip.qsos.lib_data.router.PlayPath
 
 /**
  * @author : 华清松

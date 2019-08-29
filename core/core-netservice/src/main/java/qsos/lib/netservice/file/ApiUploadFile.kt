@@ -2,8 +2,8 @@ package qsos.lib.netservice.file
 
 import io.reactivex.Flowable
 import okhttp3.MultipartBody
-import qsos.lib.netservice.data.BaseHttpResult
-import qsos.lib.netservice.data.UDFileEntity
+import qsos.lib.netservice.data.BaseResponse
+import qsos.lib.netservice.data.HttpFileEntity
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -22,9 +22,9 @@ interface ApiUploadFile {
      * 则返回的路径应是 file/20190502/head.png ，host由协商确定
      */
     @Multipart
-    @POST("/kenary/common/sysFile/upload")
+    @POST("/v1/common/file/upload")
     fun uploadFile(
             @Part part: MultipartBody.Part
-    ): Flowable<BaseHttpResult<UDFileEntity>>
+    ): Flowable<BaseResponse<HttpFileEntity>>
 
 }

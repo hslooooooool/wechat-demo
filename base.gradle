@@ -60,16 +60,12 @@ android {
             zipAlignEnabled true
             // 默认的混淆文件以及我们指定的混淆文件，子模块使用 consumerProguardFiles
             consumerProguardFiles 'proguard-rules.pro'
-
-            buildConfigField('String', 'BASE_URL', '"http://thoughtworks-ios.herokuapp.com/"')
         }
         debug {
             // 开启混淆
             minifyEnabled false
             // 压缩优化
             zipAlignEnabled true
-
-            buildConfigField('String', 'BASE_URL', '"http://thoughtworks-ios.herokuapp.com/"')
         }
     }
 

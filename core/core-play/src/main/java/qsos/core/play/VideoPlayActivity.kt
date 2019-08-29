@@ -8,9 +8,9 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.dueeeke.videocontroller.StandardVideoController
 import kotlinx.android.synthetic.main.play_activity_main.*
+import qsos.core.lib.router.PlayPath
 import qsos.lib.base.base.activity.BaseActivity
 import qsos.lib.base.utils.ToastUtils
-import vip.qsos.lib_data.router.PlayPath
 
 /**
  * @author : 华清松
