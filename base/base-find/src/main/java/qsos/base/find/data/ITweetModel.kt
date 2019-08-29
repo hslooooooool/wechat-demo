@@ -2,13 +2,14 @@ package qsos.base.find.data
 
 import qsos.core.lib.data.chat.WeChatTweetBeen
 import qsos.core.lib.data.chat.WeChatUserBeen
+import qsos.lib.netservice.IBaseModel
 import qsos.lib.netservice.data.HttpLiveData
 
 /**
  * @author : 华清松
  * @description :朋友圈数据
  */
-interface ITweetModel : ITweetRepo {
+interface ITweetModel : IBaseModel, ITweetRepo {
 
     /**用户信息*/
     fun mUserInfo(): HttpLiveData<WeChatUserBeen>
