@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="base_name">WE-CHAT</string>
+	
+	<string name="transition_image">transition_image</string>
+	
+	<string name="sure">确认</string>
+	
+	<string name="base_net_404">服务器异常，请联系管理员</string>
+	<string name="base_net_error">网络异常，请检查网络后点击重试</string>
+	<string name="base_null_data">暂无数据</string>
+	
+	<string name="base_arrive">到达</string>
+	<string name="base_arrive_sure">是否确认到达?</string>
+	<string name="base_finish">完成</string>
+	<string name="base_finish_sure">是否确认完成?</string>
+	<string name="nothing">Nothing!</string>
+
+</resources>

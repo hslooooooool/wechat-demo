@@ -4,4 +4,6 @@ apply from: '../../base.gradle'
 
 dependencies {
     api project(':core:core-play')
+    api project(':core:core-netservice')
+    api project(':core:core-exception')
 }

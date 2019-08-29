@@ -19,20 +19,21 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.play_activity_image2.*
+import qsos.core.lib.utils.image.BitmapUtils
 import qsos.core.play.R
-import qsos.lib.base.base.BaseNormalActivity
-import qsos.lib.base.data.play.FileListData
-import qsos.lib.base.routepath.PlayPath
-import qsos.lib.base.utils.image.BitmapUtils
+import qsos.lib.base.base.activity.BaseActivity
+import vip.qsos.lib_data.router.PlayPath
 
 /**
  * @author : 华清松
- * @description : 图片预览界面
+ * 图片预览界面
  */
 @SuppressLint("CheckResult", "SetTextI18n")
 @Route(group = PlayPath.GROUP, path = PlayPath.IMAGE_PREVIEW2)
-class ImagePreview2Activity(override val layoutId: Int? = R.layout.play_activity_image2)
-    : BaseNormalActivity(), ScalableCardHelper.OnPageChangeListener {
+class ImagePreview2Activity(
+        override val layoutId: Int? = R.layout.play_activity_image2,
+        override val reload: Boolean = false
+) : BaseActivity(), ScalableCardHelper.OnPageChangeListener {
 
     @Autowired(name = PlayPath.IMAGE_LIST)
     @JvmField
@@ -46,7 +47,7 @@ class ImagePreview2Activity(override val layoutId: Int? = R.layout.play_activity
     override fun initData(savedInstanceState: Bundle?) {
         imageListData = Gson().fromJson(imageListDataString, FileListData::class.java)
 
-        errorDrawable = ContextCompat.getDrawable(this, R.drawable.bg_primary)
+        errorDrawable = ContextCompat.getDrawable(this, R.drawable.ic_launcher)
     }
 
     override fun initView() {
@@ -97,7 +98,7 @@ class ImagePreview2Activity(override val layoutId: Int? = R.layout.play_activity
             Observable.create<Bitmap> {
                 bitmap = Glide.with(applicationContext).asBitmap()
                         .load(imageListData!!.imageList[position].url)
-                        .error(R.drawable.bg_primary)
+                        .error(R.drawable.ic_launcher)
                         .submit()
                         .get()
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -121,7 +122,7 @@ class ImagePreview2Activity(override val layoutId: Int? = R.layout.play_activity
     }
 
     override fun finish() {
-        mAdapter?.releaseAllHolder(play_image2_rv)
+        mAdapter?.release(play_image2_rv)
         super.finish()
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out)
     }

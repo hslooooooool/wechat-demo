@@ -10,7 +10,7 @@ import java.lang.ref.WeakReference
 
 /**
  * @author : 华清松
- * @description : 图片画廊工具类
+ * 图片画廊工具类
  */
 class ScalableCardHelper @JvmOverloads constructor(pageChangeListener: OnPageChangeListener? = null) {
 

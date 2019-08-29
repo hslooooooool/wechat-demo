@@ -9,18 +9,18 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.find_item_tweet.view.*
 import qsos.base.find.view.adapter.TweetCommentAdapter
-import qsos.core.lib.view.widget.image.NineGridLayout
-import qsos.lib.base.base.BaseHolder
-import qsos.lib.base.data.WeChatTweetBeen
-import qsos.lib.base.data.play.FileData
-import qsos.lib.base.data.play.FileListData
-import qsos.lib.base.routepath.PlayPath
+import qsos.base.core.widget.image.NineGridLayout
+import qsos.lib.base.base.holder.BaseHolder
+import vip.qsos.lib_data.data._do.chat.WeChatTweetBeen
+import qsos.core.play.image.FileData
+import qsos.core.play.image.FileListData
+import vip.qsos.lib_data.router.PlayPath
 import qsos.lib.base.utils.ToastUtils
-import qsos.lib.base.utils.image.ImageLoaderUtils
+import qsos.core.lib.utils.image.ImageLoaderUtils
 
 /**
  * @author : 华清松
- * @description : 推特列表项布局
+ * 推特列表项布局
  */
 class TweetItemViewHolder(
         itemView: View

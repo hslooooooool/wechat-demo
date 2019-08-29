@@ -5,13 +5,13 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import qsos.base.core.ModelApplication
-import qsos.lib.base.data.GlobalException
-import qsos.lib.base.data.GlobalExceptionType
-import qsos.lib.base.helper.GlobalExceptionHelper
+import vip.qsos.exception.GlobalException
+import vip.qsos.exception.GlobalExceptionHelper
+import vip.qsos.exception.GlobalExceptionType
 
 /**
  * @author : 华清松
- * @description : Application 类，此类被替换了怎么办？TODO
+ * Application 类，此类被替换了怎么办？TODO
  */
 open class AppApplication : ModelApplication(), LifecycleOwner {
 

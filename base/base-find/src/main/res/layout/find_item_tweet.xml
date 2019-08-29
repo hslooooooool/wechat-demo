@@ -43,7 +43,7 @@
             app:layout_constraintLeft_toLeftOf="@id/item_tweet_nick_tv"
             app:layout_constraintTop_toBottomOf="@id/item_tweet_nick_tv" />
 
-        <qsos.core.lib.view.widget.image.NineGridLayout
+        <qsos.base.core.widget.image.NineGridLayout
             android:id="@+id/item_tweet_image_ngl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

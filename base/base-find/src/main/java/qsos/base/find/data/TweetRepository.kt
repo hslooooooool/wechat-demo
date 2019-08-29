@@ -2,19 +2,19 @@ package qsos.base.find.data
 
 import android.text.TextUtils
 import kotlinx.coroutines.CoroutineScope
-import qsos.lib.base.data.HttpLiveData
-import qsos.lib.base.data.WeChatTweetBeen
-import qsos.lib.base.data.WeChatUserBeen
-import qsos.lib.base.data.http.BaseDataState
-import qsos.lib.base.data.http.DataState
-import qsos.lib.base.data.http.DataStateEntity
+import qsos.lib.netservice.data.HttpLiveData
+import vip.qsos.lib_data.data._do.chat.WeChatTweetBeen
+import vip.qsos.lib_data.data._do.chat.WeChatUserBeen
+import qsos.lib.netservice.data.BaseDataState
+import qsos.lib.netservice.data.DataState
+import qsos.lib.netservice.data.DataStateEntity
 import qsos.lib.netservice.ApiEngine
 import qsos.lib.netservice.expand.retrofit
 import kotlin.coroutines.CoroutineContext
 
 /**
  * @author : 华清松
- * @description : 聊天数据获取
+ * 聊天数据获取
  * TweetRepository 内部中 MutableLiveData 的对象必须为 val 不可变对象，防止外部篡改，外部仅观察数据。
  */
 class TweetRepository(
@@ -24,6 +24,26 @@ class TweetRepository(
     val mDataTweetList: HttpLiveData<List<WeChatTweetBeen>> = HttpLiveData()
 
     val mDataUserInfo: HttpLiveData<WeChatUserBeen> = HttpLiveData()
+
+    override fun postForm(success: () -> Unit) {
+        CoroutineScope(mCoroutineContext).retrofit<WeChatUserBeen> {
+            api = ApiEngine.createService(ApiTweet::class.java).getUser()
+
+            onStart {
+                mDataUserInfo.httpState.postValue(DataStateEntity(DataState.LOADING))
+            }
+            onSuccess {
+                mDataUserInfo.httpState.postValue(DataStateEntity(DataState.SUCCESS))
+                success()
+            }
+            onFailed { code, msg ->
+                mDataUserInfo.httpState.postValue(DataStateEntity(BaseDataState(code, msg)))
+            }
+            onComplete {
+
+            }
+        }
+    }
 
     override fun getUserInfo() {
         CoroutineScope(mCoroutineContext).retrofit<WeChatUserBeen> {

@@ -8,17 +8,19 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.dueeeke.videocontroller.StandardVideoController
 import kotlinx.android.synthetic.main.play_activity_main.*
-import qsos.lib.base.base.BaseNormalActivity
-import qsos.lib.base.routepath.PlayPath
+import qsos.lib.base.base.activity.BaseActivity
+import qsos.lib.base.utils.ToastUtils
+import vip.qsos.lib_data.router.PlayPath
 
 /**
  * @author : 华清松
- * @description : 视屏播放主页
+ * 视屏播放主页
  */
 @Route(group = PlayPath.GROUP, path = PlayPath.VIDEO_PREVIEW)
 class VideoPlayActivity(
-        override val layoutId: Int? = R.layout.play_activity_main
-) : BaseNormalActivity() {
+        override val layoutId: Int? = R.layout.play_activity_main,
+        override val reload: Boolean = false
+) : BaseActivity() {
 
     @Autowired(name = PlayPath.VIDEO_URL)
     @JvmField
@@ -42,8 +44,8 @@ class VideoPlayActivity(
             if (!TextUtils.isEmpty(videoPath)) {
                 play_main_vv.setUrl(videoPath)
             } else {
-                showToast("播放链接错误")
-                finishThis()
+                ToastUtils.showToast(this, "播放链接错误")
+                finish()
                 return
             }
         } else {

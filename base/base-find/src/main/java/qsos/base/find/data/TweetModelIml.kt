@@ -4,13 +4,13 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
-import qsos.lib.base.data.HttpLiveData
-import qsos.lib.base.data.WeChatTweetBeen
-import qsos.lib.base.data.WeChatUserBeen
+import qsos.lib.netservice.data.HttpLiveData
+import vip.qsos.lib_data.data._do.chat.WeChatTweetBeen
+import vip.qsos.lib_data.data._do.chat.WeChatUserBeen
 
 /**
  * @author : 华清松
- * @description : 推特数据 Model
+ * 推特数据 Model
  * 注意 TweetModelIml(val mTweetRepository: TweetRepository = TweetRepository()) 的写法。
  * 为什么这样写？为什么不直接写在 TweetModelIml 类内部？
  * 因为在不同的活动中（Activity/Fragment），如果需要通过相同的方法获取不一样的数据，又不改变当前的方法构造，
@@ -37,6 +37,10 @@ class TweetModelIml : ITweetModel, ViewModel() {
 
     override fun getTweetList() {
         mTweetRepository.getTweetList()
+    }
+
+    override fun postForm(success: () -> Unit) {
+        mTweetRepository.postForm(success)
     }
 
     override fun onCleared() {

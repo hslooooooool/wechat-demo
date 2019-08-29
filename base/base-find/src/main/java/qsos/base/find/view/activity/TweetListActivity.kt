@@ -1,6 +1,5 @@
 package qsos.base.find.view.activity
 
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextUtils
@@ -24,24 +23,24 @@ import kotlinx.android.synthetic.main.find_item_tweet.view.*
 import qsos.base.find.R
 import qsos.base.find.data.TweetModelIml
 import qsos.base.find.view.adapter.TweetCommentAdapter
-import qsos.core.lib.view.BaseModuleActivity
-import qsos.core.lib.view.widget.image.NineGridLayout
-import qsos.lib.base.base.BaseHolder
-import qsos.lib.base.data.WeChatTweetBeen
-import qsos.lib.base.data.play.FileData
-import qsos.lib.base.data.play.FileListData
-import qsos.lib.base.routepath.FindPath
-import qsos.lib.base.routepath.PlayPath
-import qsos.lib.base.simple.SimpleSingleAdapter
+import qsos.base.core.view.BaseModuleActivity
+import qsos.base.core.widget.image.NineGridLayout
+import qsos.core.play.image.FileData
+import qsos.core.play.image.FileListData
+import qsos.lib.base.base.adapter.BaseLifeCycleAdapter
+import qsos.lib.base.base.holder.BaseHolder
 import qsos.lib.base.utils.BaseUtils
-import qsos.lib.base.utils.StatusBarUtil
+import qsos.core.lib.utils.StatusBarUtil
 import qsos.lib.base.utils.ToastUtils
-import qsos.lib.base.utils.image.ImageLoaderUtils
+import qsos.core.lib.utils.image.ImageLoaderUtils
+import vip.qsos.lib_data.data._do.chat.WeChatTweetBeen
+import vip.qsos.lib_data.router.FindPath
+import vip.qsos.lib_data.router.PlayPath
 import kotlin.math.min
 
 /**
  * @author : 华轻松
- * @description : 朋友圈界面
+ * 朋友圈界面
  */
 @Route(group = FindPath.GROUP, path = FindPath.TWEET_LIST)
 class TweetListActivity(
@@ -50,7 +49,7 @@ class TweetListActivity(
 ) : BaseModuleActivity() {
 
     private lateinit var mTweetModel: TweetModelIml
-    private lateinit var mTweetAdapter: SimpleSingleAdapter<WeChatTweetBeen>
+    private lateinit var mTweetAdapter: BaseLifeCycleAdapter<WeChatTweetBeen>
     private lateinit var mLinearLayoutManager: LinearLayoutManager
     private val mList = arrayListOf<WeChatTweetBeen>()
 
@@ -72,14 +71,16 @@ class TweetListActivity(
         StatusBarUtil.setMargin(this, tweet_list_ch)
         StatusBarUtil.setPaddingSmart(this, tweet_list_head_tb)
 
-        mToolbarBack = ContextCompat.getDrawable(mContext!!, R.drawable.bg_wx)!!
+        mToolbarBack = ContextCompat.getDrawable(mContext, R.drawable.bg_wx)!!
 
         /**默认Toolbar背景透明*/
         tweet_list_head_tb.setBackgroundColor(0)
 
-        mTweetAdapter = SimpleSingleAdapter(R.layout.find_item_tweet, mList) { holder, data, position ->
-            setHolder(holder, data)
-        }
+        mTweetAdapter = BaseLifeCycleAdapter(lifecycle, R.layout.find_item_tweet, mList,
+                setHolder = { holder, data, _ ->
+                    setHolder(holder, data)
+                }
+        )
 
         mLinearLayoutManager = LinearLayoutManager(this)
         mLinearLayoutManager.isSmoothScrollbarEnabled = true
@@ -91,11 +92,11 @@ class TweetListActivity(
 
         registerForContextMenu(tweet_list_camera_iv)
 
-        tweet_list_camera_iv.setOnClickListener { showToast("TAKE PHOTO") }
+        tweet_list_camera_iv.setOnClickListener { ToastUtils.showToast(this, "TAKE PHOTO") }
 
         /**滚动视图监听*/
         tweet_list_nsv.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
-            private val defaultHeight = BaseUtils.dip2px(mContext!!, 170f)
+            private val defaultHeight = BaseUtils.dip2px(mContext, 170f)
             override fun onScrollChange(v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) {
                 mScrollY = min(defaultHeight, scrollY)
                 item_tweet_head_profile_iv.translationY = (mOffset - scrollY).toFloat()
@@ -125,14 +126,13 @@ class TweetListActivity(
         mTweetModel.mUserInfo().observe(this, Observer { userBeen ->
             tweet_list_srl.finishRefresh()
             // 加载头像
-            ImageLoaderUtils.displayRounded(mContext!!, tweet_list_head_avatar_iv, userBeen.avatar)
+            ImageLoaderUtils.displayRounded(mContext, tweet_list_head_avatar_iv, userBeen.avatar)
             // 加载封面,设置站位与错误图
-            ImageLoaderUtils.displayWithErrorAndPlace(mContext!!,
+            ImageLoaderUtils.displayWithErrorAndPlace(mContext,
                     item_tweet_head_profile_iv, userBeen.profileImage,
                     R.drawable.bg_cadet_blue, R.drawable.bg_cadet_blue)
             tweet_list_head_name_tv.text = userBeen.nick
         })
-
 
         /**观测推特数据更新*/
         mTweetModel.mTweetList().observe(this, Observer { tweets ->
@@ -164,6 +164,14 @@ class TweetListActivity(
     override fun getData() {
         mTweetModel.getUserInfo()
         mTweetModel.getTweetList()
+
+        mTweetModel.postForm {
+            getUserInfoSuccess()
+        }
+    }
+
+    private fun getUserInfoSuccess() {
+        ToastUtils.showToast(this, "提交成功")
     }
 
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
@@ -173,7 +181,7 @@ class TweetListActivity(
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        showToast("${item.title}")
+        ToastUtils.showToast(this, "${item.title}")
         return super.onContextItemSelected(item)
     }
 
@@ -183,15 +191,15 @@ class TweetListActivity(
             in 250..255 -> {
                 mToolbarBack.alpha = color
                 tweet_list_head_tb.background = mToolbarBack
-                tweet_list_head_tb.navigationIcon = ContextCompat.getDrawable(mContext!!, R.drawable.icon_back_black)
-                tweet_list_camera_iv.setImageDrawable(ContextCompat.getDrawable(mContext!!, R.drawable.icon_take_photo_black))
+                tweet_list_head_tb.navigationIcon = ContextCompat.getDrawable(mContext, R.drawable.icon_back_black)
+                tweet_list_camera_iv.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.icon_take_photo_black))
                 tweet_list_head_tb.title = "朋友圈"
             }
             else -> {
                 mToolbarBack.alpha = 0
                 tweet_list_head_tb.background = mToolbarBack
-                tweet_list_head_tb.navigationIcon = ContextCompat.getDrawable(mContext!!, R.drawable.icon_back)
-                tweet_list_camera_iv.setImageDrawable(ContextCompat.getDrawable(mContext!!, R.drawable.icon_take_photo))
+                tweet_list_head_tb.navigationIcon = ContextCompat.getDrawable(mContext, R.drawable.icon_back)
+                tweet_list_camera_iv.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.icon_take_photo))
                 tweet_list_head_tb.title = ""
             }
         }
@@ -230,8 +238,7 @@ class TweetListActivity(
         })
 
         holder.itemView.item_tweet_comment_rv.layoutManager = LinearLayoutManager(holder.itemView.context)
-        holder.itemView.item_tweet_comment_rv.adapter = TweetCommentAdapter(data.comments
-                ?: arrayListOf())
+        holder.itemView.item_tweet_comment_rv.adapter = TweetCommentAdapter(data.comments?: arrayListOf())
         (holder.itemView.item_tweet_comment_rv.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 

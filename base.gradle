@@ -10,6 +10,7 @@ kapt {
         arg("room.schemaLocation", "$projectDir/schemas".toString())
     }
 }
+
 kotlin {
     experimental {
         // 开启kotlin协程
@@ -76,7 +77,7 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
-    
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -89,11 +90,30 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
+    // Kotlin
     api deps.kotlin.stdlib
-    kapt deps.arouter_compiler
+    testImplementation deps.kotlin.test
+    // Room数据库
+    api deps.room.runtime
+    api deps.room.rxjava2
     kapt deps.room.compiler
-    kapt deps.lifecycle.compiler
+    // 阿里路由
+    api deps.arouter
+    kapt deps.arouter_compiler
+    // LifeCycle
+    api deps.lifecycle.runtime
+    api deps.lifecycle.extensions
+    api deps.lifecycle.java8
+    api deps.lifecycle.viewmodel
+    api deps.lifecycle.viewmodel_ktx
+    api deps.lifecycle.livedata
+    api deps.lifecycle.reactivestreams
     annotationProcessor deps.lifecycle.compiler
+    kapt deps.lifecycle.compiler
+    // Multidex
+    api deps.multidex
+    // gson
+    api deps.gson
 }
 
 repositories {

@@ -4,22 +4,21 @@ import android.app.Activity
 import android.view.View
 import kotlinx.android.synthetic.main.play_item_image.view.*
 import qsos.core.play.R
-import qsos.lib.base.base.BaseAdapter
-import qsos.lib.base.base.BaseHolder
-import qsos.lib.base.data.play.FileData
-import qsos.lib.base.utils.image.ImageLoaderUtils
+import qsos.lib.base.base.adapter.BaseAdapter
+import qsos.lib.base.base.holder.BaseHolder
+import qsos.core.lib.utils.image.ImageLoaderUtils
 
 /**
  * @author : 华清松
- * @description : 图片预览容器
+ * 图片预览容器
  */
 class ImageAdapter(files: ArrayList<FileData>) : BaseAdapter<FileData>(files) {
 
-    override fun getHolder(view: View, viewType: Int): BaseHolder<FileData>? {
+    override fun getHolder(view: View, viewType: Int): BaseHolder<FileData> {
         return ImageHolder(view)
     }
 
-    override fun getLayoutId(viewType: Int): Int? {
+    override fun getLayoutId(viewType: Int): Int {
         return R.layout.play_item_image
     }
 

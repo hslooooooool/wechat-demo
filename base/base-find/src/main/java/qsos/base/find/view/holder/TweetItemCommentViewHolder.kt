@@ -4,17 +4,17 @@ import android.annotation.SuppressLint
 import android.view.View
 import com.noober.menu.FloatMenu
 import kotlinx.android.synthetic.main.find_item_tweet_comment.view.*
-import qsos.lib.base.base.BaseHolder
-import qsos.lib.base.callback.OnRecyclerViewItemClickListener
-import qsos.lib.base.data.WeChatCommentBean
+import qsos.lib.base.base.holder.BaseHolder
+import qsos.lib.base.callback.OnListItemClickListener
+import vip.qsos.lib_data.data._do.chat.WeChatCommentBean
 
 /**
  * @author : 华清松
- * @description : 推特列表项之图片列表项布局
+ * 推特列表项之图片列表项布局
  */
 class TweetItemCommentViewHolder(
         itemView: View,
-        private val itemListener: OnRecyclerViewItemClickListener
+        private val itemListener: OnListItemClickListener
 ) : BaseHolder<WeChatCommentBean>(itemView) {
     var floatMenu: FloatMenu? = null
     @SuppressLint("SetTextI18n")
