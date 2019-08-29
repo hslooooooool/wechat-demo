@@ -238,7 +238,7 @@ class TweetListActivity(
         })
 
         holder.itemView.item_tweet_comment_rv.layoutManager = LinearLayoutManager(holder.itemView.context)
-        holder.itemView.item_tweet_comment_rv.adapter = TweetCommentAdapter(data.comments!!)
+        holder.itemView.item_tweet_comment_rv.adapter = TweetCommentAdapter(data.comments?: arrayListOf())
         (holder.itemView.item_tweet_comment_rv.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
