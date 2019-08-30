@@ -4,6 +4,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import qsos.lib.base.base.BaseApplication
+import timber.log.Timber
 import vip.qsos.exception.GlobalExceptionHelper
 
 /**
@@ -26,7 +27,8 @@ abstract class ModelApplication : BaseApplication() {
 
     override fun onCreate() {
         super.onCreate()
-
+        /**Timber 日志*/
+        Timber.plant(Timber.DebugTree())
         /**全局异常捕获处理*/
         Thread.setDefaultUncaughtExceptionHandler(GlobalExceptionHelper)
     }

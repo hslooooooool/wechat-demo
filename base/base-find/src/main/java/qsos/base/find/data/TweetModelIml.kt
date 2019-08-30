@@ -37,8 +37,8 @@ class TweetModelIml : ITweetModel, ViewModel() {
         mTweetRepository.getTweetList()
     }
 
-    override fun postForm(success: () -> Unit) {
-        mTweetRepository.postForm(success)
+    override fun postForm(success: () -> Unit, fail: (msg: String) -> Unit) {
+        mTweetRepository.postForm(success, fail)
     }
 
     override fun onCleared() {

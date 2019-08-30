@@ -26,39 +26,45 @@ object GlobalExceptionHelper : Thread.UncaughtExceptionHandler {
     /**年月日时分秒*/
     private val mTimeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
     /**缓存文件保存路径 data\crash\*/
-    private val mExceptionPath: String =
-            "${BaseApplication.appContext.externalCacheDir?.absoluteFile
-                    ?: Environment.getDataDirectory().path}" +
-                    "${File.separator}crash${File.separator}"
+    private val mExceptionPath: String = "${BaseApplication.appContext.externalCacheDir?.absoluteFile
+            ?: Environment.getDataDirectory().path}" + "${File.separator}crash${File.separator}"
 
     override fun uncaughtException(t: Thread, e: Throwable) {
-        e.printStackTrace()
-        val mExceptionEvent: ExceptionEvent
-        if (e is RuntimeException) {
-            mExceptionEvent = when (e) {
-                is GlobalException.ServerException -> {
-                    ExceptionEvent(GlobalException(GlobalExceptionType.ServerException, e), "服务接口访问方式可能错误")
-                }
-                is ConnectException -> {
-                    ExceptionEvent(GlobalException(GlobalExceptionType.ConnectException, e), "网络连接故障")
-                }
-                is SocketTimeoutException -> {
-                    ExceptionEvent(GlobalException(GlobalExceptionType.TimeoutException, e), "服务器响应超时")
-                }
-                is NullPointerException -> {
-                    ExceptionEvent(GlobalException(GlobalExceptionType.NullPointerException, e), "空指针异常")
-                }
-                is JsonParseException, is JSONException, is ParseException -> {
-                    ExceptionEvent(GlobalException(GlobalExceptionType.JsonException, e), "Json解析异常")
-                }
-                is HttpException -> handleHttpException(e)
-                else -> {
-                    ExceptionEvent(GlobalException(GlobalExceptionType.OtherException, e), "未知异常")
-                }
+        caughtException(e)
+    }
+
+    /**捕获异常并处理*/
+    fun caughtException(e: Throwable, deal: (e: ExceptionEvent) -> Unit? = {
+        Timber.tag("网络服务异常").e(e)
+    }) {
+        val mExceptionEvent: ExceptionEvent = when (e) {
+            is GlobalException.ServerException -> {
+                Timber.tag("网络服务异常").e(e)
+                ExceptionEvent(GlobalException(GlobalExceptionType.ServerException, e), "服务接口访问方式可能错误")
             }
-        } else {
-            mExceptionEvent = ExceptionEvent(GlobalException(GlobalExceptionType.OtherException, RuntimeException(e)), "未知异常")
+            is ConnectException -> {
+                Timber.tag("网络连接异常").e(e)
+                ExceptionEvent(GlobalException(GlobalExceptionType.ConnectException, e), "网络连接故障")
+            }
+            is SocketTimeoutException -> {
+                Timber.tag("网络连接超时").e(e)
+                ExceptionEvent(GlobalException(GlobalExceptionType.TimeoutException, e), "服务器响应超时")
+            }
+            is NullPointerException -> {
+                Timber.tag("空指针异常").e(e)
+                ExceptionEvent(GlobalException(GlobalExceptionType.NullPointerException, e), "空指针异常")
+            }
+            is JsonParseException, is JSONException, is ParseException -> {
+                Timber.tag("Json解析异常").e(e)
+                ExceptionEvent(GlobalException(GlobalExceptionType.JsonException, e), "Json解析异常")
+            }
+            is HttpException -> handleHttpException(e)
+            else -> {
+                Timber.tag("未知异常").e(e)
+                ExceptionEvent(GlobalException(GlobalExceptionType.OtherException, e), "未知异常")
+            }
         }
+        deal(mExceptionEvent)
         saveCrashFile(mExceptionEvent.name, mExceptionEvent.exception.exception.toString())
         RxBus.send(mExceptionEvent)
     }
@@ -108,7 +114,6 @@ object GlobalExceptionHelper : Thread.UncaughtExceptionHandler {
                 ExceptionEvent(GlobalException(GlobalExceptionType.ServerException, e), "服务未知异常")
             }
         }
-
     }
 
     /**

@@ -7,9 +7,10 @@ import qsos.core.lib.data.chat.WeChatUserBeen
 import qsos.lib.netservice.ApiEngine
 import qsos.lib.netservice.data.HttpLiveData
 import qsos.lib.netservice.expand.retrofit
-import qsos.lib.netservice.expand.retrofitWithFunction
+import qsos.lib.netservice.expand.retrofitWithSuccess
 import qsos.lib.netservice.expand.retrofitWithLiveData
 import vip.qsos.exception.GlobalException
+import vip.qsos.exception.GlobalExceptionHelper
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -25,14 +26,16 @@ class TweetRepository(
 
     val mDataUserInfo: HttpLiveData<WeChatUserBeen> = HttpLiveData()
 
-    override fun postForm(success: () -> Unit) {
+    override fun postForm(success: () -> Unit, fail: (msg: String) -> Unit) {
         CoroutineScope(mCoroutineContext).retrofit<WeChatUserBeen> {
             api = ApiEngine.createService(ApiTweet::class.java).getUser()
             onSuccess {
                 success()
             }
             onFailed { code, error ->
-                throw GlobalException.ServerException(code, error)
+                GlobalExceptionHelper.caughtException(GlobalException.ServerException(code, error)) {
+                    fail("提交失败，请重试")
+                }
             }
         }
     }
@@ -55,7 +58,7 @@ class TweetRepository(
                 mDataTweetList.postValue(temValue)
             }
         } else {
-            CoroutineScope(mCoroutineContext).retrofitWithFunction<List<WeChatTweetBeen>> {
+            CoroutineScope(mCoroutineContext).retrofitWithSuccess<List<WeChatTweetBeen>> {
                 api = ApiEngine.createService(ApiTweet::class.java).getTweet()
                 data = mDataTweetList
                 onSuccess {

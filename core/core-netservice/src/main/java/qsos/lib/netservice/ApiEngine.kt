@@ -7,6 +7,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import qsos.core.lib.utils.json.DateDeserializer
 import qsos.core.lib.utils.json.DateSerializer
 import qsos.lib.netservice.interceptor.AddCookiesInterceptor
+import qsos.lib.netservice.interceptor.NetworkInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
@@ -43,6 +44,8 @@ object ApiEngine {
         mClient = OkHttpClient.Builder()
         // 请求超时设置
         mClient.connectTimeout(mTimeOut, TimeUnit.SECONDS)
+        // 网络连接性拦截器
+        mClient.addInterceptor(NetworkInterceptor())
         // COOKIE拦截器
         mClient.addInterceptor(AddCookiesInterceptor())
 

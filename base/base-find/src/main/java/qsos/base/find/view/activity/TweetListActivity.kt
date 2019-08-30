@@ -158,6 +158,10 @@ class TweetListActivity(
             mCanLoadMore = true
         })
 
+        mTweetModel.mTweetList().httpState.observe(this, Observer {
+            tweet_list_srl.closeHeaderOrFooter()
+        })
+
         getData()
     }
 
@@ -165,9 +169,14 @@ class TweetListActivity(
         mTweetModel.getUserInfo()
         mTweetModel.getTweetList()
 
-        mTweetModel.postForm {
-            getUserInfoSuccess()
-        }
+        mTweetModel.postForm(
+                {
+                    getUserInfoSuccess()
+                },
+                {
+                    ToastUtils.showToast(this, it)
+                }
+        )
     }
 
     private fun getUserInfoSuccess() {
@@ -238,7 +247,8 @@ class TweetListActivity(
         })
 
         holder.itemView.item_tweet_comment_rv.layoutManager = LinearLayoutManager(holder.itemView.context)
-        holder.itemView.item_tweet_comment_rv.adapter = TweetCommentAdapter(data.comments?: arrayListOf())
+        holder.itemView.item_tweet_comment_rv.adapter = TweetCommentAdapter(data.comments
+                ?: arrayListOf())
         (holder.itemView.item_tweet_comment_rv.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 

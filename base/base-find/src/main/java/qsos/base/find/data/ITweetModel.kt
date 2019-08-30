@@ -31,6 +31,7 @@ interface ITweetRepo {
     /**获取Tweet列表*/
     fun getTweetList()
 
-    fun postForm(success: () -> Unit)
+    /**提交表单*/
+    fun postForm(success: () -> Unit, fail: (msg: String) -> Unit = {})
 
 }
