@@ -2,7 +2,6 @@ package qsos.base.find.view.activity
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
@@ -24,8 +23,7 @@ import qsos.base.core.view.BaseModuleActivity
 import qsos.base.core.widget.image.NineGridLayout
 import qsos.base.find.R
 import qsos.base.find.data.TweetModelIml
-import qsos.base.find.view.adapter.TweetCommentAdapter
-import qsos.core.lib.data.chat.WeChatTweetBeen
+import qsos.base.find.data.EmployeeBeen
 import qsos.core.lib.router.FindPath
 import qsos.core.lib.router.PlayPath
 import qsos.core.lib.utils.StatusBarUtil
@@ -49,9 +47,9 @@ class TweetListActivity(
 ) : BaseModuleActivity() {
 
     private lateinit var mTweetModel: TweetModelIml
-    private lateinit var mTweetAdapter: BaseLifeCycleAdapter<WeChatTweetBeen>
+    private lateinit var mTweetAdapter: BaseLifeCycleAdapter<EmployeeBeen>
     private lateinit var mLinearLayoutManager: LinearLayoutManager
-    private val mList = arrayListOf<WeChatTweetBeen>()
+    private val mList = arrayListOf<EmployeeBeen>()
 
     /**数据加载模式，0加载所有推特，仅第一次加载有效，1刷新数据仅显示前五条数据，2往后追加5条数据*/
     private var mDataLoadType: Int = 0
@@ -107,11 +105,11 @@ class TweetListActivity(
         /**刷新监听,重新获取数据*/
         tweet_list_srl.setOnRefreshListener {
             mDataLoadType = 1
-            mTweetModel.getUserInfo()
-            mTweetModel.getTweetList()
+            mTweetModel.getOne()
+            mTweetModel.getList()
         }.setOnLoadMoreListener {
             mDataLoadType = 2
-            mTweetModel.getTweetList()
+            mTweetModel.getList()
         }
 
         /**刷新滚动监听,设置状态栏及背景图动效*/
@@ -123,27 +121,27 @@ class TweetListActivity(
         })
 
         /**观测用户数据更新*/
-        mTweetModel.mUserInfo().observe(this, Observer { userBeen ->
+        mTweetModel.mOne().observe(this, Observer {
             tweet_list_srl.finishRefresh()
             // 加载头像
-            ImageLoaderUtils.displayRounded(mContext, tweet_list_head_avatar_iv, userBeen.avatar)
+            ImageLoaderUtils.displayRounded(mContext, tweet_list_head_avatar_iv, it.data?.head)
             // 加载封面,设置站位与错误图
             ImageLoaderUtils.displayWithErrorAndPlace(mContext,
-                    item_tweet_head_profile_iv, userBeen.profileImage,
+                    item_tweet_head_profile_iv, it.data?.head,
                     R.drawable.bg_cadet_blue, R.drawable.bg_cadet_blue)
-            tweet_list_head_name_tv.text = userBeen.nick
+            tweet_list_head_name_tv.text = it.data?.name
         })
 
         /**观测推特数据更新*/
-        mTweetModel.mTweetList().observe(this, Observer { tweets ->
+        mTweetModel.mList().observe(this, Observer {
             tweet_list_srl.finishLoadMore()
 
             if (mDataLoadType < 2) {
                 mList.clear()
             }
             val oldSize = mList.size
-            val addSize = tweets.size
-            mList.addAll(tweets)
+            val addSize = it.data!!.size
+            mList.addAll(it.data!!)
             if (mDataLoadType < 2) {
                 mTweetAdapter.notifyDataSetChanged()
             } else {
@@ -158,7 +156,7 @@ class TweetListActivity(
             mCanLoadMore = true
         })
 
-        mTweetModel.mTweetList().httpState.observe(this, Observer {
+        mTweetModel.mList().httpState.observe(this, Observer {
             tweet_list_srl.closeHeaderOrFooter()
         })
 
@@ -166,10 +164,10 @@ class TweetListActivity(
     }
 
     override fun getData() {
-        mTweetModel.getUserInfo()
-        mTweetModel.getTweetList()
+        mTweetModel.getOne()
+        mTweetModel.getList()
 
-        mTweetModel.postForm(
+        mTweetModel.addOne(
                 {
                     getUserInfoSuccess()
                 },
@@ -214,18 +212,14 @@ class TweetListActivity(
         }
     }
 
-    private fun setHolder(holder: BaseHolder<WeChatTweetBeen>, data: WeChatTweetBeen) {
+    private fun setHolder(holder: BaseHolder<EmployeeBeen>, data: EmployeeBeen) {
         // 加载头像
-        ImageLoaderUtils.displayRounded(holder.itemView.context, holder.itemView.item_tweet_head_iv, data.sender?.avatar)
+        ImageLoaderUtils.displayRounded(holder.itemView.context, holder.itemView.item_tweet_head_iv, data.head)
 
-        holder.itemView.item_tweet_nick_tv.text = data.sender?.nick
-        holder.itemView.item_tweet_content_tv.text = data.content
+        holder.itemView.item_tweet_nick_tv.text = "${data.managerId}"
+        holder.itemView.item_tweet_content_tv.text = data.name
 
-        val images = arrayListOf<String>()
-        data.images?.forEach {
-            if (!TextUtils.isEmpty(it.url)) images.add(it.url!!)
-        }
-        holder.itemView.item_tweet_image_ngl.setUrlList(images)
+        holder.itemView.item_tweet_image_ngl.setUrlList(arrayListOf(data.head ?: ""))
 
         holder.itemView.item_tweet_image_ngl.setOnClickListener(object : NineGridLayout.OnImageClickListener {
             override fun onClickImage(view: View, position: Int, urls: List<String>) {
@@ -245,11 +239,6 @@ class TweetListActivity(
                 ToastUtils.showToast(holder.itemView.context, "菜单$index")
             }
         })
-
-        holder.itemView.item_tweet_comment_rv.layoutManager = LinearLayoutManager(holder.itemView.context)
-        holder.itemView.item_tweet_comment_rv.adapter = TweetCommentAdapter(data.comments
-                ?: arrayListOf())
-        (holder.itemView.item_tweet_comment_rv.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
 }

@@ -5,57 +5,59 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import qsos.core.lib.utils.NetUtil
+import qsos.lib.netservice.data.BaseHttpLiveData
 import qsos.lib.netservice.data.BaseHttpStatus
+import qsos.lib.netservice.data.BaseResponse
 import qsos.lib.netservice.data.HttpStatusEnum
-import qsos.lib.netservice.data.HttpLiveData
 import retrofit2.Call
 import java.net.ConnectException
 
 /**
  * @author : 华清松
+ * 默认实现，请求结果必须为 BaseResponse
+ * @see BaseResponse
  * Kotlin协程配置Retrofit请求处理逻辑
  */
-class RetrofitCoroutineScope {
+class DefaultRetrofitCoroutineScope {
 
-    class Dsl<ResultType> : AbsRetrofitCoroutineScope.Dsl<ResultType>() {
-        var api: (Call<ResultType>)? = null
-
+    class DslByDef<ResultType> : AbsRetrofitCoroutineScope.Dsl<ResultType>() {
+        var api: (Call<BaseResponse<ResultType>>)? = null
         override fun clean() {
             super.clean()
             api = null
         }
     }
 
-    class DslWithLiveData<ResultType> : AbsRetrofitCoroutineScope.DslWithLiveData<ResultType>() {
-        var api: (Call<ResultType>)? = null
-        var data: (HttpLiveData<ResultType>)? = null
+    class DslByLiveDataWithDef<ResultType> : AbsRetrofitCoroutineScope.DslWithLiveData<ResultType>() {
+        var api: (Call<BaseResponse<ResultType>>)? = null
+        var data: (BaseHttpLiveData<ResultType>)? = null
         override fun clean() {
             super.clean()
             api = null
-            data = null
         }
     }
 
-    class DslWithSuccess<ResultType> : AbsRetrofitCoroutineScope.DslWithSuccess<ResultType>() {
-        var api: (Call<ResultType>)? = null
-        var data: (HttpLiveData<ResultType>)? = null
+    class DslWithSuccessByDef<ResultType> : AbsRetrofitCoroutineScope.DslWithSuccess<ResultType>() {
+        var api: (Call<BaseResponse<ResultType>>)? = null
+        var data: (BaseHttpLiveData<ResultType>)? = null
         override fun clean() {
             super.clean()
             api = null
-            data = null
         }
     }
 }
 
 /**
  * @author : 华清松
+ * 默认实现，请求结果必须为 BaseResponse
+ * @see BaseResponse
  * 常用的Retrofit协程请求，方便简单的接口调用，统一的请求状态管理，自行对请求状态进行处理
  */
-fun <ResultType> CoroutineScope.retrofit(
-        dsl: RetrofitCoroutineScope.Dsl<ResultType>.() -> Unit
+fun <ResultType> CoroutineScope.retrofitByDef(
+        dslByDef: DefaultRetrofitCoroutineScope.DslByDef<ResultType>.() -> Unit
 ) {
-    val retrofitCoroutine = RetrofitCoroutineScope.Dsl<ResultType>()
-    retrofitCoroutine.dsl()
+    val retrofitCoroutine = DefaultRetrofitCoroutineScope.DslByDef<ResultType>()
+    retrofitCoroutine.dslByDef()
     if (!NetUtil.netWorkIsConnected) {
         retrofitCoroutine.onFailed?.invoke(HttpStatusEnum.NO_NET.code, HttpStatusEnum.NO_NET.msg)
     } else {
@@ -92,7 +94,12 @@ fun <ResultType> CoroutineScope.retrofit(
                     // 网络请求完成后执行判断
                     if (response.isSuccessful) {
                         // 服务器处理成功
-                        retrofitCoroutine.onSuccess?.invoke(response.body())
+                        if (response.code() == 200) {
+                            retrofitCoroutine.onSuccess?.invoke(response.body()?.data)
+                        } else {
+                            retrofitCoroutine.onFailed?.invoke(response.body()!!.code, response.body()?.msg
+                                    ?: "服务器异常")
+                        }
                     } else {
                         // 服务器处理失败，按服务标准对异常进行统一处理，回执码如：400,401,403,404,500,501,504等
                         retrofitCoroutine.onFailed?.invoke(response.code(), response.errorBody().toString())
@@ -105,13 +112,15 @@ fun <ResultType> CoroutineScope.retrofit(
 
 /**
  * @author : 华清松
+ * 默认实现，请求结果必须为 BaseResponse
+ * @see BaseResponse
  * 常用的Retrofit协程请求，方便简单的接口调用，统一的请求状态管理，通过LiveData直接更新UI
  */
-fun <ResultType> CoroutineScope.retrofitWithLiveData(
-        dsl: RetrofitCoroutineScope.DslWithLiveData<ResultType>.() -> Unit
+fun <ResultType> CoroutineScope.retrofitWithLiveDataByDef(
+        dslByDef: DefaultRetrofitCoroutineScope.DslByLiveDataWithDef<ResultType>.() -> Unit
 ) {
-    val retrofitCoroutine = RetrofitCoroutineScope.DslWithLiveData<ResultType>()
-    retrofitCoroutine.dsl()
+    val retrofitCoroutine = DefaultRetrofitCoroutineScope.DslByLiveDataWithDef<ResultType>()
+    retrofitCoroutine.dslByDef()
     if (!NetUtil.netWorkIsConnected) {
         retrofitCoroutine.data?.httpState?.postValue(BaseHttpStatus.base(HttpStatusEnum.NO_NET))
     } else {
@@ -140,8 +149,13 @@ fun <ResultType> CoroutineScope.retrofitWithLiveData(
                 retrofitCoroutine.data?.httpState?.postValue(BaseHttpStatus.base(HttpStatusEnum.FINISH))
                 response?.let {
                     if (response.isSuccessful) {
-                        retrofitCoroutine.data?.httpState?.postValue(BaseHttpStatus.base(HttpStatusEnum.SUCCESS))
-                        retrofitCoroutine.data?.postValue(response.body())
+                        if (response.code() == 200) {
+                            retrofitCoroutine.data?.httpState?.postValue(BaseHttpStatus.base(HttpStatusEnum.SUCCESS))
+                            retrofitCoroutine.data?.postValue(response.body())
+                        } else {
+                            retrofitCoroutine.data?.httpState?.postValue(BaseHttpStatus(response.body()!!.code, response.body()?.msg
+                                    ?: "服务器异常"))
+                        }
                     } else {
                         retrofitCoroutine.data?.httpState?.postValue(BaseHttpStatus.base(HttpStatusEnum.ERROR))
                     }
@@ -155,11 +169,11 @@ fun <ResultType> CoroutineScope.retrofitWithLiveData(
  * @author : 华清松
  * 常用的Retrofit协程请求，方便简单的接口调用，统一的请求状态管理，成功后直接执行onSuccess中的Function
  */
-fun <ResultType> CoroutineScope.retrofitWithSuccess(
-        dsl: RetrofitCoroutineScope.DslWithSuccess<ResultType>.() -> Unit
+fun <ResultType> CoroutineScope.retrofitWithSuccessByDef(
+        dslByDef: DefaultRetrofitCoroutineScope.DslWithSuccessByDef<ResultType>.() -> Unit
 ) {
-    val retrofitCoroutine = RetrofitCoroutineScope.DslWithSuccess<ResultType>()
-    retrofitCoroutine.dsl()
+    val retrofitCoroutine = DefaultRetrofitCoroutineScope.DslWithSuccessByDef<ResultType>()
+    retrofitCoroutine.dslByDef()
     if (!NetUtil.netWorkIsConnected) {
         retrofitCoroutine.data?.httpState?.postValue(BaseHttpStatus.base(HttpStatusEnum.NO_NET))
     } else {
@@ -188,8 +202,14 @@ fun <ResultType> CoroutineScope.retrofitWithSuccess(
                 retrofitCoroutine.data?.httpState?.postValue(BaseHttpStatus.base(HttpStatusEnum.FINISH))
                 response?.let {
                     if (response.isSuccessful) {
-                        retrofitCoroutine.data?.httpState?.postValue(BaseHttpStatus.base(HttpStatusEnum.SUCCESS))
-                        retrofitCoroutine.onSuccess?.invoke(response.body())
+                        if (response.code() == 200) {
+                            retrofitCoroutine.data?.httpState?.postValue(BaseHttpStatus.base(HttpStatusEnum.SUCCESS))
+                            retrofitCoroutine.onSuccess?.invoke(response.body()?.data)
+                        } else {
+                            retrofitCoroutine.data?.httpState?.postValue(BaseHttpStatus(response.body()!!.code, response.body()?.msg
+                                    ?: "服务器异常"))
+                        }
+
                     } else {
                         retrofitCoroutine.data?.httpState?.postValue(BaseHttpStatus.base(HttpStatusEnum.ERROR))
                     }

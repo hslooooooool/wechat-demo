@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import qsos.core.lib.config.BaseConfig
 import qsos.core.lib.utils.json.DateDeserializer
 import qsos.core.lib.utils.json.DateSerializer
 import qsos.lib.netservice.interceptor.AddCookiesInterceptor
@@ -19,8 +20,8 @@ import java.util.concurrent.TimeUnit
  */
 object ApiEngine {
 
-    private var mHost: String = "http://thoughtworks-ios.herokuapp.com/"
     private var mBuild: Retrofit.Builder
+    private lateinit var mRetrofit: Retrofit
     private var mClient: OkHttpClient.Builder
 
     /**默认请求超时时长（秒）*/
@@ -37,7 +38,7 @@ object ApiEngine {
         mGsonConverterFactory = GsonConverterFactory.create(mGsonBuilder.create())
 
         mBuild = Retrofit.Builder()
-                .baseUrl(mHost)
+                .baseUrl(BaseConfig.HOST)
                 .addConverterFactory(mGsonConverterFactory)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 
@@ -49,28 +50,33 @@ object ApiEngine {
         // COOKIE拦截器
         mClient.addInterceptor(AddCookiesInterceptor())
 
-        if (BuildConfig.DEBUG) {
+        if (BaseConfig.DEBUG) {
             // 日志拦截器
             mClient.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         }
     }
 
     /**自行配置网络请求设置，请调用此方法，注意全局调用一次即可，建议在Application.onCreate()中调用*/
+    @SuppressWarnings
     fun init(mineConfig: IHttpConfig): ApiEngine {
         if (!mInit) {
             mBuild = mineConfig.getRetrofitBuilder()
             mClient = mineConfig.getOkHttpBuilder()
             mInit = true
+            mRetrofit = mBuild.client(mClient.build()).build()
         }
         return this
     }
 
-    /**创建普通服务*/
+    /**创建普通服务，如果想自行定义 RetrofitBuilder 和 OkHttpBuilder ，请在调用此方法前调用 init(mineConfig: IHttpConfig)
+     * @see init
+     * */
+    @SuppressWarnings
     fun <T> createService(service: Class<T>): T {
-        return mBuild
-                .client(mClient.build())
-                .build()
-                .create(service)
+        if (!this::mRetrofit.isInitialized) {
+            mRetrofit = mBuild.client(mClient.build()).build()
+        }
+        return mRetrofit.create(service)
     }
 
 }

@@ -1,7 +1,5 @@
 package qsos.lib.netservice.file
 
-import qsos.lib.netservice.data.HttpFileEntity
-
 /**
  * @author : 华清松
  * 七月

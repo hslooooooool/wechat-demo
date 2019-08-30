@@ -1,4 +1,4 @@
-package qsos.lib.netservice.data
+package qsos.lib.netservice.file
 
 /**
  * @author : 华清松

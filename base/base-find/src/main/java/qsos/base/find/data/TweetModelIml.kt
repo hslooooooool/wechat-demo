@@ -4,9 +4,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
-import qsos.core.lib.data.chat.WeChatTweetBeen
-import qsos.core.lib.data.chat.WeChatUserBeen
-import qsos.lib.netservice.data.HttpLiveData
+import qsos.lib.netservice.data.BaseHttpLiveData
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -21,24 +19,24 @@ class TweetModelIml : ITweetModel, ViewModel() {
 
     private val mTweetRepository: TweetRepository = TweetRepository(mJob)
 
-    override fun mTweetList(): HttpLiveData<List<WeChatTweetBeen>> {
+    override fun mList(): BaseHttpLiveData<List<EmployeeBeen>> {
         return this.mTweetRepository.mDataTweetList
     }
 
-    override fun mUserInfo(): HttpLiveData<WeChatUserBeen> {
+    override fun mOne(): BaseHttpLiveData<EmployeeBeen> {
         return this.mTweetRepository.mDataUserInfo
     }
 
-    override fun getUserInfo() {
-        mTweetRepository.getUserInfo()
+    override fun getOne() {
+        mTweetRepository.getOne()
     }
 
-    override fun getTweetList() {
-        mTweetRepository.getTweetList()
+    override fun getList() {
+        mTweetRepository.getList()
     }
 
-    override fun postForm(success: () -> Unit, fail: (msg: String) -> Unit) {
-        mTweetRepository.postForm(success, fail)
+    override fun addOne(success: () -> Unit, fail: (msg: String) -> Unit) {
+        mTweetRepository.addOne(success, fail)
     }
 
     override fun onCleared() {

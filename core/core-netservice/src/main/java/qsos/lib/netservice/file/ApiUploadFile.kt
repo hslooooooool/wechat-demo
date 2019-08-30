@@ -3,7 +3,6 @@ package qsos.lib.netservice.file
 import io.reactivex.Flowable
 import okhttp3.MultipartBody
 import qsos.lib.netservice.data.BaseResponse
-import qsos.lib.netservice.data.HttpFileEntity
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part

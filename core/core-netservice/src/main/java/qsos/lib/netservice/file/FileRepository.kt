@@ -10,7 +10,6 @@ import okhttp3.RequestBody
 import qsos.core.lib.utils.file.FileUtils
 import qsos.lib.netservice.ApiEngine
 import qsos.lib.netservice.data.HttpLiveData
-import qsos.lib.netservice.data.HttpFileEntity
 
 /**
  * @author : 华清松

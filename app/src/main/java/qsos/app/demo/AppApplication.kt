@@ -5,6 +5,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import qsos.base.core.ModelApplication
+import qsos.core.lib.config.BaseConfig
 import qsos.lib.base.utils.rx.RxBus
 import vip.qsos.exception.GlobalException
 import vip.qsos.exception.GlobalExceptionHelper
@@ -15,6 +16,11 @@ import vip.qsos.exception.GlobalExceptionType
  * Application 类，此类被替换了怎么办？TODO
  */
 open class AppApplication : ModelApplication(), LifecycleOwner {
+
+    override fun config(): BaseConfig {
+        BaseConfig.DEBUG = false
+        return BaseConfig
+    }
 
     override fun getLifecycle(): Lifecycle {
         return LifecycleRegistry(this)

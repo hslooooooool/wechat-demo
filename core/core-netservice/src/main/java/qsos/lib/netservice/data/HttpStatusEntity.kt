@@ -4,10 +4,10 @@ package qsos.lib.netservice.data
  * @author : 华清松
  * 自行定义与拓展网络请求状态对象
  */
-data class BaseDataStatus(override val stateCode: Int, override val stateMsg: String) : IDataStatusCode {
+data class BaseHttpStatus(override val stateCode: Int, override val stateMsg: String) : IHttpStatusCode {
     companion object {
-        fun base(status: DataStatusEnum): BaseDataStatus {
-            return BaseDataStatus(status.code, status.msg)
+        fun base(status: HttpStatusEnum): BaseHttpStatus {
+            return BaseHttpStatus(status.code, status.msg)
         }
     }
 }
@@ -16,7 +16,7 @@ data class BaseDataStatus(override val stateCode: Int, override val stateMsg: St
  * @author : 华清松
  * 网络请求状态参数
  */
-interface IDataStatusCode {
+interface IHttpStatusCode {
     /**请求状态码*/
     val stateCode: Int
     /**请求回执信息*/
@@ -27,8 +27,8 @@ interface IDataStatusCode {
  * @author : 华清松
  * 自行定义与拓展网络请求状态枚举，根据定义的回执码，判断网络请求结果
  */
-enum class DataStatusEnum(val code: Int, val msg: String) : IDataStatusCode {
-    NO_NET(-2, "没有网络") {
+enum class HttpStatusEnum(val code: Int, val msg: String) : IHttpStatusCode {
+    NO_NET(-2, "网络连接失败") {
         override val stateCode = code
         override val stateMsg = msg
     },

@@ -1,14 +1,10 @@
 package qsos.base.find.data
 
-import android.text.TextUtils
 import kotlinx.coroutines.CoroutineScope
-import qsos.core.lib.data.chat.WeChatTweetBeen
-import qsos.core.lib.data.chat.WeChatUserBeen
 import qsos.lib.netservice.ApiEngine
-import qsos.lib.netservice.data.HttpLiveData
-import qsos.lib.netservice.expand.retrofit
-import qsos.lib.netservice.expand.retrofitWithSuccess
-import qsos.lib.netservice.expand.retrofitWithLiveData
+import qsos.lib.netservice.data.BaseHttpLiveData
+import qsos.lib.netservice.expand.retrofitByDef
+import qsos.lib.netservice.expand.retrofitWithLiveDataByDef
 import vip.qsos.exception.GlobalException
 import vip.qsos.exception.GlobalExceptionHelper
 import kotlin.coroutines.CoroutineContext
@@ -22,13 +18,13 @@ class TweetRepository(
         private val mCoroutineContext: CoroutineContext
 ) : ITweetRepo {
 
-    val mDataTweetList: HttpLiveData<List<WeChatTweetBeen>> = HttpLiveData()
+    val mDataTweetList: BaseHttpLiveData<List<EmployeeBeen>> = BaseHttpLiveData()
 
-    val mDataUserInfo: HttpLiveData<WeChatUserBeen> = HttpLiveData()
+    val mDataUserInfo: BaseHttpLiveData<EmployeeBeen> = BaseHttpLiveData()
 
-    override fun postForm(success: () -> Unit, fail: (msg: String) -> Unit) {
-        CoroutineScope(mCoroutineContext).retrofit<WeChatUserBeen> {
-            api = ApiEngine.createService(ApiTweet::class.java).getUser()
+    override fun addOne(success: () -> Unit, fail: (msg: String) -> Unit) {
+        CoroutineScope(mCoroutineContext).retrofitByDef<EmployeeBeen> {
+            api = ApiEngine.createService(ApiTweet::class.java).one()
             onSuccess {
                 success()
             }
@@ -40,42 +36,17 @@ class TweetRepository(
         }
     }
 
-    override fun getUserInfo() {
-        CoroutineScope(mCoroutineContext).retrofitWithLiveData<WeChatUserBeen> {
-            api = ApiEngine.createService(ApiTweet::class.java).getUser()
+    override fun getOne() {
+        CoroutineScope(mCoroutineContext).retrofitWithLiveDataByDef<EmployeeBeen> {
+            api = ApiEngine.createService(ApiTweet::class.java).one()
             data = mDataUserInfo
         }
     }
 
-    override fun getTweetList() {
-        val temValue = mDataTweetList.value
-        if (!temValue.isNullOrEmpty()) {
-            if (temValue.size > 5) {
-                // 异步加载5条数据到列表刷新
-                mDataTweetList.postValue(temValue.subList(0, 5))
-            } else {
-                // 不足5条全部加载
-                mDataTweetList.postValue(temValue)
-            }
-        } else {
-            CoroutineScope(mCoroutineContext).retrofitWithSuccess<List<WeChatTweetBeen>> {
-                api = ApiEngine.createService(ApiTweet::class.java).getTweet()
-                data = mDataTweetList
-                onSuccess {
-                    val data = arrayListOf<WeChatTweetBeen>()
-                    it!!.forEach { tweet ->
-                        if (!tweet.images.isNullOrEmpty() && !TextUtils.isEmpty(tweet.content)) {
-                            tweet.comments?.forEach { comment ->
-                                if (TextUtils.isEmpty(comment.content)) {
-                                    tweet.comments!!.remove(comment)
-                                }
-                            }
-                            data.add(tweet)
-                        }
-                    }
-                    mDataTweetList.postValue(it)
-                }
-            }
+    override fun getList() {
+        CoroutineScope(mCoroutineContext).retrofitWithLiveDataByDef<List<EmployeeBeen>> {
+            api = ApiEngine.createService(ApiTweet::class.java).list()
+            data = mDataTweetList
         }
     }
 
