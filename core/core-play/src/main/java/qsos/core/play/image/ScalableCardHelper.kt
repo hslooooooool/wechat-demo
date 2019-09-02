@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 
 import java.lang.ref.WeakReference
+import kotlin.math.abs
 
 /**
  * @author : 华清松
- * 图片画廊工具类
+ * 图片画廊工具类，对图片切换采取放大缩小展示交互效果
  */
 class ScalableCardHelper @JvmOverloads constructor(pageChangeListener: OnPageChangeListener? = null) {
 
@@ -89,7 +90,7 @@ class ScalableCardHelper @JvmOverloads constructor(pageChangeListener: OnPageCha
 
         val centerX = if (isVertical) recyclerView.height / 2 else recyclerView.width / 2
         val childCenter = (viewStart + viewEnd) / 2
-        val distance = Math.abs(childCenter - centerX)
+        val distance = abs(childCenter - centerX)
 
         if (distance > centerX)
             return STAY_SCALE

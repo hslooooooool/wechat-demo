@@ -13,12 +13,13 @@ import vip.qsos.exception.GlobalExceptionType
 
 /**
  * @author : 华清松
- * Application 类，此类被替换了怎么办？TODO
+ * AppApplication
  */
 open class AppApplication : ModelApplication(), LifecycleOwner {
 
     override fun config(): BaseConfig {
-        BaseConfig.DEBUG = false
+        BaseConfig.DEBUG = true
+        BaseConfig.BASE_URL = "http://192.168.1.11:8084"
         return BaseConfig
     }
 

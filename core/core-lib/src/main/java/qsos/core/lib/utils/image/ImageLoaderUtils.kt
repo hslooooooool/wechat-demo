@@ -61,9 +61,7 @@ object ImageLoaderUtils {
         }
         GlideApp.with(context)
                 .load(url)
-                // 磁盘缓存
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
-                // 避免闪烁
                 .skipMemoryCache(false)
                 .dontAnimate()
                 .placeholder(ContextCompat.getDrawable(context, place))
@@ -81,9 +79,7 @@ object ImageLoaderUtils {
         }
         GlideApp.with(context)
                 .load(url)
-                // 磁盘缓存
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
-                // 避免闪烁
                 .skipMemoryCache(false)
                 .dontAnimate()
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
@@ -101,7 +97,9 @@ object ImageLoaderUtils {
         GlideApp.with(context)
                 .asGif()
                 .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .skipMemoryCache(false)
+                .dontAnimate()
                 .into(imageView)
     }
 

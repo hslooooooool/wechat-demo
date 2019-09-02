@@ -1,4 +1,4 @@
-package qsos.core.play
+package qsos.core.play.video
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -8,13 +8,14 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.dueeeke.videocontroller.StandardVideoController
 import kotlinx.android.synthetic.main.play_activity_main.*
-import qsos.core.lib.router.PlayPath
+import qsos.core.play.PlayPath
+import qsos.core.play.R
 import qsos.lib.base.base.activity.BaseActivity
 import qsos.lib.base.utils.ToastUtils
 
 /**
  * @author : 华清松
- * 视屏播放主页
+ * 视频播放主页
  */
 @Route(group = PlayPath.GROUP, path = PlayPath.VIDEO_PREVIEW)
 class VideoPlayActivity(
@@ -34,8 +35,7 @@ class VideoPlayActivity(
 
     private lateinit var videoController: StandardVideoController
 
-    override fun initData(savedInstanceState: Bundle?) {
-    }
+    override fun initData(savedInstanceState: Bundle?) {}
 
     override fun initView() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR

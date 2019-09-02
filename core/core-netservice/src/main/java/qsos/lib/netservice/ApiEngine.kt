@@ -38,7 +38,7 @@ object ApiEngine {
         mGsonConverterFactory = GsonConverterFactory.create(mGsonBuilder.create())
 
         mBuild = Retrofit.Builder()
-                .baseUrl(BaseConfig.HOST)
+                .baseUrl(BaseConfig.BASE_URL)
                 .addConverterFactory(mGsonConverterFactory)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 

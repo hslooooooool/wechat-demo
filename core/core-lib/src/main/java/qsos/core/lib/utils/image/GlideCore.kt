@@ -9,7 +9,7 @@ import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.load.engine.cache.ExternalPreferredCacheDiskCacheFactory
 import com.bumptech.glide.load.engine.cache.LruResourceCache
 import com.bumptech.glide.module.AppGlideModule
-import qsos.lib.base.BuildConfig
+import qsos.core.lib.config.BaseConfig
 
 @GlideModule
 class GlideCore : AppGlideModule() {
@@ -24,7 +24,7 @@ class GlideCore : AppGlideModule() {
         // 日志级别
         builder.setLogLevel(Log.ERROR)
         // DEBUG模式才打印日志
-        builder.setLogRequestOrigins(BuildConfig.DEBUG)
+        builder.setLogRequestOrigins(BaseConfig.DEBUG)
     }
 
     override fun isManifestParsingEnabled(): Boolean {

@@ -17,12 +17,12 @@ abstract class ModelApplication : BaseApplication(), AbsNetServiceConfig {
         // 设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
             layout.setPrimaryColorsId(R.color.white, R.color.black)
-            ClassicsHeader(context)
+            return@setDefaultRefreshHeaderCreator ClassicsHeader(context)
         }
         // 设置全局的Footer构建器
         SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
             layout.setPrimaryColorsId(R.color.white, R.color.black)
-            ClassicsFooter(context)
+            return@setDefaultRefreshFooterCreator ClassicsFooter(context)
         }
     }
 

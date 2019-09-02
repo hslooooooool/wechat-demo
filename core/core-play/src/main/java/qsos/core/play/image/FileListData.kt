@@ -14,8 +14,8 @@ data class FileListData(
  * 预览图片数据
  */
 data class FileData(
-        /**名称*/
+        /**文件名称*/
         var name: String?,
-        /**链接*/
+        /**链接，可以为文件路径或网络连接*/
         var url: String?
 )

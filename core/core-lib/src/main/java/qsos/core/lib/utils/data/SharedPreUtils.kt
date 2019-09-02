@@ -1,6 +1,9 @@
 package qsos.core.lib.utils.data
 
 import android.content.Context
+import android.content.SharedPreferences
+import com.google.gson.Gson
+import qsos.lib.base.base.BaseApplication
 
 /**
  * @author : 华清松
@@ -9,29 +12,45 @@ import android.content.Context
 object SharedPreUtils {
 
     private const val SHARED_PRE = "QSOS_SHARED_PRE"
-    /**第一次启动APP*/
-    const val FIRST_LAUNCH = "FIRST_LAUNCH"
 
-    /**保存 String 类型数据*/
-    fun saveStr(context: Context?, key: String, value: String?) {
-        context?.getSharedPreferences(SHARED_PRE, Context.MODE_PRIVATE)?.edit()?.putString(key, value)?.apply()
+    private val mShared: SharedPreferences = BaseApplication.appContext.getSharedPreferences(SHARED_PRE, Context.MODE_PRIVATE)
+    @SuppressWarnings
+    val mEdit = mShared.edit()
+
+    /**保存数据
+     * @param value 支持String、Boolean、Long、Int、Float、Set<String>，实体类将转为json保存
+     * */
+    fun <T> save(key: String, value: T) {
+        when (value) {
+            is String -> {
+                mShared.edit().putString(key, value).apply()
+            }
+            is Boolean -> {
+                mShared.edit().putBoolean(key, value).apply()
+            }
+            is Long -> {
+                mShared.edit().putLong(key, value).apply()
+            }
+            is Int -> {
+                mShared.edit().putInt(key, value).apply()
+            }
+            is Float -> {
+                mShared.edit().putFloat(key, value).apply()
+            }
+            is Set<*> -> {
+                mShared.edit().putStringSet(key, value as Set<String>).apply()
+            }
+            else -> {
+                mShared.edit().putString(key, Gson().toJson(value)).apply()
+            }
+        }
     }
 
-    /**获取 String 类型数据*/
-    fun getStr(context: Context?, key: String): String? {
-        val sp = context?.getSharedPreferences(SHARED_PRE, Context.MODE_PRIVATE)
-        return sp?.getString(key, null)
+    fun remove(context: Context?, key: String) {
+        mShared.edit().remove(key).apply()
     }
 
-    /**保存 Boolean 类型数据*/
-    fun saveBoolean(context: Context?, key: String, value: Boolean) {
-        context?.getSharedPreferences(SHARED_PRE, Context.MODE_PRIVATE)?.edit()?.putBoolean(key, value)?.apply()
+    fun clear(context: Context?) {
+        mShared.edit().clear().apply()
     }
-
-    /**获取 Boolean 类型数据*/
-    fun getBoolean(context: Context?, key: String): Boolean {
-        val sp = context?.getSharedPreferences(SHARED_PRE, Context.MODE_PRIVATE)
-        return sp?.getBoolean(key, false) ?: false
-    }
-
 }

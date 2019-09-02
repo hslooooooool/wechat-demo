@@ -7,15 +7,15 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.play_activity_image.*
-import qsos.core.lib.router.PlayPath
+import qsos.core.lib.utils.image.ImageLoaderUtils
+import qsos.core.play.PlayPath
 import qsos.core.play.R
 import qsos.lib.base.base.activity.BaseActivity
 import qsos.lib.base.utils.ToastUtils.showToast
-import qsos.core.lib.utils.image.ImageLoaderUtils
 
 /**
  * @author : 华清松
- * 图片预览界面
+ * 图片预览-放大缩小模式
  */
 @SuppressLint("CheckResult", "SetTextI18n")
 @Route(group = PlayPath.GROUP, path = PlayPath.IMAGE_PREVIEW)

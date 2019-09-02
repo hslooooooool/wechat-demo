@@ -148,6 +148,10 @@ object GlobalExceptionHelper : Thread.UncaughtExceptionHandler {
         osw.close()
     }
 
+    /**
+     * @author : 华清松
+     * 全局异常数据实体，使用RxBus监听，建议在Application或MainActivity中监听即可
+     */
     data class ExceptionEvent(
             val exception: GlobalException,
             val name: String

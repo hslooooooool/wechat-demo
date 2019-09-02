@@ -17,7 +17,6 @@ class UploadBody(
         private val listener: ProgressListener?
 ) : RequestBody() {
 
-    // 包装完成的BufferedSink
     private lateinit var bufferedSink: BufferedSink
 
     @Throws(IOException::class)

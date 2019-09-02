@@ -17,7 +17,6 @@ class DownloadBody(
         private val listener: ProgressListener?
 ) : ResponseBody() {
 
-    // 包装完成的BufferedSource
     private var bufferedSource: BufferedSource? = null
 
     override fun contentLength(): Long {

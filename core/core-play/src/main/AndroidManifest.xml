@@ -9,7 +9,7 @@
 
         <!--视频预览-->
         <activity
-            android:name="qsos.core.play.VideoPlayActivity"
+            android:name="qsos.core.play.video.VideoPlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
 
         <!--图片预览-->
@@ -19,7 +19,7 @@
             android:screenOrientation="portrait" />
         <!--图片预览2-->
         <activity
-            android:name="qsos.core.play.image.ImagePreview2Activity"
+            android:name="qsos.core.play.image.ImagePreviewGalleryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
     </application>

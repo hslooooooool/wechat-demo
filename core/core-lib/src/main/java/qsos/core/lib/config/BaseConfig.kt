@@ -6,9 +6,9 @@ package qsos.core.lib.config
  */
 object BaseConfig {
     /**配置是否调试模式*/
-    var DEBUG = true
+    var DEBUG = false
     /**配置请求地址*/
-    var HOST = "http://192.168.1.17:8084/"
+    var BASE_URL = "http://192.168.1.17:8084/"
 }
 
 /**
@@ -16,5 +16,8 @@ object BaseConfig {
  * 配置接口
  */
 interface AbsNetServiceConfig {
+    /**在此方法内配置BaseConfig
+     * @see BaseConfig
+     * */
     fun config(): BaseConfig
 }

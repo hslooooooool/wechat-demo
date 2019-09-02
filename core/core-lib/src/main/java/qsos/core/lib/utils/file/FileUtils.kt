@@ -224,7 +224,8 @@ object FileUtils {
      * @param path 文件路径
      * @return file path路径下的文件
      */
-    fun getFile(path: String): File? {
+    fun getFile(path: String?): File? {
+        if (TextUtils.isEmpty(path)) return null
         return try {
             val file = File(path)
             if (file.exists()) file else null

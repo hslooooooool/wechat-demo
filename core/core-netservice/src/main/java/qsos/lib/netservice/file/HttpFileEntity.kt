@@ -18,10 +18,11 @@ data class HttpFileEntity(
     var type: String? = null
     /**上传下载成功*/
     var loadSuccess = false
+    /**上传下载结果提示信息*/
+    var loadMsg: String? = ""
     /**
      * 伴随携带的数据，用于数据传递使用，比如发送消息中的文件时，文件上传成功返回结果后
      * 可通过adjoin得知是哪条消息的文件上传成功，以修改消息状态
      */
     var adjoin: Any? = null
-
 }
